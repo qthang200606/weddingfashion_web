@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.productName} + ' - Bella Couture'">Chi tiết sản phẩm - Bella Couture</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #fdfbf7;
+        }
+
+        .premium-product-wrapper {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            color: #1a1a1a !important;
+            margin-top: 50px;
+            margin-bottom: 80px;
+        }
+
+        .premium-product-wrapper .serif-font-detail {
+            font-family: 'Playfair Display', serif !important;
+        }
+
+        .premium-product-wrapper .detail-img-box {
+            position: relative;
+            background: #ffffff;
+            padding: 12px;
+            border: 1px solid rgba(197, 168, 128, 0.2);
+            box-shadow: 0 15px 40px rgba(197, 168, 128, 0.08);
+        }
+
+        .premium-product-wrapper .main-product-img {
+            width: 100%;
+            height: auto;
+            max-height: 720px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .premium-product-wrapper .product-meta-box {
+            position: sticky;
+            top: 120px;
+            padding-left: 20px;
+        }
+
+        .premium-product-wrapper .product-tag-premium {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #c5a880;
+            font-weight: 700;
+        }
+
+        .premium-product-wrapper .price-badge-premium {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #c5a880;
+            border-bottom: 1px dashed rgba(197, 168, 128, 0.3);
+            padding-bottom: 20px;
+            margin-top: 8px;
+        }
+
+        /* KHU VỰC CHỌN SIZE & CHIỀU CAO CAO CẤP */
+        .size-variant-wrapper {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .size-item {
+            position: relative;
+        }
+        .size-item input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .size-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e1dbd5;
+            padding: 10px 5px;
+            height: 75px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #fff;
+            text-align: center;
+        }
+        .size-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .size-desc {
+            font-size: 0.65rem;
+            color: #777;
+            margin-top: 2px;
+            line-height: 1.2;
+        }
+        .size-item input[type="radio"]:checked + .size-label {
+            border-color: #1a1a1a;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+        .size-item input[type="radio"]:checked + .size-label .size-desc {
+            color: #c5a880;
+        }
+
+        /* Bộ chọn số lượng */
+        .premium-product-wrapper .quantity-selector-premium {
+            display: inline-flex;
+            border: 1px solid #1a1a1a;
+            background: #fff;
+        }
+
+        .premium-product-wrapper .quantity-btn-premium {
+            background: none;
+            border: none;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #1a1a1a;
+            transition: background 0.2s;
+        }
+        .premium-product-wrapper .quantity-btn-premium:hover { background-color: #f7f5f0; }
+
+        .premium-product-wrapper .quantity-input-premium {
+            width: 50px;
+            border: none;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .premium-product-wrapper .quantity-input-premium:focus { outline: none; }
+
+        /* Nút bấm */
+        .premium-product-wrapper .btn-action-premium {
+            border-radius: 0;
+            padding: 14px 28px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .premium-product-wrapper .btn-action-dark { background-color: #1a1a1a; color: #fff; border: 1px solid #1a1a1a; }
+        .premium-product-wrapper .btn-action-dark:hover { background-color: transparent; color: #1a1a1a; }
+
+        .premium-product-wrapper .btn-action-gold { background-color: #c5a880; color: #fff; border: 1px solid #c5a880; }
+        .premium-product-wrapper .btn-action-gold:hover { background-color: #1a1a1a; border-color: #1a1a1a; }
+
+        .premium-product-wrapper .spec-table-premium th,
+        .premium-product-wrapper .spec-table-premium td {
+            padding: 12px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eaddce;
+        }
+        .premium-product-wrapper .spec-table-premium th { font-weight: 500; color: #666; width: 35%; }
+        .premium-product-wrapper .spec-table-premium td { color: #1a1a1a; font-weight: 600; }
+
+        /* Custom nhẹ giao diện Modal Bảng Size */
+        .modal-content-bridal {
+            border-radius: 0;
+            border: 2px solid #c5a880;
+            background-color: #fdfbf7;
+        }
+        .modal-bridal-header {
+            border-bottom: 1px solid rgba(197, 168, 128, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nhúng Menu Header -->
+<div th:replace="~{customer/fragments/layout :: customer-navbar}"></div>
+
+<div class="premium-product-wrapper">
+    <div class="container">
+
+        <nav style="--bs-breadcrumb-divider: '›';" aria-label="breadcrumb" class="mb-5">
+            <ol class="breadcrumb fs-7 m-0">
+                <li class="breadcrumb-item"><a th:href="@{/customer/home}" class="text-decoration-none text-muted">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/customer/categories}" class="text-decoration-none text-muted">Danh mục</a></li>
+                <li class="breadcrumb-item active text-dark" aria-current="page" th:text="${product.productName}">Chi tiết váy</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5">
+            <div class="col-lg-6">
+                <div class="detail-img-box">
+                    <img th:src="${product.imageUrl != null ? product.imageUrl : 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=600'}"
+                         class="main-product-img" th:alt="${product.productName}">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="product-meta-box">
+                    <span class="product-tag-premium d-inline-block">Tuyệt Tác Mùa Cưới 2026</span>
+                    <h1 class="serif-font-detail fw-bold display-6 mt-1 mb-3" th:text="${product.productName}">Váy Cưới Luxury Hoàng Gia</h1>
+
+                    <p class="price-badge-premium" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></p>
+
+                    <div class="my-4 pt-1">
+                        <h5 class="text-uppercase fs-7 fw-bold text-muted mb-2" style="letter-spacing: 1px;">Ý tưởng thiết kế:</h5>
+                        <p class="text-muted lh-lg" th:text="${product.description != null ? product.description : 'Mẫu thiết kế độc quyền sở hữu phom dáng hoàng gia kiêu sa, đính kết thủ công tỉ mỉ tôn trọn vẹn nét đẹp thanh lịch của nàng dâu trong ngày đại hỷ.'}"></p>
+                    </div>
+
+                    <!-- THỰC THI THÊM VÀO GIỎ HÀNG QUA FORM -->
+                    <form th:action="@{/customer/cart/add}" method="POST" class="mt-4">
+                        <!-- Gửi ID sản phẩm ẩn lên Controller -->
+                        <input type="hidden" name="productId" th:value="${product.productId}">
+
+                        <!-- CHỌN SIZE KẾT HỢP CHIỀU CAO & CÂN NẶNG -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-uppercase fs-7 fw-bold text-muted" style="letter-spacing: 1px;">Kích cỡ khuyên dùng:</span>
+                                <!-- Nút kích hoạt mở Bảng thông số số đo chi tiết (Modal) -->
+                                <button type="button" class="btn btn-link text-decoration-underline p-0 small" style="color: #c5a880;" data-bs-toggle="modal" data-bs-target="#sizeChartModal">
+                                    <i class="fa-solid fa-ruler-combined me-1"></i> Bảng thông số đo size
+                                </button>
+                            </div>
+
+                            <div class="size-variant-wrapper">
+                                <div class="size-item">
+                                    <input type="radio" id="sizeS" name="productSize" value="S" checked>
+                                    <label for="sizeS" class="size-label">
+                                        <span class="size-title">S</span>
+                                        <span class="size-desc">1m50 - 1m58<br>40 - 47 kg</span>
+                                    </label>
+                                </div>
+                                <div class="size-item">
+                                    <input type="radio" id="sizeM" name="productSize" value="M">
+                                    <label for="sizeM" class="size-label">
+                                        <span class="size-title">M</span>
+                                        <span class="size-desc">1m55 - 1m62<br>48 - 54 kg</span>
+                                    </label>
+                                </div>
+                                <div class="size-item">
+                                    <input type="radio" id="sizeL" name="productSize" value="L">
+                                    <label for="sizeL" class="size-label">
+                                        <span class="size-title">L</span>
+                                        <span class="size-desc">1m60 - 1m68<br>55 - 60 kg</span>
+                                    </label>
+                                </div>
+                                <div class="size-item">
+                                    <input type="radio" id="sizeXL" name="productSize" value="XL">
+                                    <label for="sizeXL" class="size-label">
+                                        <span class="size-title">XL</span>
+                                        <span class="size-desc">1m65 - 1m75<br>61 - 68 kg</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CHỌN SỐ LƯỢNG SẢN PHẨM -->
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <span class="text-uppercase fs-7 fw-bold text-muted" style="letter-spacing: 1px;">Số lượng:</span>
+                            <div class="quantity-selector-premium">
+                                <button type="button" class="quantity-btn-premium" onclick="adjustQty(-1)"><i class="fa-solid fa-minus"></i></button>
+                                <input type="number" id="qtyInput" name="quantity" value="1" min="1" class="quantity-input-premium">
+                                <button type="button" class="quantity-btn-premium" onclick="adjustQty(1)"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- HỆ THỐNG NÚT TÁC VỤ CHÍNH -->
+                        <div class="d-flex gap-3 mb-5">
+                            <button type="submit" class="btn btn-action-premium btn-action-gold flex-grow-1">
+                                <i class="fa-solid fa-bag-shopping me-2"></i> Thêm Vào Giỏ Hàng
+                            </button>
+                            <a href="https://zalo.me/your_number" target="_blank" class="btn btn-action-premium btn-action-dark px-4" title="Tư vấn may đo trực tiếp">
+                                <i class="fa-solid fa-comment-dots fs-5"></i>
+                            </a>
+                        </div>
+                    </form>
+
+                    <div class="border-top pt-4">
+                        <h4 class="serif-font-detail fw-bold mb-3" style="color: #c5a880;">Thông Số Thiết Kế</h4>
+                        <table class="table table-borderless spec-table-premium m-0">
+                            <tbody>
+                            <tr>
+                                <th>Mã Thiết Kế</th>
+                                <td th:text="'BC-' + ${product.productId}">BC-102</td>
+                            </tr>
+                            <tr>
+                                <th>Chất liệu cao cấp</th>
+                                <td>Ren Pháp cao cấp, Tulle lụa mịn, Pha lê đính đá Swarovski</td>
+                            </tr>
+                            <tr>
+                                <th>Phom dáng chuẩn</th>
+                                <td>Hoàng gia A-Line / Đuôi cá tôn dáng ngọc</td>
+                            </tr>
+                            <tr>
+                                <th>Dịch vụ đi kèm</th>
+                                <td>Chỉnh sửa số đo miễn phí vừa vặn form người, Giặt khô bảo quản chuyên sâu</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🌟 THÀNH PHẦN MỚI: MODAL BẢNG THÔNG SỐ SỐ ĐO CHI TIẾT (AN TOÀN TUYỆT ĐỐI) -->
+<div class="modal fade" id="sizeChartModal" tabindex="-1" aria-labelledby="sizeChartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-content-bridal">
+            <div class="modal-header modal-bridal-header">
+                <h5 class="modal-title serif-font-detail fw-bold" id="sizeChartModalLabel" style="color: #1a1a1a;">BẢNG QUY ĐỔI KÍCH CỠ VÁY CƯỚI BIÊN ĐỘ</h5>
+                <button type="button" class="btn-close" data-bs-shadow="none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted small mb-3">* Lưu ý: Đồ cưới tại Bella Couture hỗ trợ nới - bóp eo theo số đo thực tế của cô dâu miễn phí trước ngày bàn giao.</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center align-middle m-0" style="font-size: 0.9rem;">
+                        <thead class="table-dark" style="background-color: #1a1a1a;">
+                        <tr>
+                            <th>Size</th>
+                            <th>Vòng Ngực (cm)</th>
+                            <th>Vòng Eo (cm)</th>
+                            <th>Vòng Mông (cm)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="fw-bold">S</td>
+                            <td>80 - 84</td>
+                            <td>60 - 64</td>
+                            <td>86 - 90</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">M</td>
+                            <td>85 - 89</td>
+                            <td>65 - 69</td>
+                            <td>91 - 95</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">L</td>
+                            <td>90 - 94</td>
+                            <td>70 - 74</td>
+                            <td>96 - 100</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">XL</td>
+                            <td>95 - 100</td>
+                            <td>75 - 80</td>
+                            <td>101 - 106</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-sm btn-dark px-4 rounded-0" data-bs-dismiss="modal">Đóng cửa sổ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{customer/fragments/layout :: customer-footer}"></div>
+
+<script>
+    function adjustQty(amount) {
+        const input = document.getElementById('qtyInput');
+        let current = parseInt(input.value) || 1;
+        current += amount;
+        if(current < 1) current = 1;
+        input.value = current;
+    }
+</script>
+<!-- ĐẢM BẢO NHÚNG BUNDLE ĐỂ MODAL HOẠT ĐỘNG MƯỢT MÀ -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

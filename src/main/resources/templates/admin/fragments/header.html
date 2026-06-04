@@ -1,0 +1,22 @@
+<nav th:fragment="header" class="topbar" id="topbar">
+    <div class="d-flex align-items-center">
+        <button class="toggle-btn" id="sidebarToggle" type="button">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+        <div class="ms-3 d-none d-md-block text-muted small">
+            <span>Hệ thống Quản trị Cửa hàng Váy Cưới Cao Cấp</span>
+        </div>
+    </div>
+
+    <div class="admin-profile">
+        <div class="text-end d-none d-sm-block">
+            <div class="fw-semibold" style="font-size: 0.9rem;">Bridal Manager</div>
+            <div class="text-muted" style="font-size: 0.75rem;">Quản trị viên</div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="admin-avatar">
+
+        <a th:href="@{/logout}" class="btn btn-outline-danger btn-sm rounded-pill px-3 ms-2">
+            <i class="fa-solid fa-right-from-bracket"></i> <span class="d-none d-md-inline">Đăng xuất</span>
+        </a>
+    </div>
+</nav>

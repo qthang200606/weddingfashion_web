@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ Hàng Độc Bản - Bella Couture</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #fdfbf7;
+            color: #1a1a1a;
+        }
+
+        .premium-cart-container {
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            margin-top: 50px;
+            margin-bottom: 80px;
+        }
+
+        .serif-font-cart {
+            font-family: 'Playfair Display', serif !important;
+        }
+
+        /* Khung bảng giỏ hàng */
+        .cart-table-wrapper {
+            background: #ffffff;
+            padding: 25px;
+            border: 1px solid rgba(197, 168, 128, 0.2);
+            box-shadow: 0 15px 40px rgba(197, 168, 128, 0.05);
+        }
+
+        .cart-table th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: #777;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 15px;
+        }
+
+        .cart-table td {
+            padding: 20px 0;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1eeeb;
+        }
+
+        /* Thẻ hiển thị Size */
+        .badge-size-bridal {
+            background-color: #f7f5f0;
+            color: #1a1a1a;
+            border: 1px solid #c5a880;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Bộ tăng giảm số lượng mini tại giỏ hàng */
+        .cart-qty-selector {
+            display: inline-flex;
+            border: 1px solid #e1dbd5;
+            background: #fff;
+        }
+        .cart-qty-btn {
+            background: none;
+            border: none;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .cart-qty-btn:hover { background-color: #f7f5f0; }
+        .cart-qty-input {
+            width: 35px;
+            border: none;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .cart-qty-input:focus { outline: none; }
+
+        /* Khối hóa đơn tóm tắt bên phải */
+        .cart-summary-box {
+            background: #ffffff;
+            padding: 30px;
+            border: 1px solid rgba(197, 168, 128, 0.2);
+            position: sticky;
+            top: 120px;
+        }
+
+        /* Nút bấm hành động */
+        .btn-cart-premium {
+            border-radius: 0;
+            padding: 14px 20px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        .btn-cart-gold { background-color: #c5a880; color: #fff; border: 1px solid #c5a880; }
+        .btn-cart-gold:hover { background-color: #1a1a1a; border-color: #1a1a1a; }
+
+        .btn-cart-outline { background-color: transparent; color: #1a1a1a; border: 1px solid #1a1a1a; }
+        .btn-cart-outline:hover { background-color: #1a1a1a; color: #fff; }
+
+        /* Trạng thái giỏ hàng trống */
+        .empty-cart-box {
+            text-align: center;
+            padding: 80px 20px;
+            background: #fff;
+            border: 1px dashed #c5a880;
+        }
+
+        /* 💄 Phong cách tùy chỉnh cho Bảng điền thông tin Modal nâng cao */
+        .premium-modal {
+            border-radius: 0;
+            border: 1px solid #c5a880;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        .premium-modal .form-control, .premium-modal .form-select {
+            border-radius: 0;
+            border: 1px solid #e1dbd5;
+            padding: 12px 15px;
+            font-size: 0.9rem;
+            background-color: #faf8f5;
+        }
+        .premium-modal .form-control:focus, .premium-modal .form-select:focus {
+            border-color: #c5a880;
+            box-shadow: none;
+            background-color: #ffffff;
+        }
+        .premium-modal .input-group-text {
+            border-radius: 0;
+            background-color: #faf8f5;
+            border: 1px solid #e1dbd5;
+            color: #c5a880;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nhúng Menu Header tổng -->
+<div th:replace="~{customer/fragments/layout :: customer-navbar}"></div>
+
+<div class="container premium-cart-container">
+    <h1 class="serif-font-cart fw-bold display-6 mb-2">Giỏ Hàng Của Bạn</h1>
+    <p class="text-muted small mb-5" style="letter-spacing: 1px;">Nơi lưu giữ những thiết kế độc bản bạn đã chọn cho ngày đại hỷ.</p>
+
+    <!-- TRƯỜNG HỢP 1: GIỎ HÀNG CÓ SẢN PHẨM -->
+    <div class="row g-5" th:if="${cartItems != null and !cartItems.isEmpty()}">
+
+        <!-- Cột trái: Danh sách váy cưới đã chọn -->
+        <div class="col-lg-8">
+            <div class="cart-table-wrapper">
+                <table class="table table-borderless cart-table m-0">
+                    <thead>
+                    <tr>
+                        <th>Tuyệt tác thiết kế</th>
+                        <th class="text-center">Số lượng</th>
+                        <th class="text-end">Tạm tính</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Duyệt lặp qua từng sản phẩm trong giỏ hàng -->
+                    <tr th:each="item : ${cartItems}">
+                        <!-- Cột sản phẩm (Ảnh + Tên + Size) -->
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+                                <img th:src="${item.product.imageUrl != null ? item.product.imageUrl : 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=150'}"
+                                     alt="Product Image" style="width: 80px; height: 100px; object-fit: cover; border: 1px solid #eaddce;">
+                                <div>
+                                    <h5 class="fw-bold mb-1 fs-6" th:text="${item.product.productName}">Váy Cưới Luxury Hoàng Gia</h5>
+                                    <div class="d-flex align-items-center gap-2 mt-2">
+                                        <span class="badge badge-size-bridal">Size <span th:text="${item.productSize}">M</span></span>
+                                        <span class="text-muted small" th:text="${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'">18,500,000 đ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Cột số lượng (Có Form tự động submit để cập nhật) -->
+                        <td class="text-center">
+                            <form th:action="@{/customer/cart/update}" method="POST" class="d-inline-block">
+                                <input type="hidden" name="cartItemId" th:value="${item.id}">
+                                <div class="cart-qty-selector">
+                                    <button type="submit" name="action" value="decrease" class="cart-qty-btn"><i class="fa-solid fa-minus"></i></button>
+                                    <input type="number" name="quantity" th:value="${item.quantity}" min="1" readonly class="cart-qty-input">
+                                    <button type="submit" name="action" value="increase" class="cart-qty-btn"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </form>
+                        </td>
+
+                        <!-- Cột tổng giá của dòng sản phẩm đó -->
+                        <td class="text-end fw-bold text-dark"
+                            th:text="${#numbers.formatDecimal(item.product.price * item.quantity, 0, 'COMMA', 0, 'POINT')} + ' đ'">
+                            18,500,000 đ
+                        </td>
+
+                        <!-- Nút xóa sản phẩm khỏi giỏ hàng -->
+                        <td class="text-end" style="width: 50px;">
+                            <a th:href="@{/customer/cart/delete/{id}(id=${item.id})}" class="text-muted text-hover-danger p-2" title="Xóa bỏ">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Cột phải: Tính toán tổng tiền & Đặt hàng -->
+        <div class="col-lg-4">
+            <div class="cart-summary-box">
+                <h4 class="serif-font-cart fw-bold mb-4" style="color: #c5a880;">Tóm tắt đơn hàng</h4>
+
+                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                    <span class="text-muted">Tổng số lượng:</span>
+                    <span class="fw-bold" th:text="${totalQuantity} + ' chiếc'">1 chiếc</span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <span class="text-muted">Thành tiền:</span>
+                    <span class="fs-4 fw-bold" style="color: #c5a880;"
+                          th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                          18,500,000 VNĐ
+                    </span>
+                </div>
+
+                <div class="text-muted small mb-4">
+                    <i class="fa-solid fa-circle-info me-1"></i> Giá trên chưa bao gồm chi phí vận chuyển đường xa (nếu có) và đã bao gồm gói may đo chỉnh sửa form dáng đặc quyền.
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+                    <!-- ĐÃ THAY ĐỔI: Chuyển thẻ <a> thành <button> kích hoạt Modal tại chỗ -->
+                    <button type="button" class="btn btn-cart-premium btn-cart-gold" data-bs-toggle="modal" data-bs-target="#premiumCheckoutModal">
+                        <i class="fa-solid fa-credit-card me-2"></i> Tiến Hành Đặt Lịch & Thanh Toán
+                    </button>
+
+                    <a th:href="@{/customer/home}" class="btn btn-cart-premium btn-cart-outline">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Tiếp Tục Xem Mẫu Váy
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TRƯỜNG HỢP 2: GIỎ HÀNG TRỐNG (KHÔNG CÓ SẢN PHẨM) -->
+    <div th:if="${cartItems == null or cartItems.isEmpty()}" class="empty-cart-box my-5">
+        <i class="fa-solid fa-bag-shopping display-1 mb-4" style="color: #eaddce;"></i>
+        <h3 class="serif-font-cart fw-bold mb-2">Giỏ hàng của nàng đang trống</h3>
+        <p class="text-muted mb-4">Hãy quay lại trang chủ để khám phá những BST váy cưới lộng lẫy nhất.</p>
+        <a th:href="@{/customer/home}" class="btn btn-cart-premium btn-cart-gold d-inline-block" style="width: auto; padding-left: 40px; padding-right: 40px;">
+            Khám phá các thiết kế ngay
+        </a>
+    </div>
+</div>
+
+<!-- ==========================================
+     MODAL POPUP ĐIỀN THÔNG TIN ĐẶT HÀNG CAO CẤP
+     ========================================== -->
+<div class="modal fade" id="premiumCheckoutModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content premium-modal">
+
+            <!-- Tiêu đề Modal -->
+            <div class="modal-header border-0 pt-4 px-4 pb-2 d-flex flex-column align-items-center text-center position-relative">
+                <h3 class="serif-font-cart fw-bold m-0" id="modalTitle" style="color: #c5a880; letter-spacing: 0.5px;">Thông Tin Đặt Lịch & Giao Hàng</h3>
+                <p class="text-muted small mt-1 mb-0">Nàng vui lòng chuẩn bị thông tin để Bella Couture hỗ trợ chu đáo nhất.</p>
+                <button type="button" class="btn-close position-absolute" data-bs-dismiss="modal" aria-label="Close" style="top: 25px; right: 25px; font-size: 0.8rem;"></button>
+            </div>
+
+            <!-- Nội dung Form điền dữ liệu -->
+            <div class="modal-body px-4 pb-4 pt-2">
+                <form action="/customer/checkout/submit" method="POST">
+
+                    <!-- Nhập tên -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-uppercase text-muted" style="font-size: 0.75rem; letter-spacing: 0.5px;">Tên quý cô / Người nhận lịch</label>
+                        <div class="input-group">
+                            <span class="input-group-text border-end-0"><i class="fa-regular fa-user"></i></span>
+                            <input type="text" name="receiverName" class="form-control border-start-0 ps-1" placeholder="Ví dụ: Nguyễn Thảo Vy" required />
+                        </div>
+                    </div>
+
+                    <!-- Nhập số điện thoại -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-uppercase text-muted" style="font-size: 0.75rem; letter-spacing: 0.5px;">Số điện thoại liên hệ</label>
+                        <div class="input-group">
+                            <span class="input-group-text border-end-0"><i class="fa-solid fa-phone-flip"></i></span>
+                            <input type="tel" name="receiverPhone" class="form-control border-start-0 ps-1" placeholder="Ví dụ: 0905XXXXXX" required />
+                        </div>
+                    </div>
+
+                    <!-- Nhập địa chỉ hoặc lịch hẹn -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-uppercase text-muted" style="font-size: 0.75rem; letter-spacing: 0.5px;">Địa chỉ nhận váy / Lịch hẹn thử tại Showroom</label>
+                        <textarea name="shippingAddress" class="form-control" rows="3" placeholder="Ghi rõ địa chỉ nhận váy tận nơi hoặc mốc thời gian (Ngày/Giờ) nàng muốn ghé thử đồ tại cửa hàng..." required></textarea>
+                    </div>
+
+                    <!-- Chọn phương thức thanh toán -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-uppercase text-muted" style="font-size: 0.75rem; letter-spacing: 0.5px;">Phương thức thanh toán độc bản</label>
+                        <div class="input-group">
+                            <span class="input-group-text border-end-0"><i class="fa-regular fa-credit-card"></i></span>
+                            <select name="paymentMethod" class="form-select border-start-0 ps-1" required>
+                                <option value="BANKING" selected>Chuyển khoản trực tuyến (Quét mã QR SePay tự động)</option>
+                                <option value="COD">Thanh toán khi bàn giao trang phục (COD)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Hộp tóm tắt tổng tiền tinh tế ngay trên nút bấm -->
+                    <div class="p-3 mb-4 d-flex justify-content-between align-items-center" style="background-color: #fdfbf7; border: 1px dashed #c5a880;">
+                        <span class="small text-muted fw-semibold text-uppercase" style="letter-spacing: 0.5px;">Tổng chi phí đại hỷ:</span>
+                        <span class="fw-bold fs-5" style="color: #c5a880;" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">0 đ</span>
+                    </div>
+
+                    <!-- Nút xác nhận cuối cùng gửi dữ liệu đi -->
+                    <button type="submit" class="btn btn-cart-premium btn-cart-gold py-3 fw-bold text-uppercase shadow-sm">
+                        <i class="fa-solid fa-circle-check me-2"></i> Xác Nhận Khởi Tạo Đơn Hàng
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Nhúng Menu Footer tổng -->
+<div th:replace="~{customer/fragments/layout :: customer-footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

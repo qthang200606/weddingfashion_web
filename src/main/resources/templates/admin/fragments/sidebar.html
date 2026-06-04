@@ -1,0 +1,45 @@
+<div th:fragment="sidebar" class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+        <i class="fa-solid fa-gem"></i>
+        <span>BRIDAL STUDIO</span>
+    </div>
+
+    <ul class="sidebar-menu">
+        <li class="menu-item" th:classappend="${pageTitle == 'dashboard'} ? 'active'">
+            <a th:href="@{/admin/dashboard}" class="menu-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Tổng quan Dashboard</span>
+            </a>
+        </li>
+        <li class="menu-item" th:classappend="${pageTitle == 'category'} ? 'active'">
+            <a th:href="@{/admin/categories}" class="menu-link">
+                <i class="fa-solid fa-folder-tree"></i>
+                <span>Quản lý danh mục</span>
+            </a>
+        </li>
+        <li class="menu-item" th:classappend="${pageTitle == 'product'} ? 'active'">
+            <a th:href="@{/admin/products}" class="menu-link">
+                <i class="fa-solid fa-shirt"></i>
+                <span>Quản lý sản phẩm</span>
+            </a>
+        </li>
+        <li class="menu-item" th:classappend="${pageTitle == 'order'} ? 'active'">
+            <a th:href="@{/admin/orders}" class="menu-link">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Quản lý đơn hàng</span>
+            </a>
+        </li>
+        <li class="menu-item" th:classappend="${pageTitle == 'appointment'} ? 'active'">
+            <a th:href="@{/admin/appointments}" class="menu-link">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>Lịch hẹn thử váy</span>
+            </a>
+        </li>
+        <li class="menu-item" th:classappend="${pageTitle == 'banner'} ? 'active'">
+            <a th:href="@{/admin/banners}" class="menu-link">
+                <i class="fa-solid fa-images"></i>
+                <span>Cấu hình Banner</span>
+            </a>
+        </li>
+    </ul>
+</div>

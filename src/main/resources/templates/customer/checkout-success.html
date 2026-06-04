@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh Toán Đơn Hàng - Bella Couture</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #fdfbf7;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .serif-font {
+            font-family: 'Playfair Display', serif !important;
+        }
+        .checkout-box {
+            border-radius: 0;
+            border: 1px solid rgba(197, 168, 128, 0.3);
+            box-shadow: 0 15px 40px rgba(197, 168, 128, 0.08);
+        }
+        .qr-wrapper {
+            border: 1px solid #eaddce;
+            padding: 12px;
+            background: white;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        .qr-code-img {
+            max-width: 260px;
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .text-gold { color: #c5a880; }
+        .btn-gold {
+            background-color: #c5a880;
+            color: white;
+            border: 1px solid #c5a880;
+            border-radius: 0;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            background-color: #1a1a1a;
+            border-color: #1a1a1a;
+            color: white;
+        }
+        .btn-outline-premium {
+            border: 1px solid #1a1a1a;
+            color: #1a1a1a;
+            border-radius: 0;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .btn-outline-premium:hover {
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .status-waiting { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+    </style>
+</head>
+<body>
+<div class="container py-5" style="margin-top: 30px;">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card checkout-box p-4 bg-white">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold text-gold serif-font mb-2">TIẾN HÀNH THANH TOÁN</h3>
+                    <p class="text-muted small" style="letter-spacing: 0.5px;">Mã đơn hàng đại hỷ: <span class="fw-bold text-dark" th:text="${order.paymentCode}"></span></p>
+                </div>
+
+                <div th:if="${order.paymentMethod == 'BANKING'}" class="text-center">
+                    <p class="mb-4 text-secondary small">Nàng vui lòng mở Ứng dụng ngân hàng quét mã QR dưới đây để hệ thống kích hoạt lịch hẹn tự động</p>
+
+                    <div class="qr-wrapper mb-4">
+                        <img th:src="'https://qr.sepay.vn/img?bank=VietinBank&acc=106865935777&template=compact&amount=' + ${#numbers.formatDecimal(order.totalAmount, 0, 0)} + '&des=SEVQR ' + ${order.paymentCode}"
+                             alt="Mã QR Thanh Toán SePay VietinBank" class="qr-code-img">
+                    </div>
+
+                    <div class="alert alert-warning text-start border-0 rounded-0 p-3 mb-4" style="background-color: #fdfbf7; border-left: 4px solid #c5a880 !important;">
+                        <i class="fa-solid fa-circle-info text-gold me-2"></i>
+                        <strong>Lưu ý từ VietinBank:</strong> Giữ nguyên nội dung chuyển khoản tự động là <span class="badge bg-dark" th:text="'SEVQR ' + ${order.paymentCode}"></span> để SePay nhận diện khớp lệnh ngay lập tức.
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-center my-3 text-muted status-waiting">
+                        <div class="spinner-border spinner-border-sm text-warning me-2" style="color: #c5a880 !important;" role="status"></div>
+                        <span class="small fw-semibold">Hệ thống đang chờ kiểm tra biến động số dư ngân hàng...</span>
+                    </div>
+                </div>
+
+                <div th:if="${order.paymentMethod == 'COD'}" class="text-center py-4">
+                    <i class="fa-solid fa-circle-check text-success display-4 mb-3" style="color: #c5a880 !important;"></i>
+                    <h4 class="fw-bold serif-font text-dark mb-2">ĐẶT LỊCH THÀNH CÔNG!</h4>
+                    <p class="text-muted small">Bella Couture đã ghi nhận thông tin. Chuyên viên sẽ liên hệ nàng qua Số điện thoại để bàn giao và thanh toán trực tiếp.</p>
+                </div>
+
+                <hr class="my-4" style="border-color: #eaddce;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <span class="text-secondary small fw-medium">Tổng giá trị tuyệt tác:</span>
+                    <h3 class="fw-bold text-gold serif-font mb-0" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">200,000 VNĐ</h3>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="/customer/home" class="btn btn-outline-premium py-2.5">Tiếp tục xem mẫu váy khác</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script th:if="${order.paymentMethod == 'BANKING'}" th:inline="javascript">
+    const orderId = [[${order.orderId}]];
+
+    // Cấu hình vòng lặp: Cứ mỗi 3 giây gọi API Check Trạng Thái từ CheckoutController một lần
+    const autoCheckStatus = setInterval(function() {
+        fetch('/customer/checkout/api/status/' + orderId)
+            .then(response => response.text())
+            .then(status => {
+                console.log("Đang kiểm tra giao dịch... Trạng thái hiện tại: " + status);
+
+                if (status.trim() === "PAID") {
+                    clearInterval(autoCheckStatus); // Nhận được tiền rồi thì dừng quét ngay lập tức
+
+                    // Hiển thị Popup chúc mừng sang trọng bằng SweetAlert2
+                    Swal.fire({
+                        title: 'Thanh Toán Thành Công!',
+                        text: 'Bella Couture đã nhận được khoản thanh toán đại hỷ của nàng. Hệ thống đang tiến hành bảo lưu mẫu váy chỉnh sửa độc bản!',
+                        icon: 'success',
+                        confirmButtonColor: '#c5a880',
+                        confirmButtonText: 'Xem danh sách đơn hàng'
+                    }).then((result) => {
+                        // Điều hướng về trang chủ hoặc trang lịch sử đơn hàng của khách
+                        window.location.href = "/customer/home";
+                    });
+                }
+            })
+            .catch(error => console.error("Lỗi đồng bộ Webhook SePay:", error));
+    }, 3000);
+</script>
+
+</body>
+</html>
