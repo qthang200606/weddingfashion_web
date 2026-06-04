@@ -79,8 +79,8 @@
                     <p class="mb-4 text-secondary small">Nàng vui lòng mở Ứng dụng ngân hàng quét mã QR dưới đây để hệ thống kích hoạt lịch hẹn tự động</p>
 
                     <div class="qr-wrapper mb-4">
-                        <img th:src="'https://qr.sepay.vn/img?bank=VietinBank&acc=106865935777&template=compact&amount=' + ${#numbers.formatDecimal(order.totalAmount, 0, 0)} + '&des=SEVQR ' + ${order.paymentCode}"
-                             alt="Mã QR Thanh Toán SePay VietinBank" class="qr-code-img">
+                        <img th:src="'https://qr.sepay.vn/img?bank=VietinBank&acc=106865935777&template=compact&amount=' + ${#numbers.formatInteger(order.totalAmount, 0, 'NONE')} + '&des=SEVQR ' + ${order.paymentCode}"
+                             alt="Mã QR Thanh Toán" class="qr-code mb-3 shadow-sm" style="max-width: 280px; width: 100%;">
                     </div>
 
                     <div class="alert alert-warning text-start border-0 rounded-0 p-3 mb-4" style="background-color: #fdfbf7; border-left: 4px solid #c5a880 !important;">
