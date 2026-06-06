@@ -4,9 +4,9 @@ import com.aipo.weddingshop.entity.Category;
 import com.aipo.weddingshop.entity.Order;
 import com.aipo.weddingshop.entity.Product;
 import com.aipo.weddingshop.service.CategoryService;
+import com.aipo.weddingshop.service.OrderService;
 import com.aipo.weddingshop.service.ProductService;
 import com.aipo.weddingshop.service.BannerService;
-import com.aipo.weddingshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +21,11 @@ public class CustomerController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final BannerService bannerService;
-    private final OrderService orderService; // Đảm bảo đã khai báo instance ở đây
+    private final OrderService orderService; // ĐÃ BỔ SUNG: Khai báo này để hết lỗi 'Cannot resolve symbol'
 
-    // 1. Home
+    // 1. Home Page
     @GetMapping("/home")
-    public String home(Model model) {
+    public String home(Model model){
         model.addAttribute("products", productService.findAll());
         model.addAttribute("activeBanners", bannerService.getActiveBannersForUser());
         model.addAttribute("categories", categoryService.findAll());
@@ -59,28 +59,13 @@ public class CustomerController {
         return "customer/product-detail";
     }
 
-    // 5. Add to Cart (Xử lý tham số tránh cảnh báo "never used")
-    @PostMapping("/cart/add")
-    public String addToCart(@RequestParam("productId") Long productId,
-                            @RequestParam("productSize") String productSize,
-                            @RequestParam("quantity") Integer quantity) {
-
-        // Tạm thời log ra console hoặc làm gì đó với biến để IntelliJ không báo lỗi "never used"
-        System.out.println("Add Product ID: " + productId + " | Size: " + productSize + " | Qty: " + quantity);
-
-        // TODO: Xử lý gọi CartService tại đây
-
-        return "redirect:/customer/cart";
-    }
-
-    // 6. Order History (Sửa lỗi Static Context: gọi qua instance 'orderService')
+    // 5. Order History
     @GetMapping("/order-history")
     public String showOrderHistory(@RequestParam(value = "status", required = false, defaultValue = "ALL") String status,
                                    Model model) {
         Long currentUserId = 1L;
         List<Order> orders;
 
-        // SỬA TẠI ĐÂY: Thay vì gọi OrderService (Tên Class Static), ta gọi orderService (đối tượng được tiêm vào)
         if ("ALL".equalsIgnoreCase(status)) {
             orders = orderService.getOrdersByUserId(currentUserId);
         } else {
@@ -93,14 +78,11 @@ public class CustomerController {
         return "customer/order-history";
     }
 
-    // 7. Order Detail (Sửa lỗi Static Context)
+    // 6. Order Detail
     @GetMapping("/order-detail/{id}")
     public String showOrderDetail(@PathVariable("id") Long orderId, Model model) {
-
-        // SỬA TẠI ĐÂY: Gọi orderService.getOrderById thay vì Class static
         Order order = orderService.getOrderById(orderId);
         model.addAttribute("order", order);
-
         return "customer/order-detail";
     }
 }
