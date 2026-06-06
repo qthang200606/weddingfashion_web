@@ -17,50 +17,57 @@ public class AdminOrderController {
 
     private final OrderRepository orderRepository;
 
-    // Sử dụng Constructor Injection để Spring tự động inject OrderRepository vào
     public AdminOrderController(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
     /**
-     * 1. Hiển thị danh sách tất cả đơn hàng cho Admin
-     * Đường dẫn: GET http://localhost:8080/admin/orders
+     * 1. Hiển thị danh sách đơn hàng cho Admin
      */
     @GetMapping
     public String showAdminOrdersPage(Model model) {
-        // Lấy tất cả đơn hàng và sắp xếp giảm dần (Desc) theo trường orderDate (Đơn hàng mới nhất lên đầu)
         List<Order> orders = orderRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate"));
-
-        // Đẩy danh sách đơn hàng sang cho file Thymeleaf orders.html hiển thị
         model.addAttribute("orders", orders);
-
-        // Trả về đúng đường dẫn cấu trúc thư mục: templates/admin/order/orders.html
         return "admin/order/orders";
     }
 
     /**
-     * 2. Xử lý cập nhật trạng thái đơn hàng (Duyệt đơn / Hủy đơn)
+     * 2. Xử lý cập nhật trạng thái đơn hàng theo quy trình logic nâng cao
      * Đường dẫn: GET http://localhost:8080/admin/orders/update-status?id=...&status=...
      */
     @GetMapping("/update-status")
     public String updateOrderStatus(@RequestParam("id") Long orderId,
                                     @RequestParam("status") String newStatus) {
-        // Tìm đơn hàng trong DB xem có tồn tại không
+
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng có ID: " + orderId));
 
-        // CHẶN LOGIC: Nếu đơn hàng đã bị hủy (CANCELLED) từ trước, Admin không thể bẻ trạng thái thành CONFIRMED được nữa
-        if ("CANCELLED".equals(order.getStatus())) {
-            return "redirect:/admin/orders?error=cannot-update-cancelled-order";
+        String currentStatus = order.getStatus();
+
+        // CHẶN LOGIC 1: Nếu đơn hàng đã ĐÃ GIAO hoặc ĐÃ HỦY thì khóa chết, không cho bẻ trạng thái nữa
+        if ("DELIVERED".equals(currentStatus) || "CANCELLED".equals(currentStatus)) {
+            return "redirect:/admin/orders?error=order-is-locked";
         }
 
-        // Cập nhật trạng thái mới
-        order.setStatus(newStatus);
+        // CHẶN LOGIC 2: Quy trình chuyển đổi trạng thái tuần tự nếu đi tiếp (Ngoại trừ hành động HỦY ĐƠN)
+        if (!"CANCELLED".equals(newStatus)) {
+            boolean isValidTransition = false;
 
-        // Lưu lại thay đổi vào Database
+            if ("PENDING".equals(currentStatus) && "CONFIRMED".equals(newStatus)) isValidTransition = true;
+            else if ("PAID".equals(currentStatus) && "CONFIRMED".equals(newStatus)) isValidTransition = true; // Hỗ trợ nếu hệ thống có cổng tự động đổi PAID
+            else if ("CONFIRMED".equals(currentStatus) && "PREPARING".equals(newStatus)) isValidTransition = true;
+            else if ("PREPARING".equals(currentStatus) && "SHIPPING".equals(newStatus)) isValidTransition = true;
+            else if ("SHIPPING".equals(currentStatus) && "DELIVERED".equals(newStatus)) isValidTransition = true;
+
+            if (!isValidTransition) {
+                return "redirect:/admin/orders?error=invalid-status-flow";
+            }
+        }
+
+        // Nếu vượt qua các vòng kiểm tra trên -> Tiến hành cập nhật Database
+        order.setStatus(newStatus);
         orderRepository.save(order);
 
-        // Quay trở lại trang danh sách đơn hàng để cập nhật giao diện mới
         return "redirect:/admin/orders";
     }
 }

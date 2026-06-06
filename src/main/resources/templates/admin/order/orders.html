@@ -18,60 +18,34 @@
         }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--light-bg); color: #333; margin: 0; }
 
-        /* Sidebar layout cố định không bị đè chữ */
         .sidebar { position: fixed; top: 0; bottom: 0; left: 0; z-index: 1030; width: var(--sidebar-width); background-color: var(--dark-color); transition: all 0.3s ease; display: flex; flex-direction: column; }
         .sidebar-brand { height: var(--topbar-height); display: flex; align-items: center; padding: 0 24px; border-bottom: 1px solid #222; }
         .sidebar-brand i { font-size: 1.4rem; color: var(--gold-color); min-width: 35px; }
         .sidebar-brand span { font-family: 'Playfair Display', serif; font-weight: 700; color: #fff; font-size: 1.1rem; letter-spacing: 0.5px; }
-        .sidebar-menu { flex-grow: 1; padding: 20px 0; list-style: none; margin: 0; }
-        .menu-item { margin: 4px 12px; }
-        .menu-link { display: flex; align-items: center; padding: 12px 16px; color: #b3b3b3; text-decoration: none; border-radius: 8px; font-weight: 500; font-size: 0.95rem; transition: all 0.2s; }
-        .menu-link i { min-width: 35px; font-size: 1.1rem; }
-        .menu-link:hover, .menu-item.active .menu-link { color: #fff; background-color: #1e1e1e; }
-        .menu-item.active .menu-link { border-left: 4px solid var(--gold-color); border-radius: 4px 8px 8px 4px; padding-left: 12px; }
-        .menu-item.active .menu-link i { color: var(--gold-color); }
-
-        /* Sidebar Co dãn */
-        .sidebar.collapsed { width: var(--sidebar-collapsed-width); }
-        .sidebar.collapsed .sidebar-brand span, .sidebar.collapsed .menu-link span { display: none; }
-        .sidebar.collapsed .menu-link { justify-content: center; }
-        .sidebar.collapsed .menu-link i { margin: 0; min-width: unset; }
-
-        /* Topbar & Main Wrapper bọc ngoài chuẩn để không bị đè profile */
-        .topbar { position: fixed; top: 0; right: 0; left: var(--sidebar-width); height: var(--topbar-height); background: #fff; border-bottom: 1px solid var(--border-color); z-index: 1020; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; transition: left 0.3s ease; }
-        .topbar.expanded { left: var(--sidebar-collapsed-width); }
-        .toggle-btn { background: none; border: none; color: #444; font-size: 1.2rem; cursor: pointer; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .toggle-btn:hover { background-color: #f1f3f5; }
 
         .main-wrapper { margin-left: var(--sidebar-width); padding-top: var(--topbar-height); min-height: 100vh; display: flex; flex-direction: column; transition: margin-left 0.3s ease; }
-        .main-wrapper.expanded { margin-left: var(--sidebar-collapsed-width); }
         .content-area { flex-grow: 1; padding: 35px 30px; }
         .footer { height: var(--footer-height); background: #fff; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; font-size: 0.85rem; color: #8a8a8a; }
 
-        /* Style UI Elements cao cấp của trang Category */
         .page-title { font-family: 'Playfair Display', serif; font-weight: 700; color: #111; margin: 0; font-size: 1.7rem; }
         .breadcrumb-custom { font-size: 0.85rem; color: #8a8a8a; margin-top: 4px; }
         .custom-card { background: #fff; border: none; border-radius: 16px; box-shadow: 0 4px 18px rgba(0,0,0,0.02); padding: 25px; margin-bottom: 25px; }
 
-        /* Style bảng đồng bộ */
         .table-bridal { width: 100%; border-collapse: separate; border-spacing: 0; }
         .table-bridal th { background-color: #fafbfc; color: #555; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; padding: 14px; border-bottom: 1px solid var(--border-color); }
         .table-bridal td { padding: 14px; vertical-align: middle; font-size: 0.9rem; border-bottom: 1px solid var(--border-color); }
 
-        /* Badge Trạng Thái Đơn Hàng Cao Cấp */
-        .status-badge { padding: 6px 14px; border-radius: 30px; font-weight: 600; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; }
+        /* Đổ màu hệ thống 6 bước trạng thái nâng cao */
+        .status-badge { padding: 6px 14px; border-radius: 30px; font-weight: 600; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 6px; }
         .badge-pending { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
-        .badge-paid { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
+        .badge-paid { background-color: #e2f0d9; color: #385723; border: 1px solid #c5e1a5; }
         .badge-confirmed { background-color: #cff4fc; color: #055160; border: 1px solid #b6effb; }
+        .badge-preparing { background-color: #e2e3e5; color: #41464b; border: 1px solid #d3d6d8; }
+        .badge-shipping { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+        .badge-delivered { background-color: #d1e7dd; color: #0f5132; border: 1px solid #badbcc; }
         .badge-cancelled { background-color: #f8d7da; color: #842029; border: 1px solid #f5c2c7; }
 
-        .btn-action { border-radius: 8px; font-weight: 500; font-size: 0.85rem; padding: 6px 14px; transition: 0.2s; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; }
-
-        @media (max-width: 991.98px) {
-            .sidebar { left: -260px; }
-            .sidebar.mobile-open { left: 0; }
-            .topbar, .main-wrapper { left: 0 !important; margin-left: 0 !important; }
-        }
+        .btn-action { border-radius: 8px; font-weight: 600; font-size: 0.82rem; padding: 7px 14px; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -82,14 +56,21 @@
 <div class="main-wrapper" id="mainWrapper">
     <div class="content-area">
 
+        <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show rounded-3 mb-4" role="alert">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+            <span th:if="${param.error[0] == 'order-is-locked'}">Đơn hàng này đã hoàn thành hoặc đã hủy. Không thể thay đổi trạng thái nữa!</span>
+            <span th:if="${param.error[0] == 'invalid-status-flow'}">Thao tác không hợp lệ! Trạng thái đơn hàng phải đi theo đúng trình tự chuỗi logic.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h2 class="page-title">Quản Lý Tiến Độ Đơn Hàng</h2>
-                <div class="breadcrumb-custom">Theo dõi, duyệt lịch hẹn thử váy và cập nhật trạng thái SePay tự động.</div>
+                <h2 class="page-title">Quản Lý Đơn Hàng & Lịch Hẹn</h2>
+                <div class="breadcrumb-custom">Hệ thống quản lý quy trình xử lý đơn hàng 6 bước chuyên nghiệp</div>
             </div>
             <div>
                 <span class="badge bg-dark px-3 py-2 fs-6 rounded-3 fw-medium">
-                    <i class="fa-regular fa-calendar-check me-2"></i>Hệ thống Realtime
+                    <i class="fa-solid fa-circle-nodes me-2 text-warning"></i>Workflow Tracking
                 </span>
             </div>
         </div>
@@ -99,13 +80,13 @@
                 <table class="table table-borderless table-bridal align-middle m-0">
                     <thead>
                     <tr>
-                        <th class="ps-3" style="width: 130px;">Mã Đơn hàng</th>
-                        <th style="width: 250px;">Thông Tiên Khách Hàng</th>
+                        <th class="ps-3" style="width: 120px;">Mã Đơn</th>
+                        <th style="width: 250px;">Khách Hàng</th>
                         <th style="width: 160px;">Ngày Đặt</th>
                         <th style="width: 140px;">Tổng Tiền</th>
-                        <th style="width: 130px;">Phương Thức</th>
-                        <th style="width: 180px;">Trạng Thái</th>
-                        <th class="text-end pe-3">Hành Động Xử Lý</th>
+                        <th style="width: 120px;">Hình Thức</th>
+                        <th style="width: 180px;">Trạng Thái Hiện Tại</th>
+                        <th class="text-end pe-3">Thao Tác Xử Lý Tiến Độ</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -119,57 +100,62 @@
                             <div class="text-muted small my-0.5">
                                 <i class="fa-solid fa-phone me-1" style="font-size: 0.8rem;"></i><span th:text="${order.receiverPhone}">0905123456</span>
                             </div>
-                            <div class="text-muted small text-truncate" style="max-width: 240px;"
-                                 th:text="${order.shippingAddress}" th:title="${order.shippingAddress}">
-                                Địa chỉ hoặc lịch hẹn thử đồ...
-                            </div>
+                            <div class="text-muted small text-truncate" style="max-width: 230px;" th:text="${order.shippingAddress}" th:title="${order.shippingAddress}">Địa chỉ...</div>
                         </td>
-                        <td class="text-secondary small" th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">
-                            04/06/2026 22:52
+                        <td class="text-secondary small" th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">04/06/2026 22:52</td>
+                        <td>
+                            <span class="fw-bold text-danger" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' đ'">200,000 đ</span>
                         </td>
                         <td>
-                            <span class="fw-bold text-danger fs-6"
-                                  th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' đ'">
-                                200,000 đ
-                            </span>
+                            <span class="badge bg-light text-dark border px-2 py-1.5 fw-semibold" style="font-size: 0.75rem;" th:text="${order.paymentMethod}">BANKING</span>
                         </td>
+
                         <td>
-                            <span class="badge bg-light text-dark border px-2 py-1.5 fw-semibold" style="font-size: 0.75rem;" th:text="${order.paymentMethod}">
-                                BANKING
-                            </span>
+                            <span th:if="${order.status == 'PENDING'}" class="status-badge badge-pending"><i class="fa-regular fa-clock"></i>Chờ thanh toán</span>
+                            <span th:if="${order.status == 'PAID'}" class="status-badge badge-paid"><i class="fa-solid fa-money-check-dollar"></i>Đã nhận tiền QR</span>
+                            <span th:if="${order.status == 'CONFIRMED'}" class="status-badge badge-confirmed"><i class="fa-regular fa-calendar-check"></i>Đã duyệt đơn</span>
+                            <span th:if="${order.status == 'PREPARING'}" class="status-badge badge-preparing"><i class="fa-solid fa-box-open"></i>Đang soạn váy</span>
+                            <span th:if="${order.status == 'SHIPPING'}" class="status-badge badge-shipping"><i class="fa-solid fa-truck-fast"></i>Đang giao hàng</span>
+                            <span th:if="${order.status == 'DELIVERED'}" class="status-badge badge-delivered"><i class="fa-solid fa-circle-check"></i>Giao thành công</span>
+                            <span th:if="${order.status == 'CANCELLED'}" class="status-badge badge-cancelled"><i class="fa-solid fa-ban"></i>Đã hủy bỏ</span>
                         </td>
-                        <td>
-                            <span th:if="${order.status == 'PENDING'}" class="status-badge badge-pending">
-                                <i class="fa-regular fa-clock"></i>Chờ thanh toán
-                            </span>
-                            <span th:if="${order.status == 'PAID'}" class="status-badge badge-paid">
-                                <i class="fa-solid fa-circle-check"></i>Đã nhận tiền QR
-                            </span>
-                            <span th:if="${order.status == 'CONFIRMED'}" class="status-badge badge-confirmed">
-                                <i class="fa-solid fa-star"></i>Đã duyệt thử váy
-                            </span>
-                            <span th:if="${order.status == 'CANCELLED'}" class="status-badge badge-cancelled">
-                                <i class="fa-solid fa-ban"></i>Đã hủy bỏ
-                            </span>
-                        </td>
+
                         <td class="text-end pe-3">
-                            <div class="d-inline-flex justify-content-end gap-2">
+                            <div class="d-inline-flex gap-2">
 
                                 <a th:if="${order.status == 'PENDING' || order.status == 'PAID'}"
                                    th:href="@{/admin/orders/update-status(id=${order.orderId}, status='CONFIRMED')}"
-                                   class="btn btn-action btn-success text-white">
-                                    <i class="fa-solid fa-clipboard-check"></i> Duyệt đơn
+                                   class="btn btn-action btn-primary text-white">
+                                    <i class="fa-solid fa-check"></i> Duyệt đơn
                                 </a>
 
-                                <a th:if="${order.status == 'PENDING'}"
+                                <a th:if="${order.status == 'CONFIRMED'}"
+                                   th:href="@{/admin/orders/update-status(id=${order.orderId}, status='PREPARING')}"
+                                   class="btn btn-action btn-secondary text-white">
+                                    <i class="fa-solid fa-box"></i> Chuẩn bị hàng
+                                </a>
+
+                                <a th:if="${order.status == 'PREPARING'}"
+                                   th:href="@{/admin/orders/update-status(id=${order.orderId}, status='SHIPPING')}"
+                                   class="btn btn-action btn-info text-white">
+                                    <i class="fa-solid fa-truck"></i> Giao hàng
+                                </a>
+
+                                <a th:if="${order.status == 'SHIPPING'}"
+                                   th:href="@{/admin/orders/update-status(id=${order.orderId}, status='DELIVERED')}"
+                                   class="btn btn-action btn-success text-white">
+                                    <i class="fa-solid fa-hand-holding-heart"></i> Hoàn tất đơn
+                                </a>
+
+                                <a th:if="${order.status != 'DELIVERED' && order.status != 'CANCELLED'}"
                                    th:href="@{/admin/orders/update-status(id=${order.orderId}, status='CANCELLED')}"
                                    class="btn btn-action btn-outline-danger"
-                                   onclick="return confirm('Hành động này không thể hoàn tác. Bạn chắc chắn muốn hủy đơn hàng này?')">
-                                    Hủy đơn
+                                   onclick="return confirm('Bạn chắc chắn muốn HỦY đơn hàng/lịch đặt này không?')">
+                                    Hủy
                                 </a>
 
-                                <span th:if="${order.status == 'CONFIRMED' || order.status == 'CANCELLED'}" class="text-muted small py-1 align-self-center">
-                                    <i class="fa-solid fa-lock me-1"></i>Đã khóa tiến trình
+                                <span th:if="${order.status == 'DELIVERED' || order.status == 'CANCELLED'}" class="text-muted small py-1.5">
+                                    <i class="fa-solid fa-lock me-1 opacity-50"></i>Quy trình kết thúc
                                 </span>
                             </div>
                         </td>
@@ -177,8 +163,7 @@
 
                     <tr th:if="${#lists.isEmpty(orders)}">
                         <td colspan="7" class="text-center py-5 text-muted">
-                            <i class="fa-solid fa-folder-open d-block fs-2 mb-2 opacity-40"></i>
-                            Hiện tại hệ thống chưa ghi nhận đơn đặt lịch nào.
+                            <i class="fa-solid fa-folder-open d-block fs-2 mb-2 opacity-40"></i>Hiện tại chưa có đơn hàng nào.
                         </td>
                     </tr>
 
@@ -188,38 +173,9 @@
         </div>
 
     </div>
-
     <footer th:replace="~{admin/fragments/footer :: footer}"></footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.getElementById('sidebar');
-    const topbar = document.getElementById('topbar');
-    const mainWrapper = document.getElementById('mainWrapper');
-
-    if(sidebarToggle) {
-        sidebarToggle.addEventListener('click', () => {
-            if (window.innerWidth > 991.98) {
-                sidebar.classList.toggle('collapsed');
-                topbar.classList.toggle('expanded');
-                mainWrapper.classList.toggle('expanded');
-            } else {
-                sidebar.classList.toggle('mobile-open');
-            }
-        });
-    }
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 991.98 && sidebar) {
-            sidebar.classList.remove('mobile-open');
-        } else if (sidebar) {
-            sidebar.classList.remove('collapsed');
-            topbar.classList.remove('expanded');
-            mainWrapper.classList.remove('expanded');
-        }
-    });
-</script>
 </body>
 </html>
