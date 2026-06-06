@@ -97,4 +97,21 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng với mã hệ thống: " + orderId));
     }
+
+    /**
+     * Lấy toàn bộ danh sách lịch trình đơn hàng của khách hàng (Đã xếp mới nhất lên đầu)
+     */
+    @Override
+    public List<Order> getOrdersByUserId(Long userId) {
+        return orderRepository.findByUser_UserIdOrderByOrderDateDesc(userId);
+    }
+
+    /**
+     * Lọc danh sách đơn hàng dựa trên trạng thái (Ví dụ: Chỉ xem những đơn ĐANG GIAO VÁY)
+     * Giúp đồng bộ tức thì khi Admin thay đổi trạng thái bên trang quản trị
+     */
+    @Override
+    public List<Order> getOrdersByUserIdAndStatus(Long userId, String status) {
+        return orderRepository.findByUser_UserIdAndStatusOrderByOrderDateDesc(userId, status);
+    }
 }
