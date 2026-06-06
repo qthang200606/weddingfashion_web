@@ -48,7 +48,8 @@ public class SecurityConfig {
                                 "/register",
                                 "/login",
                                 "/css/**",
-                                "/js/**"
+                                "/js/**",
+                                "/sepay-webhook"
                         ).permitAll()
 
                         .requestMatchers("/admin/**")
