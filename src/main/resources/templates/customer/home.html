@@ -71,28 +71,84 @@
         .btn-appointment {
             background-color: var(--bridal-gold); color: white; border-radius: 50px; padding: 12px 25px;
             box-shadow: 0 4px 15px rgba(197, 168, 128, 0.4); text-decoration: none; font-weight: 600;
-            display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; border: none;
         }
+        .btn-appointment:hover { background-color: var(--bridal-dark); color: white; transform: scale(1.05); }
+
+        /* Custom bổ sung nâng cấp cho Modal & Tab điều hướng */
+        .modal-bridal-header {
+            background: linear-gradient(135deg, var(--bridal-dark) 0%, #2d2d2d 100%);
+            padding: 25px 25px 10px 25px;
+        }
+        .modal-bridal-body {
+            background-color: var(--bridal-light);
+            padding: 30px;
+        }
+        .nav-tabs-bridal {
+            border-bottom: none;
+            gap: 15px;
+        }
+        .nav-tabs-bridal .nav-link {
+            color: rgba(255,255,255,0.6);
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            background: transparent;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .nav-tabs-bridal .nav-link.active {
+            color: var(--bridal-gold) !important;
+            background: transparent;
+        }
+        .nav-tabs-bridal .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background-color: var(--bridal-gold);
+        }
+        .bridal-input {
+            border: 1px solid #e5dfd5; padding: 11px 15px; border-radius: 8px; font-size: 0.95rem; transition: all 0.3s;
+        }
+        .bridal-input:focus {
+            border-color: var(--bridal-gold); box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.2); background-color: #fff;
+        }
+        .bridal-label {
+            font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--bridal-dark); margin-bottom: 6px;
+        }
+        .bridal-label i { color: var(--bridal-gold); margin-right: 4px; }
+        .btn-bridal-submit {
+            background: linear-gradient(135deg, var(--bridal-gold) 0%, #b3946b 100%);
+            color: white; border: none; padding: 12px; font-weight: 600; letter-spacing: 1px; border-radius: 8px; transition: all 0.3s;
+        }
+
+        /* Thẻ danh sách lịch hẹn (My Appointments Card) */
+        .app-history-card {
+            background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px;
+            border-left: 4px solid var(--bridal-gold); box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .badge-pending { background-color: #fef3c7; color: #d97706; }
+        .badge-confirmed { background-color: #d1fae5; color: #059669; }
+        .badge-cancelled { background-color: #fee2e2; color: #dc2626; }
     </style>
 </head>
 <body>
 
 <div th:replace="~{customer/fragments/layout :: customer-navbar}"></div>
 
+<!-- CAROUSEL BANNER & SECTIONS SẢN PHẨM GIỮ NGUYÊN NHƯ CŨ -->
 <div id="heroBannerCarousel" class="carousel slide carousel-bridal" data-bs-ride="carousel">
-
     <div class="carousel-indicators" th:if="${activeBanners != null && !#lists.isEmpty(activeBanners)}">
-        <button type="button" data-bs-target="#heroBannerCarousel"
-                th:each="banner, iterStat : ${activeBanners}"
-                th:data-bs-slide-to="${iterStat.index}"
-                th:classappend="${iterStat.first} ? 'active'">
-        </button>
+        <button type="button" data-bs-target="#heroBannerCarousel" th:each="banner, iterStat : ${activeBanners}" th:data-bs-slide-to="${iterStat.index}" th:classappend="${iterStat.first} ? 'active'"></button>
     </div>
-
     <div class="carousel-inner">
-        <div th:if="${activeBanners != null && !#lists.isEmpty(activeBanners)}"
-             th:each="banner, iterStat : ${activeBanners}"
-             th:classappend="${iterStat.first} ? 'active'" class="carousel-item">
+        <div th:if="${activeBanners != null && !#lists.isEmpty(activeBanners)}" th:each="banner, iterStat : ${activeBanners}" th:classappend="${iterStat.first} ? 'active'" class="carousel-item">
             <div class="carousel-overlay"></div>
             <div class="container h-100 position-relative" style="z-index: 2;">
                 <div class="row h-100 align-items-center">
@@ -102,13 +158,11 @@
                         <a th:href="@{/customer/categories}" class="btn btn-bridal">Khám phá ngay</a>
                     </div>
                     <div class="col-lg-6 d-none d-lg-block h-100 position-relative">
-                        <img th:src="${banner.imageUrl}" class="position-absolute bottom-0 start-50 translate-middle-x"
-                             style="max-height: 95%; object-fit: contain; width: 85%;">
+                        <img th:src="${banner.imageUrl}" class="position-absolute bottom-0 start-50 translate-middle-x" style="max-height: 95%; object-fit: contain; width: 85%;">
                     </div>
                 </div>
             </div>
         </div>
-
         <div th:if="${activeBanners == null || #lists.isEmpty(activeBanners)}" class="carousel-item active">
             <div class="carousel-overlay"></div>
             <div class="container h-100 position-relative" style="z-index: 2;">
@@ -143,9 +197,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 text-center py-3 text-muted" th:if="${categories == null || #lists.isEmpty(categories)}">
-            <p>Đang cập nhật các nhóm thiết kế cao cấp...</p>
-        </div>
     </div>
 </section>
 
@@ -167,19 +218,209 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 text-center py-5 text-muted" th:if="${products == null || #lists.isEmpty(products)}">
-            <p>Các thiết kế đang được chuẩn bị lên kệ.</p>
-        </div>
     </div>
 </section>
 
+<!-- BUTTON FIXED GÓC MÀN HÌNH -->
 <div class="sticky-action-btn">
-    <a th:href="@{/appointments/book}" class="btn-appointment">
-        <i class="fa-regular fa-calendar-check"></i> ĐẶT LỊCH HẸN THỬ VÁY
-    </a>
+    <button type="button" class="btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentHubModal" id="btnOpenModalHub">
+        <i class="fa-regular fa-calendar-check"></i> ĐẶT LỊCH & QUẢN LÝ LỊCH HẸN
+    </button>
+</div>
+
+<!-- ================= MODAL LỒNG 2 TABS SIÊU CẤP ================= -->
+<div class="modal fade" id="appointmentHubModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 620px;">
+        <div class="modal-content" style="border: none; border-radius: 16px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.2);">
+
+            <!-- Header Modal chứa Tabs chuyển đổi nhanh -->
+            <div class="modal-header modal-bridal-header d-flex flex-column align-items-center">
+                <div class="w-100 d-flex justify-content-between align-items-center mb-2">
+                    <h4 class="text-white serif-font m-0" style="letter-spacing: 1px;">Bella Couture</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Thanh chuyển Tab chuyên nghiệp -->
+                <ul class="nav nav-tabs nav-tabs-bridal w-100 justify-content-center mt-2" id="appointmentTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="new-booking-tab" data-bs-toggle="tab" data-bs-target="#new-booking" type="button" role="tab" aria-controls="new-booking" aria-selected="true">
+                            <i class="fa-regular fa-calendar-plus me-1"></i> Đặt lịch mới
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="my-appointments-tab" data-bs-toggle="tab" data-bs-target="#my-appointments" type="button" role="tab" aria-controls="my-appointments" aria-selected="false">
+                            <i class="fa-solid fa-clock-history me-1"></i> Lịch hẹn của tôi (<span id="appCount">0</span>)
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Nội dung thay đổi theo Tab -->
+            <div class="modal-body modal-bridal-body">
+                <div class="tab-content" id="appointmentTabsContent">
+
+                    <!-- TAB 1: FORM ĐẶT LỊCH HẸN MỚI -->
+                    <div class="tab-pane fade show active" id="new-booking" role="tabpanel" aria-labelledby="new-booking-tab">
+                        <div id="modalAlert" class="alert d-none text-center small fw-medium py-2 mb-3" role="alert"></div>
+                        <form id="ajaxAppointmentForm">
+                            <div class="mb-3">
+                                <label class="bridal-label"><i class="fa-regular fa-user"></i> Họ và Tên quý khách</label>
+                                <!-- ĐÃ SỬA: Xóa bỏ readonly, đổi border từ dashed (đứt nét) sang nét liền cho tự nhiên khi nhập liệu -->
+                                <input type="text" class="form-control bridal-input"
+                                       name="fullName"
+                                       th:value="${user != null ? user.fullName : ''}"
+                                       placeholder="Nhập họ và tên của nàng..."
+                                       style="background-color: #fff; border-style: solid;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="bridal-label"><i class="fa-solid fa-phone"></i> Số điện thoại liên hệ</label>
+                                <!-- ĐÃ SỬA: Xóa bỏ readonly, thêm thuộc tính required để bắt buộc phải nhập số điện thoại -->
+                                <input type="tel" class="form-control bridal-input"
+                                       name="phone"
+                                       th:value="${user != null ? user.phone : ''}"
+                                       placeholder="Nhập số điện thoại để Bella liên hệ..."
+                                       required
+                                       style="background-color: #fff; border-style: solid;">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="bridal-label"><i class="fa-regular fa-calendar-days"></i> Chọn Ngày hẹn</label>
+                                    <input type="date" id="modalAppointmentDate" name="appointmentDateOnly" class="form-control bridal-input" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="bridal-label"><i class="fa-regular fa-clock"></i> Chọn Giờ hẹn</label>
+                                    <select name="appointmentTimeOnly" class="form-select bridal-input" required>
+                                        <option value="09:00:00">09:00 AM</option>
+                                        <option value="10:30:00">10:30 AM</option>
+                                        <option value="14:00:00">14:00 PM</option>
+                                        <option value="15:30:00">15:30 PM</option>
+                                        <option value="17:00:00">17:00 PM</option>
+                                        <option value="19:00:00">19:00 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="bridal-label"><i class="fa-regular fa-comment-dots"></i> Ghi chú yêu cầu riêng</label>
+                                <textarea name="note" class="form-control bridal-input" rows="3" placeholder="Nàng muốn thử mẫu váy xòe bồng công chúa, dáng cá hay có số đo đặc biệt nào..."></textarea>
+                            </div>
+                            <button type="submit" id="btnSubmitModal" class="btn btn-bridal-submit w-100 text-uppercase text-white mt-2 small">
+                                <i class="fa-regular fa-paper-plane me-1"></i> Xác nhận gửi lịch hẹn
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- TAB 2: QUẢN LÝ LỊCH HẸN CÁ NHÂN (MY APPOINTMENT) -->
+                    <div class="tab-pane fade" id="my-appointments" role="tabpanel" aria-labelledby="my-appointments-tab">
+                        <div id="appointmentListContainer">
+                            <!-- Danh sách lịch hẹn sẽ tự động render bằng AJAX vào đây -->
+                            <div class="text-center py-4 text-muted">
+                                <div class="spinner-border spinner-border-sm var(--bridal-gold) mb-2" role="status"></div>
+                                <p class="small m-0">Đang tải lịch trình của nàng...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div th:replace="~{customer/fragments/layout :: customer-footer}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ================= JAVASCRIPT XỬ LÝ AJAX TỰ ĐỘNG ĐỒNG BỘ 2 CHIỀU ================= -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dateInput = document.getElementById('modalAppointmentDate');
+        if(dateInput) dateInput.min = new Date().toISOString().split('T')[0];
+
+        // Hàm lấy danh sách lịch hẹn của tài khoản đang đăng nhập
+        function loadMyAppointments() {
+            const container = document.getElementById('appointmentListContainer');
+
+            fetch('/appointments/api/my-list')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('appCount').innerText = data.length;
+                if(data.length === 0) {
+                    container.innerHTML = '<div class="text-center py-5 text-muted small"><i class="fa-regular fa-calendar-times fs-2 mb-2 d-block text-black-50"></i>Nàng chưa có lịch hẹn thử váy nào.</div>';
+                    return;
+                }
+
+                let html = '';
+                data.forEach(app => {
+                    let badgeClass = 'badge-pending';
+                    let statusText = 'Chờ duyệt';
+                    if(app.status === 'CONFIRMED') { badgeClass = 'badge-confirmed'; statusText = 'Đã xác nhận'; }
+                    else if(app.status === 'CANCELLED') { badgeClass = 'badge-cancelled'; statusText = 'Đã hủy'; }
+
+                    // Định dạng hiển thị ngày giờ từ ISO
+                    let dateObj = new Date(app.appointmentDate);
+                    let formattedTime = dateObj.toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'}) + ' - ' + dateObj.toLocaleDateString('vi-VN', {day: '2-digit', month: '2-digit', year: 'numeric'});
+
+                    html += `
+                        <div class="app-history-card">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="fw-bold text-dark fs-6"><i class="fa-regular fa-clock text-muted me-1"></i> ${formattedTime}</span>
+                                <span class="badge ${badgeClass} px-2 py-1 rounded small">${statusText}</span>
+                            </div>
+                            <p class="m-0 text-muted small"><i class="fa-regular fa-user me-1"></i> Khách hàng: <span class="text-dark fw-medium">${app.fullName}</span></p>
+                            ${app.note ? `<p class="m-0 text-muted small mt-1"><i class="fa-regular fa-comment-dots me-1"></i> Ghi chú: <span class="text-secondary">${app.note}</span></p>` : ''}
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            })
+            .catch(() => {
+                container.innerHTML = '<div class="text-center py-3 text-danger small">Không thể lấy dữ liệu lịch hẹn!</div>';
+            });
+        }
+
+        // Tự động tải danh sách lịch khi click mở Modal hoặc bấm chuyển sang Tab Lịch Hẹn
+        document.getElementById('btnOpenModalHub').addEventListener('click', loadMyAppointments);
+        document.getElementById('my-appointments-tab').addEventListener('click', loadMyAppointments);
+
+        // Gửi Form Đặt Lịch Mới bằng AJAX
+        const form = document.getElementById('ajaxAppointmentForm');
+        const alertBox = document.getElementById('modalAlert');
+        const btnSubmit = document.getElementById('btnSubmitModal');
+
+        if(form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Đang gửi...';
+
+                fetch('/appointments/api/book', { method: 'POST', body: new FormData(form) })
+                .then(res => {
+                    if (res.redirected) { window.location.href = res.url; return; }
+                    return res.json();
+                })
+                .then(data => {
+                    alertBox.classList.remove('d-none', 'alert-danger', 'alert-success');
+                    if (data && data.status === 'success') {
+                        alertBox.classList.add('alert-success');
+                        alertBox.innerHTML = `<i class="fa-regular fa-circle-check me-1"></i> ${data.message}`;
+                        form.reset();
+                        loadMyAppointments(); // Làm mới lại số lượng và danh sách tab bên cạnh ngay lập tức
+                    } else {
+                        alertBox.classList.add('alert-danger');
+                        alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-1"></i> ${data.message}`;
+                    }
+                })
+                .catch(() => {
+                    alertBox.classList.add('alert-danger');
+                    alertBox.innerHTML = 'Lỗi kết nối hệ thống!';
+                })
+                .finally(() => {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = '<i class="fa-regular fa-paper-plane me-1"></i> Xác nhận gửi lịch hẹn';
+                });
+            });
+        }
+    });
+</script>
 </body>
 </html>

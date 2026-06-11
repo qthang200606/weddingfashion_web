@@ -49,7 +49,10 @@ public class SecurityConfig {
                                 "/login",
                                 "/css/**",
                                 "/js/**",
-                                "/sepay-webhook"
+                                "/sepay-webhook",
+                                "/ws-chat/**",   // 🌟 CHO PHÉP KẾT NỐI cổng WebSocket chính
+                                "/topic/**" ,
+                                "/app/**"// 🌟 CHO PHÉP ĐĂNG KÝ các kênh nhận tin nhắn công khai
                         ).permitAll()
 
                         .requestMatchers("/admin/**")
@@ -63,11 +66,8 @@ public class SecurityConfig {
                 )
 
                 .formLogin(login -> login
-
                         .loginPage("/login")
-
                         .defaultSuccessUrl("/redirect", true)
-
                         .permitAll()
                 )
 

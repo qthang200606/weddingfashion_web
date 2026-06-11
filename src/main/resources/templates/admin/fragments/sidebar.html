@@ -35,6 +35,14 @@
                 <span>Lịch hẹn thử váy</span>
             </a>
         </li>
+
+        <li class="menu-item" th:classappend="${pageTitle == 'chat'} ? 'active'">
+            <a th:href="@{/admin/chats}" class="menu-link">
+                <i class="fa-solid fa-comments"></i>
+                <span>Tin nhắn khách hàng</span>
+            </a>
+        </li>
+
         <li class="menu-item" th:classappend="${pageTitle == 'banner'} ? 'active'">
             <a th:href="@{/admin/banners}" class="menu-link">
                 <i class="fa-solid fa-images"></i>

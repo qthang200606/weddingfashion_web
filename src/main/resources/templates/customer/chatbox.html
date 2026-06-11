@@ -1,0 +1,267 @@
+<div th:fragment="chatbox" xmlns:th="http://www.thymeleaf.org">
+
+    <style>
+        :root {
+            --bella-gold: #c5a880;
+            --bella-dark: #1e1e2d;
+            --bella-light: #fdfbf7;
+            --bella-soft-gold: #f3eee7;
+        }
+
+        /* Nút tròn nổi phong cách Luxury */
+        .bella-chat-trigger {
+            position: fixed; bottom: 30px; right: 30px;
+            background: linear-gradient(135deg, var(--bella-gold), #b39369);
+            color: white; border: none; width: 60px; height: 60px; border-radius: 50%;
+            box-shadow: 0 8px 24px rgba(197, 168, 128, 0.4);
+            cursor: pointer; z-index: 1050; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .bella-chat-trigger:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 28px rgba(197, 168, 128, 0.6);
+        }
+
+        /* Khung cửa sổ chat chính */
+        .bella-chat-window {
+            position: fixed; bottom: 105px; right: 30px;
+            width: 400px; height: 620px; background: white;
+            border-radius: 20px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            display: none; flex-direction: column; z-index: 1050;
+            overflow: hidden; border: 1px solid rgba(197, 168, 128, 0.25);
+            animation: slideInUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* Tiêu đề thanh lịch */
+        .bella-chat-header {
+            background-color: var(--bella-dark); color: white;
+            padding: 18px 20px; display: flex; align-items: center;
+            justify-content: space-between; border-bottom: 3px solid var(--bella-gold);
+        }
+        .bella-avatar-circle {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--bella-soft-gold), #fff);
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid var(--bella-gold);
+        }
+
+        /* Thân hộp chat chứa tin nhắn */
+        .bella-chat-body {
+            flex: 1; padding: 20px; overflow-y: auto;
+            background-color: var(--bella-light); display: flex; flex-direction: column; gap: 16px;
+        }
+        .bella-msg-row { display: flex; width: 100%; animation: fadeIn 0.3s ease; }
+        .bella-msg-row.customer { justify-content: flex-end; }
+        .bella-msg-row.bot { justify-content: flex-start; }
+
+        .bella-msg-bubble {
+            max-width: 75%; padding: 12px 18px; border-radius: 16px;
+            font-size: 0.9rem; line-height: 1.5; font-weight: 400;
+        }
+        .bella-msg-row.customer .bella-msg-bubble {
+            background-color: var(--bella-gold); color: white;
+            border-bottom-right-radius: 2px; box-shadow: 0 4px 12px rgba(197, 168, 128, 0.2);
+        }
+        .bella-msg-row.bot .bella-msg-bubble {
+            background-color: white; color: var(--bella-dark);
+            border-bottom-left-radius: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid rgba(197, 168, 128, 0.1);
+        }
+        .bella-msg-meta { font-size: 0.7rem; color: #a1a5b7; margin-top: 5px; display: block; text-align: right; }
+        .bella-msg-row.customer .bella-msg-meta { color: rgba(255,255,255,0.7); }
+
+        /* Vùng điều phối hành động nhanh (Giai đoạn 2 & 4) */
+        .bella-chat-actions {
+            padding: 10px 15px; background: white; border-top: 1px solid #f1f1f1;
+            display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+        }
+        .bella-chat-actions::-webkit-scrollbar { display: none; }
+        .bella-btn-action {
+            border: 1px solid var(--bella-gold); color: var(--bella-dark);
+            background: var(--bella-soft-gold); padding: 6px 14px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: 500; white-space: nowrap; transition: all 0.2s;
+        }
+        .bella-btn-action:hover { background: var(--bella-gold); color: white; }
+
+        /* Khung nhập text */
+        .bella-chat-footer { padding: 15px; background: white; border-top: 1px solid #eff2f5; display: flex; gap: 10px; align-items: center; }
+        .bella-input-text {
+            flex: 1; border: 1px solid #e4e6ef; padding: 12px 18px;
+            border-radius: 25px; outline: none; font-size: 0.9rem; background-color: #f9f9f9; transition: all 0.3s;
+        }
+        .bella-input-text:focus { border-color: var(--bella-gold); background-color: white; box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15); }
+        .bella-btn-submit {
+            background: var(--bella-dark); color: white; border: none;
+            width: 44px; height: 44px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; transition: all 0.3s;
+        }
+        .bella-btn-submit:hover { background: var(--bella-gold); transform: rotate(15deg); }
+
+        /* Hiệu ứng ba chấm nhấp nháy khi AI suy nghĩ */
+        .bella-indicator { display: flex; gap: 4px; padding: 6px 0; justify-content: center; }
+        .bella-indicator span { width: 6px; height: 6px; background: var(--bella-gold); border-radius: 50%; animation: bellaBlink 1.4s infinite both; }
+        .bella-indicator span:nth-child(2) { animation-delay: .2s; }
+        .bella-indicator span:nth-child(3) { animation-delay: .4s; }
+        @keyframes bellaBlink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
+        @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+
+    <button class="bella-chat-trigger" id="bellaChatTrigger">
+        <i class="fa-solid fa-sparkles fs-4"></i>
+    </button>
+
+    <div class="bella-chat-window" id="bellaChatWindow">
+        <div class="bella-chat-header">
+            <div class="d-flex align-items-center gap-3">
+                <div class="bella-avatar-circle">
+                    <i class="fa-solid fa-gem text-warning"></i>
+                </div>
+                <div>
+                    <h6 class="m-0 fw-bold tracking-wide">Bella Assistant</h6>
+                    <small class="text-success d-flex align-items-center gap-1" id="chatStatusText">
+                        <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Trợ lý AI đang trực tuyến
+                    </small>
+                </div>
+            </div>
+            <button class="btn btn-sm text-white opacity-75" id="bellaCloseChat"><i class="fa-solid fa-xmark fs-5"></i></button>
+        </div>
+
+        <div class="bella-chat-body" id="bellaChatBody">
+            <div class="bella-msg-row bot">
+                <div class="bella-msg-bubble">
+                    Xin chào nàng thơ của Bella! ✨ Mình là trợ lý ảo sẵn sàng hỗ trợ nàng tìm kiếm chiếc váy cưới hoàng gia hoàn mỹ nhất. Nàng cần Bella tư vấn gì hôm nay ạ?
+                    <span class="bella-msg-meta">Vừa xong</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bella-chat-actions">
+            <button class="bella-btn-action" onclick="triggerQuickAction('Bảng giá thuê bộ sưu tập váy cưới mới nhất')">💰 Giá váy cưới</button>
+            <button class="bella-btn-action" onclick="triggerQuickAction('Hướng dẫn đặt lịch thử váy')">📅 Đặt lịch thử</button>
+            <button class="bella-btn-action" id="btnRequestHuman" onclick="requestHumanSupport()">🙋 Gặp nhân viên tư vấn</button>
+        </div>
+
+        <div class="bella-chat-footer">
+            <input type="text" class="bella-input-text" id="bellaMsgInput" placeholder="Nhập tin nhắn tâm tình cùng Bella...">
+            <button class="bella-btn-submit" id="bellaSendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script th:inline="javascript">
+        let stompClient = null;
+        // Logic tự động cấu hình hoặc nhận diện ID cuộc hội thoại từ model dữ liệu
+        const conversationId = /*[[${conversationId != null ? conversationId : 1}]]*/ 1;
+        const currentCustomerId = /*[[${session.userId != null ? session.userId : 1}]]*/ 1;
+
+        // Bật tắt khung chat
+        document.getElementById('bellaChatTrigger').addEventListener('click', () => {
+            const win = document.getElementById('bellaChatWindow');
+            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+            scrollChatToBottom();
+        });
+        document.getElementById('bellaCloseChat').addEventListener('click', () => {
+            document.getElementById('bellaChatWindow').style.style.display = 'none';
+        });
+
+        function scrollChatToBottom() {
+            const body = document.getElementById('bellaChatBody');
+            body.scrollTop = body.scrollHeight;
+        }
+
+        // KẾT NỐI WEBSOCKET REALTIME (Giai đoạn 3)
+        function initWebSocketConnection() {
+            const socket = new SockJS('/ws-chat');
+            stompClient = Stomp.over(socket);
+            stompClient.debug = null;
+
+            stompClient.connect({}, function (frame) {
+                // Đăng ký nhận tin nhắn liên tục từ kênh phân phối phòng chat riêng biệt
+                stompClient.subscribe('/topic/chat/' + conversationId, function (output) {
+                    const msg = JSON.parse(output.body);
+                    removeLoadingIndicator();
+
+                    // Phân biệt lớp giao diện người gửi dựa trên định dạng cơ sở dữ liệu
+                    if (msg.senderType === 'CUSTOMER') {
+                        renderBubble(msg.content, 'customer');
+                    } else if (msg.senderType === 'ADMIN') {
+                        renderBubble(msg.content, 'bot');
+                        document.getElementById('chatStatusText').innerHTML = `<i class="fa-solid fa-circle text-primary" style="font-size: 0.5rem;"></i> Chuyên viên đang hỗ trợ`;
+                    } else {
+                        renderBubble(msg.content, 'bot');
+                    }
+                });
+            });
+        }
+
+        function renderBubble(text, side) {
+            const time = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+            const html = `
+                <div class="bella-msg-row ${side}">
+                    <div class="bella-msg-bubble">
+                        ${text}
+                        <span class="bella-msg-meta">${time}</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('bellaChatBody').insertAdjacentHTML('beforeend', html);
+            scrollChatToBottom();
+        }
+
+        function showLoadingIndicator() {
+            const html = `
+                <div class="bella-msg-row bot" id="bellaLoader">
+                    <div class="bella-msg-bubble" style="background: white;">
+                        <div class="bella-indicator"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('bellaChatBody').insertAdjacentHTML('beforeend', html);
+            scrollChatToBottom();
+        }
+
+        function removeLoadingIndicator() {
+            const element = document.getElementById('bellaLoader');
+            if (element) element.remove();
+        }
+
+        function pushMessage() {
+            const input = document.getElementById('bellaMsgInput');
+            const content = input.value.trim();
+            if (!content || !stompClient) return;
+
+            const packet = {
+                senderType: 'CUSTOMER',
+                senderId: currentCustomerId,
+                messageType: 'TEXT',
+                content: content
+            };
+
+            stompClient.send("/app/chat/send/" + conversationId, {}, JSON.stringify(packet));
+            input.value = '';
+            showLoadingIndicator();
+        }
+
+        // Hành động yêu cầu gặp trực tiếp nhân viên điều phối (Giai đoạn 4)
+        function requestHumanSupport() {
+            if (stompClient) {
+                stompClient.send("/app/chat/request-admin/" + conversationId, {}, {});
+                document.getElementById('btnRequestHuman').disabled = true;
+                document.getElementById('btnRequestHuman').innerText = "⌛ Đang nối máy...";
+            }
+        }
+
+        function triggerQuickAction(text) {
+            document.getElementById('bellaMsgInput').value = text;
+            pushMessage();
+        }
+
+        document.getElementById('bellaSendBtn').addEventListener('click', pushMessage);
+        document.getElementById('bellaMsgInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') pushMessage(); });
+
+        // Tự động kích hoạt kết nối WebSocket khi tải xong trang
+        window.addEventListener('DOMContentLoaded', initWebSocketConnection);
+    </script>
+</div>

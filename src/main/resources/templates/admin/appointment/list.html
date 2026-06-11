@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Lịch Hẹn | BRIDAL STUDIO Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fa; }
+        .wrapper { display: flex; width: 100%; align-items: stretch; }
+        #content { width: 100%; padding: 20px; min-height: 100vh; }
+        .card-custom { background: white; border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 25px; }
+        .nav-tabs-admin { border-bottom: 2px solid #eff2f5; gap: 10px; }
+        .nav-tabs-admin .nav-link { border: none; color: #7e8299; font-weight: 600; padding: 12px 20px; background: none; }
+        .nav-tabs-admin .nav-link.active { color: #1e1e2d !important; border-bottom: 3px solid #c5a880; }
+        .badge-pending { background-color: #fff8dd; color: #ffc700; font-weight: 600; }
+        .badge-confirmed { background-color: #e8fff3; color: #50cd89; font-weight: 600; }
+        .badge-cancelled { background-color: #fff5f8; color: #f1416c; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+    <div id="content">
+        <div th:replace="~{admin/fragments/header :: header}"></div>
+
+        <div class="container-fluid pt-4">
+
+            <div th:if="${param.success != null}" class="alert alert-success alert-dismissible fade show rounded-3" role="alert">
+                <i class="fa-regular fa-circle-check me-2"></i>
+                <span th:if="${param.success[0] == 'approved'}">Hệ thống đã xác nhận và chốt lịch hẹn thành công!</span>
+                <span th:if="${param.success[0] == 'rejected'}">Đã hủy bỏ trạng thái lịch hẹn thử đồ.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${param.error != null}" class="alert alert-danger rounded-3" role="alert">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i> Trục trặc: <span th:text="${param.error}"></span>
+            </div>
+
+            <div class="card-custom">
+                <div class="mb-4">
+                    <h4 class="fw-bold text-dark m-0">Danh Sách Lịch Hẹn Thử Váy</h4>
+                    <p class="text-muted small m-0">Quản lý, điều phối trạng thái phê duyệt lịch hẹn của cô dâu chú rể</p>
+                </div>
+
+                <ul class="nav nav-tabs nav-tabs-admin mb-4" id="appointmentTabs" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending-list" type="button" role="tab">
+                            <i class="fa-regular fa-clock me-1"></i> Chờ xử lý (<span th:text="${pendingCount}">0</span>)
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="confirmed-tab" data-bs-toggle="tab" data-bs-target="#confirmed-list" type="button" role="tab">
+                            <i class="fa-regular fa-calendar-check me-1"></i> Đã xác nhận (<span th:text="${confirmedCount}">0</span>)
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled-list" type="button" role="tab">
+                            <i class="fa-regular fa-calendar-times me-1"></i> Đã hủy (<span th:text="${cancelledCount}">0</span>)
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="appointmentTabsContent">
+
+                    <div class="tab-pane fade show active" id="pending-list" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-hover">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>Khách Hàng</th>
+                                    <th>Số Điện Thoại</th>
+                                    <th>Thời Gian Đăng Ký</th>
+                                    <th>Yêu Cầu Riêng</th>
+                                    <th>Trạng Thái</th>
+                                    <th class="text-end">Hành Động</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="app : ${pendingAppointments}">
+                                    <td class="fw-semibold text-dark" th:text="${app.user.fullName}">Tên</td>
+                                    <td th:text="${app.user.phone}">SĐT</td>
+                                    <td class="fw-bold text-primary" th:text="${#temporals.format(app.appointmentDate, 'HH:mm - dd/MM/yyyy')}">Thời gian</td>
+                                    <td class="text-muted small" th:text="${app.note != null && app.note != '' ? app.note : '-'}">Ghi chú</td>
+                                    <td><span class="badge badge-pending px-2.5 py-1.5 rounded text-warning">Chờ Duyệt</span></td>
+                                    <td class="text-end">
+                                        <div class="d-inline-flex gap-2">
+                                            <form th:action="@{/admin/appointments/approve/{id}(id=${app.appointmentId})}" method="post">
+                                                <button type="submit" class="btn btn-sm btn-success px-3"><i class="fa-solid fa-check me-1"></i> Duyệt</button>
+                                            </form>
+                                            <form th:action="@{/admin/appointments/reject/{id}(id=${app.appointmentId})}" method="post" onsubmit="return confirm('Bạn có muốn huỷ lịch hẹn này?');">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-xmark"></i> Hủy</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(pendingAppointments)}">
+                                    <td colspan="6" class="text-center py-4 text-muted small">Không có lịch hẹn mới nào cần xử lý.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="confirmed-list" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-hover">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>Khách Hàng</th>
+                                    <th>Số Điện Thoại</th>
+                                    <th>Thời Gian Khớp Lịch</th>
+                                    <th>Yêu Cầu Riêng</th>
+                                    <th>Trạng Thái</th>
+                                    <th class="text-end">Hành Động</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="app : ${confirmedAppointments}">
+                                    <td class="fw-semibold text-dark" th:text="${app.user.fullName}">Tên</td>
+                                    <td th:text="${app.user.phone}">SĐT</td>
+                                    <td class="fw-bold text-success" th:text="${#temporals.format(app.appointmentDate, 'HH:mm - dd/MM/yyyy')}">Thời gian</td>
+                                    <td class="text-muted small" th:text="${app.note}">Ghi chú</td>
+                                    <td><span class="badge badge-confirmed px-2.5 py-1.5 rounded text-success">Đã Xác Nhận</span></td>
+                                    <td class="text-end">
+                                        <form th:action="@{/admin/appointments/reject/{id}(id=${app.appointmentId})}" method="post" onsubmit="return confirm('Lịch đã chốt, bạn vẫn muốn hủy lịch hẹn thử này?');">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger px-2"><i class="fa-regular fa-trash-can me-1"></i> Hủy lịch</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(confirmedAppointments)}">
+                                    <td colspan="6" class="text-center py-4 text-muted small">Chưa có lịch hẹn nào được chốt phê duyệt.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="cancelled-list" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-hover opacity-75">
+                                <thead class="table-light">
+                                <tr>
+                                    <th>Khách Hàng</th>
+                                    <th>Số Điện Thoại</th>
+                                    <th>Thời Gian Đăng Ký Lịch</th>
+                                    <th>Ghi Chú</th>
+                                    <th>Trạng Thái</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="app : ${cancelledAppointments}">
+                                    <td th:text="${app.user.fullName}">Tên</td>
+                                    <td th:text="${app.user.phone}">SĐT</td>
+                                    <td class="text-decoration-line-through text-muted" th:text="${#temporals.format(app.appointmentDate, 'HH:mm - dd/MM/yyyy')}">Thời gian</td>
+                                    <td class="text-muted small" th:text="${app.note}">Ghi chú</td>
+                                    <td><span class="badge badge-cancelled px-2.5 py-1.5 rounded text-danger">Đã Hủy</span></td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(cancelledAppointments)}">
+                                    <td colspan="5" class="text-center py-4 text-muted small">Chưa có lịch sử lịch hẹn nào bị hủy bỏ.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="~{admin/fragments/footer :: footer}"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

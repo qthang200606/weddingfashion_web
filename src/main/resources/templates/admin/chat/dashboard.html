@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ Thống Điều Phối Khách Hàng | BELLA COUTURE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f5f7; }
+        .wrapper { display: flex; width: 100%; align-items: stretch; }
+        #content { width: 100%; padding: 25px; min-height: 100vh; background-color: #faf8f5; }
+
+        /* Cấu trúc Workspace Tổng Đài */
+        .luxury-chat-workspace {
+            background: white; border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            height: calc(100vh - 150px); overflow: hidden;
+            border: 1px solid rgba(197, 168, 128, 0.2);
+        }
+
+        .workspace-sidebar { border-right: 1px solid #eff2f5; height: 100%; display: flex; flex-direction: column; background: white; }
+        .workspace-chat-pane { height: 100%; display: flex; flex-direction: column; background-color: #fdfbf9; }
+
+        /* Khối hiển thị thông tin từng phòng khách hàng */
+        .room-card { padding: 16px 20px; border-bottom: 1px solid #f8f9fa; cursor: pointer; transition: all 0.25s; display: block; text-decoration: none; color: inherit; }
+        .room-card:hover { background-color: #fbf9f6; }
+        .room-card.active { background-color: #f5eee6; border-left: 4px solid #c5a880; }
+
+        /* Các khối bong bóng tin nhắn của các chủ thể gửi (DB Match) */
+        .admin-msg-box { flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+        .admin-bubble { max-width: 65%; padding: 12px 18px; border-radius: 14px; font-size: 0.9rem; line-height: 1.5; position: relative; }
+
+        /* CUSTOMER - Màu xanh nhẹ dịu mắt */
+        .admin-bubble.customer { background-color: #e8f4fd; color: #1d6fa5; align-self: flex-start; border-top-left-radius: 2px; }
+        /* AI - Màu cam kèm viền đứt nét công nghệ nghệ thuật */
+        .admin-bubble.ai { background-color: #fff6ec; color: #c46d00; align-self: flex-start; border-top-left-radius: 2px; border: 1px dashed #fcdcb6; }
+        /* ADMIN - Tone màu vàng Gold đẳng cấp chủ đạo */
+        .admin-bubble.admin { background-color: #c5a880; color: white; align-self: flex-end; border-top-right-radius: 2px; box-shadow: 0 4px 12px rgba(197, 168, 128, 0.15); }
+
+        .bubble-tag { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: block; opacity: 0.8; }
+        .bubble-time { font-size: 0.68rem; opacity: 0.5; display: block; text-align: right; margin-top: 4px; }
+
+        /* Định dạng Tab điều hướng trạng thái */
+        .nav-tabs-luxury { border-bottom: 2px solid #eff2f5; gap: 4px; padding: 0 10px; }
+        .nav-tabs-luxury .nav-link { font-size: 0.82rem; font-weight: 600; color: #a1a5b7; border: none; padding: 12px 8px; background: none; }
+        .nav-tabs-luxury .nav-link.active { color: #1e1e2d !important; border-bottom: 3px solid #c5a880; font-weight: 700; }
+
+        .pulse-badge {
+            animation: radialPulse 1.5s infinite;
+        }
+        @keyframes radialPulse {
+            0% { box-shadow: 0 0 0 0 rgba(241, 65, 108, 0.5); }
+            70% { box-shadow: 0 0 0 8px rgba(241, 65, 108, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(241, 65, 108, 0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
+
+    <div id="content">
+        <div th:replace="~{admin/fragments/header :: header}"></div>
+
+        <div class="container-fluid pt-2">
+            <div class="row luxury-chat-workspace g-0">
+
+                <div class="col-md-4 workspace-sidebar">
+                    <div class="p-3 border-bottom bg-light">
+                        <h6 class="fw-bold m-0 text-dark"><i class="fa-solid fa-headset me-2 text-secondary"></i>Trung tâm Tiếp nhận Trò chuyện</h6>
+                    </div>
+
+                    <ul class="nav nav-tabs nav-tabs-luxury pt-2" id="adminChatTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active text-danger" id="tab-wait" data-bs-toggle="tab" data-bs-target="#pane-wait" type="button">
+                                🚨 Khách đợi (<span id="count-wait" th:text="${waitingConversations.size()}">0</span>)
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link text-primary" id="tab-active" data-bs-toggle="tab" data-bs-target="#pane-active" type="button">
+                                💬 Đang trực (<span id="count-active" th:text="${activeConversations.size()}">0</span>)
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link text-muted" id="tab-ai" data-bs-toggle="tab" data-bs-target="#pane-ai" type="button">
+                                🤖 Máy AI (<span id="count-ai" th:text="${aiConversations.size()}">0</span>)
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content flex-1 overflow-auto" id="adminChatTabsContent">
+                        <div class="tab-pane fade show active" id="pane-wait" role="tabpanel">
+                            <div id="container-wait">
+                                <a th:each="chat : ${waitingConversations}"
+                                   th:href="@{/admin/chats(c=${chat.conversationId})}"
+                                   th:classappend="${currentChat != null && currentChat.conversationId == chat.conversationId} ? 'active'" class="room-card">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold text-dark"><i class="fa-regular fa-user me-2 text-danger"></i><span th:text="${chat.user.fullName}">Khách Hàng</span></span>
+                                        <span class="badge bg-danger pulse-badge rounded-circle p-2" th:if="${chat.unreadAdmin > 0}" th:text="${chat.unreadAdmin}">1</span>
+                                    </div>
+                                    <small class="text-danger small fw-semibold d-block mt-1"><i class="fa-solid fa-bell me-1"></i> Yêu cầu chuyên viên hỗ trợ</small>
+                                </a>
+                            </div>
+                            <p id="empty-wait" th:style="${#lists.isEmpty(waitingConversations)} ? 'display:block' : 'display:none'" class="text-center text-muted small py-5">Không có yêu cầu chờ tiếp quản nào hiện tại.</p>
+                        </div>
+
+                        <div class="tab-pane fade" id="pane-active" role="tabpanel">
+                            <div id="container-active">
+                                <a th:each="chat : ${activeConversations}"
+                                   th:href="@{/admin/chats(c=${chat.conversationId})}"
+                                   th:classappend="${currentChat != null && currentChat.conversationId == chat.conversationId} ? 'active'" class="room-card">
+                                    <div class="fw-bold text-dark" th:text="${chat.user.fullName}">Tên nàng thơ</div>
+                                    <small class="text-muted d-block mt-1" th:text="${chat.subject != null ? chat.subject : 'Chăm sóc may đo áo cưới'}">Chủ đề</small>
+                                </a>
+                            </div>
+                            <p id="empty-active" th:style="${#lists.isEmpty(activeConversations)} ? 'display:block' : 'display:none'" class="text-center text-muted small py-5">Nàng chưa tiếp quản phòng nhắn tin nào.</p>
+                        </div>
+
+                        <div class="tab-pane fade" id="pane-ai" role="tabpanel">
+                            <div id="container-ai">
+                                <a th:each="chat : ${aiConversations}"
+                                   th:href="@{/admin/chats(c=${chat.conversationId})}"
+                                   th:classappend="${currentChat != null && currentChat.conversationId == chat.conversationId} ? 'active'" class="room-card">
+                                    <div class="text-secondary fw-semibold"><i class="fa-solid fa-robot me-2 text-warning"></i> <span th:text="${chat.user.fullName}"></span></div>
+                                </a>
+                            </div>
+                            <p id="empty-ai" th:style="${#lists.isEmpty(aiConversations)} ? 'display:block' : 'display:none'" class="text-center text-muted small py-5">Chưa có phòng chat chạy tự động.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8 h-100">
+                    <div th:if="${currentChat != null}" class="workspace-chat-pane">
+
+                        <div class="p-3 bg-white border-bottom d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="m-0 fw-bold text-dark"><i class="fa-regular fa-comments me-2 text-gold"></i> <span th:text="${currentChat.user.fullName}">Nàng dâu</span></h6>
+                                <small class="text-muted small">Cơ chế hiện tại: <span id="currentRoomStatusBadge" class="badge bg-dark text-white fw-bold" th:text="${currentChat.status}">Chế độ</span></small>
+                            </div>
+                            <button id="takeoverBtn" th:if="${currentChat.status.toString() != 'ADMIN_SUPPORT'}"
+                                    th:onclick="'executeTakeover(' + ${currentChat.conversationId} + ')'"
+                                    type="button" class="btn btn-sm btn-outline-dark px-4 py-2 rounded-pill">
+                                <i class="fa-solid fa-hand-holding-hand me-2"></i> Tiếp quản phòng chat
+                            </button>
+                        </div>
+
+                        <div class="admin-msg-box" id="adminMsgContainer">
+                            <div th:each="msg : ${messages}" class="d-flex flex-column" style="width: 100%;">
+                                <div class="admin-bubble mb-2" th:classappend="${msg.senderType.toString().toLowerCase()}">
+                                    <span class="bubble-tag"
+                                          th:text="${msg.senderType.toString() == 'CUSTOMER' ? 'Khách hàng' : (msg.senderType.toString() == 'AI' ? 'Trợ lý ảo AI' : 'Bạn (Nhân viên)')}">
+                                    </span>
+                                    <span th:text="${msg.content}">Tin nhắn</span>
+                                    <span class="bubble-time" th:text="${#temporals.format(msg.sentAt, 'HH:mm')}">Thời gian</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-white border-top">
+                            <div class="input-group">
+                                <input type="text" id="adminTextarea" class="form-control py-2.5 px-4 bg-light"
+                                       th:disabled="${currentChat.status.toString() != 'ADMIN_SUPPORT'}"
+                                       th:placeholder="${currentChat.status.toString() == 'ADMIN_SUPPORT' ? 'Soạn tin nhắn gửi phản hồi nhanh đến khách hàng...' : 'Vui lòng nhấn nút Tiếp Quản phía trên để có thể trò chuyện trực tiếp...'}">
+                                <button class="btn btn-dark px-4" type="button" id="adminSendSocketBtn" th:disabled="${currentChat.status.toString() != 'ADMIN_SUPPORT'}">
+                                    <i class="fa-solid fa-paper-plane me-2"></i> Gửi đi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${currentChat == null}" class="h-100 d-flex flex-column align-items-center justify-content-center bg-white text-muted">
+                        <i class="fa-solid fa-inbox fs-1 mb-3 text-gold opacity-50"></i>
+                        <h6 class="fw-bold text-dark">Chưa có phòng chat được chọn</h6>
+                        <p class="small text-muted">Vui lòng bấm chọn danh sách khách hàng bên tay trái để điều khiển hội thoại.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div th:replace="~{admin/fragments/footer :: footer}"></div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:inline="javascript">
+    let adminStompClient = null;
+    const activeRoomId = /*[[${currentChat != null ? currentChat.conversationId : null}]]*/ null;
+    const currentAdminId = 1;
+    let isSubscribedToGlobal = false;
+
+    function initAdminSocket() {
+        if (adminStompClient && adminStompClient.connected) return;
+
+        const socket = new SockJS('/ws-chat');
+        adminStompClient = Stomp.over(socket);
+        adminStompClient.debug = null;
+
+        adminStompClient.connect({}, function (frame) {
+            // 1. Kênh toàn cục nhận diện biến động yêu cầu từ khách (Không dùng location.reload())
+            if (!isSubscribedToGlobal) {
+                adminStompClient.subscribe('/topic/admin/notification', function (notification) {
+                    reloadRoomSidebarLists();
+                });
+                isSubscribedToGlobal = true;
+            }
+
+            // 2. Kênh nội bộ phòng chat riêng biệt nhận dữ liệu tin nhắn tức thời
+            if (activeRoomId !== null) {
+                adminStompClient.subscribe('/topic/chat/' + activeRoomId, function (output) {
+                    const msg = JSON.parse(output.body);
+                    appendRealtimeAdminBubble(msg);
+                });
+            }
+        }, function(error) {
+            setTimeout(initAdminSocket, 5000);
+        });
+    }
+
+    function executeAdminSend() {
+        const input = document.getElementById('adminTextarea');
+        if (!input || input.disabled) return;
+
+        const text = input.value.trim();
+        if (!text || activeRoomId === null) return;
+
+        const dataPacket = {
+            senderType: 'ADMIN',
+            senderId: currentAdminId,
+            messageType: 'TEXT',
+            content: text
+        };
+
+        adminStompClient.send("/app/chat/send/" + activeRoomId, {}, JSON.stringify(dataPacket));
+        input.value = '';
+    }
+
+    function appendRealtimeAdminBubble(msg) {
+        const container = document.getElementById('adminMsgContainer');
+        if (!container) return;
+
+        // Cơ chế ngăn chặn vẽ trùng lặp tin nhắn cuối cùng của ADMIN vừa bấm gửi
+        const existingBubbles = container.querySelectorAll('.admin-bubble');
+        if (existingBubbles.length > 0) {
+            const lastBubble = existingBubbles[existingBubbles.length - 1];
+            const lastText = lastBubble.querySelector('span:not(.bubble-tag):not(.bubble-time)')?.innerText;
+            if (lastText === msg.content && msg.senderType === 'ADMIN') {
+                return;
+            }
+        }
+
+        let styleClass = 'customer';
+        let labelText = 'Khách hàng';
+
+        if (msg.senderType === 'ADMIN') {
+            styleClass = 'admin';
+            labelText = 'Bạn (Nhân viên)';
+        } else if (msg.senderType === 'AI') {
+            styleClass = 'ai';
+            labelText = 'Trợ lý ảo AI';
+        }
+
+        const html = `
+            <div class="d-flex flex-column" style="width: 100%;">
+                <div class="admin-bubble mb-2 ${styleClass}">
+                    <span class="bubble-tag">${labelText}</span>
+                    <span>${msg.content}</span>
+                    <span class="bubble-time">Vừa xong</span>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    // 🔄 AJAX ĐỒNG BỘ DANH SÁCH PHÒNG CHAT CỘT TRÁI REALTIME
+    function reloadRoomSidebarLists() {
+        fetch('/admin/api/chats/list')
+            .then(res => {
+                if(!res.ok) throw new Error();
+                return res.json();
+            })
+            .then(rooms => {
+                const conWait = document.getElementById('container-wait');
+                const conActive = document.getElementById('container-active');
+                const conAi = document.getElementById('container-ai');
+
+                if(!conWait || !conActive || !conAi) return;
+
+                conWait.innerHTML = '';
+                conActive.innerHTML = '';
+                conAi.innerHTML = '';
+
+                let countWait = 0, countActive = 0, countAi = 0;
+
+                rooms.forEach(room => {
+                    const isSelected = room.conversationId === activeRoomId ? 'active' : '';
+                    const customerName = room.user ? (room.user.fullName || "Khách Hàng") : "Khách Hàng";
+
+                    if (room.status === 'WAITING_ADMIN') {
+                        countWait++;
+                        let unreadBadge = room.unreadAdmin > 0 ? `<span class="badge bg-danger pulse-badge rounded-circle p-2">${room.unreadAdmin}</span>` : '';
+                        conWait.insertAdjacentHTML('beforeend', `
+                            <a href="/admin/chats?c=${room.conversationId}" class="room-card ${isSelected}">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-dark"><i class="fa-regular fa-user me-2 text-danger"></i>${customerName}</span>
+                                    ${unreadBadge}
+                                </div>
+                                <small class="text-danger small fw-semibold d-block mt-1"><i class="fa-solid fa-bell me-1"></i> Yêu cầu chuyên viên hỗ trợ</small>
+                            </a>
+                        `);
+                    } else if (room.status === 'ADMIN_SUPPORT') {
+                        countActive++;
+                        conActive.insertAdjacentHTML('beforeend', `
+                            <a href="/admin/chats?c=${room.conversationId}" class="room-card ${isSelected}">
+                                <div class="fw-bold text-dark">${customerName}</div>
+                                <small class="text-muted d-block mt-1">${room.subject || 'Chăm sóc may đo áo cưới'}</small>
+                            </a>
+                        `);
+                    } else if (room.status === 'AI') {
+                        countAi++;
+                        conAi.insertAdjacentHTML('beforeend', `
+                            <a href="/admin/chats?c=${room.conversationId}" class="room-card ${isSelected}">
+                                <div class="text-secondary fw-semibold"><i class="fa-solid fa-robot me-2 text-warning"></i> ${customerName}</div>
+                            </a>
+                        `);
+                    }
+                });
+
+                if(document.getElementById('count-wait')) document.getElementById('count-wait').innerText = countWait;
+                if(document.getElementById('count-active')) document.getElementById('count-active').innerText = countActive;
+                if(document.getElementById('count-ai')) document.getElementById('count-ai').innerText = countAi;
+
+                document.getElementById('empty-wait').style.display = countWait === 0 ? 'block' : 'none';
+                document.getElementById('empty-active').style.display = countActive === 0 ? 'block' : 'none';
+                document.getElementById('empty-ai').style.display = countAi === 0 ? 'block' : 'none';
+            })
+            .catch(err => console.log("Đợi cập nhật vòng lặp kết nối..."));
+    }
+
+    // 🤝 AJAX TIẾP QUẢN PHÒNG CHAT KHÔNG LOAD LẠI TRANG
+    function executeTakeover(conversationId) {
+        if (!conversationId) return;
+
+        fetch('/admin/chat/takeover/' + conversationId, { method: 'POST' })
+            .then(res => {
+                if(res.ok) {
+                    const badge = document.getElementById('currentRoomStatusBadge');
+                    if(badge) badge.innerText = "ADMIN_SUPPORT";
+
+                    const inputArea = document.getElementById('adminTextarea');
+                    if (inputArea) {
+                        inputArea.disabled = false;
+                        inputArea.placeholder = "Soạn tin nhắn gửi phản hồi nhanh đến khách hàng...";
+                    }
+
+                    const sendBtn = document.getElementById('adminSendSocketBtn');
+                    if (sendBtn) sendBtn.disabled = false;
+
+                    const takeBtn = document.getElementById('takeoverBtn');
+                    if (takeBtn) takeBtn.style.display = 'none';
+
+                    reloadRoomSidebarLists();
+                }
+            })
+            .catch(err => console.error(err));
+    }
+
+    document.getElementById('adminSendSocketBtn')?.addEventListener('click', executeAdminSend);
+    document.getElementById('adminTextarea')?.addEventListener('keypress', function(e) { if(e.key === 'Enter') executeAdminSend(); });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        initAdminSocket();
+        const container = document.getElementById('adminMsgContainer');
+        if (container) container.scrollTop = container.scrollHeight;
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<form th:action="@{/appointments/book}" method="post">
+    <div class="mb-3">
+        <div class="mb-3">
+            <label class="form-label small fw-semibold">Họ và Tên quý khách</label>
+            <input type="text" name="fullName" class="form-control" th:value="${user != null ? user.fullName : ''}" required placeholder="Ngô Quang Thắng">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label small fw-semibold">Số điện thoại liên hệ</label>
+            <input type="tel" name="phoneNumber" class="form-control" th:value="${user != null ? user.phone : ''}" required placeholder="0399xxxxxx">
+        </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label small fw-semibold">Chọn Ngày hẹn</label>
+            <input type="date" id="appointmentDate" name="appointmentDateOnly" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label small fw-semibold">Chọn Giờ hẹn</label>
+            <select name="appointmentTimeOnly" class="form-select" required>
+                <option value="09:00:00">09:00 AM</option>
+                <option value="10:30:00">10:30 AM</option>
+                <option value="14:00:00">14:00 PM</option>
+                <option value="15:30:00">15:30 PM</option>
+                <option value="17:00:00">17:00 PM</option>
+                <option value="19:30:00">19:30 PM</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <label class="form-label small fw-semibold">Ghi chú yêu cầu thử váy cưới</label>
+        <textarea name="note" class="form-control" rows="3" placeholder="Nàng muốn thử mẫu váy xòe mã số..."></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit text-uppercase">Xác nhận Đặt Lịch Hẹn</button>
+</form>
