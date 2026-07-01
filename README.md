@@ -1,47 +1,55 @@
 <div align="center">
 
-# 💍 Wedding Fashion Web
+# 👰 Wedding Fashion Web
 
-### Modern Wedding Dress Shopping & Rental Management System
+### AI-Powered Wedding Dress E-commerce Platform
 
-<img src="https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk"/>
-<img src="https://img.shields.io/badge/Spring-Boot-6DB33F?style=for-the-badge&logo=springboot"/>
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql"/>
+A full-stack web application built with **Spring Boot**, providing an online wedding fashion shopping experience with **AI consultation**, **appointment booking**, **online payment**, and **admin management**.
 
-<img src="https://img.shields.io/badge/SePay-Payment-00C853?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker"/>
+<p align="center">
 
-A full-featured wedding fashion management system supporting product sales, rentals, appointment booking, AI consultation, and online payment.
+![Java](https://img.shields.io/badge/Java-17-red)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F)
+![Spring Security](https://img.shields.io/badge/Spring_Security-6.x-green)
+![MySQL](https://img.shields.io/badge/MySQL-8-blue)
+![Gradle](https://img.shields.io/badge/Gradle-8-02303A)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)
+![REST API](https://img.shields.io/badge/REST-API-orange)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+</p>
 
 </div>
 
 ---
 
-# 📖 Overview
+# 📖 Introduction
 
-Wedding Fashion Web is a comprehensive web-based management system designed for wedding fashion businesses.
+Wedding Fashion Web is a full-stack e-commerce application designed for wedding fashion businesses.
 
-The system enables customers to browse, purchase, or rent wedding dresses and accessories while allowing administrators to efficiently manage products, orders, inventory, appointments, and customers.
+The system enables customers to browse wedding dresses, place orders, book fitting appointments, communicate with an AI assistant, and complete secure online payments.
 
-The project is built using **Spring Boot**, providing RESTful APIs for both the Android mobile application and the web administration system.
+The project also provides a comprehensive administration dashboard for managing products, customers, appointments, inventory, and orders.
 
 ---
 
-# ✨ Key Features
+# ✨ Main Features
 
-## 👰 Customer
+## 👤 Customer
 
-- User Registration & Login
+- User Registration
+- User Login
+- JWT Authentication
 - Browse Products
 - Product Categories
-- Product Details
+- Search Products
 - Shopping Cart
 - Checkout
-- Online Payment
+- Online Payment (SePay)
+- Order History
 - Appointment Booking
-- Order Tracking
-- Wishlist
-- Product Reviews
+- AI Fashion Consultant
+- User Profile Management
 
 ---
 
@@ -50,200 +58,275 @@ The project is built using **Spring Boot**, providing RESTful APIs for both the 
 - Dashboard
 - Product Management
 - Category Management
-- Inventory Management
 - Customer Management
-- Appointment Management
 - Order Management
+- Appointment Management
+- Inventory Management
 - Revenue Statistics
-- User Management
-- Payment Management
+- Low Stock Monitoring
 
 ---
 
-# 🤖 AI Integration
+# 🤖 AI Features
 
-Integrated with **Groq AI API**
+The application integrates **Groq API** to provide an intelligent shopping assistant.
 
-Features include:
+Capabilities include:
 
-- Intelligent wedding dress consultation
-- Personalized product recommendations
-- Wedding planning suggestions
-- Natural language conversations
-- Multi-turn conversations
+- Wedding dress consultation
+- Product recommendation
+- Natural language conversation
+- Customer support
+- Fashion suggestions
+- FAQ assistance
 
 ---
 
-# 💳 Payment System
+# 💳 Online Payment
 
-Integrated with **SePay**
+Integrated with **SePay Webhook API**
 
-Supported Features
+Supported features:
 
-- QR Payment
-- Payment Confirmation
-- Webhook Verification
-- Automatic Order Status Update
+- Secure online payment
+- Automatic payment confirmation
+- Order status synchronization
+- Transaction verification
+- Payment notification
 
 ---
 
 # 🏗 System Architecture
 
 ```
-Client
-│
-├── Android Application
-├── Web Browser
-│
-▼
-
-Spring Boot REST API
-
-│
-
-├── Authentication
-├── Product Service
-├── Appointment Service
-├── Order Service
-├── AI Service
-├── Payment Service
-│
-▼
-
-MySQL Database
-
-│
-
-Firebase Storage
+                    +----------------------+
+                    |      Customer        |
+                    +----------+-----------+
+                               |
+                               |
+                        HTML / CSS / JS
+                               |
+                               |
+                    Spring Boot REST API
+                               |
+       +-----------+-----------+-------------+
+       |           |                         |
+       |           |                         |
+    MySQL       Groq API                 SePay API
+(Database)      (AI Chat)              (Payment)
 ```
 
 ---
 
-# 🛠 Tech Stack
+# 🛠 Technology Stack
 
-| Technology | Purpose |
-|------------|---------|
-| Java 17 | Backend Development |
-| Spring Boot | REST API |
-| Spring Security | Authentication |
-| Spring Data JPA | Database Access |
-| MySQL | Relational Database |
-| Firebase Storage | Image Storage |
-| Groq API | AI Chat |
-| SePay API | Payment Gateway |
-| Docker | Deployment |
-| Gradle | Build Tool |
+## Backend
+
+- Java 17
+- Spring Boot
+- Spring MVC
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- RESTful API
+
+---
+
+## Frontend
+
+- HTML5
+- CSS3
+- JavaScript
+- Bootstrap
+
+---
+
+## Database
+
+- MySQL
+
+---
+
+## Authentication
+
+- JWT
+- Spring Security
+
+---
+
+## AI
+
+- Groq API
+
+---
+
+## Payment
+
+- SePay Webhook API
+
+---
+
+## Build Tool
+
+- Gradle
+
+---
+
+## Deployment
+
+- Docker
 
 ---
 
 # 📂 Project Structure
 
 ```
-src
+WeddingFashionWeb
 │
-├── main
+├── src
+│   ├── main
+│   │
 │   ├── java
 │   │   ├── controller
 │   │   ├── service
 │   │   ├── repository
-│   │   ├── model
+│   │   ├── entity
 │   │   ├── dto
-│   │   ├── config
 │   │   ├── security
-│   │   └── exception
+│   │   ├── config
+│   │   ├── exception
+│   │   └── util
 │   │
 │   └── resources
 │       ├── static
 │       ├── templates
-│       ├── application.properties
-│       └── uploads
+│       └── application.properties
 │
-└── test
+├── uploads
+├── gradle
+├── Dockerfile
+├── build.gradle
+└── README.md
 ```
-
----
-
-# 🚀 REST APIs
-
-The backend provides RESTful APIs for:
-
-- Authentication
-- Products
-- Categories
-- Orders
-- Cart
-- Appointments
-- Customers
-- Payments
-- AI Assistant
-- Revenue Statistics
-
----
-
-# 🔐 Security
-
-- Spring Security
-- Password Encryption
-- Role-based Authorization
-- JWT Authentication
-- API Protection
-
----
-
-# 📊 Database
-
-Main entities
-
-- Users
-- Roles
-- Products
-- Categories
-- Orders
-- Order Details
-- Appointments
-- Payments
-- Reviews
-- Inventory
 
 ---
 
 # 📸 Screenshots
 
-## Customer
+## Home Page
 
-- Home Page
-- Product Detail
-- Shopping Cart
-- Checkout
-- Appointment Booking
-
-## Administrator
-
-- Dashboard
-- Product Management
-- Order Management
-- Revenue Statistics
-- Inventory Management
-
-> Replace this section with screenshots after deployment.
+> Add screenshot here
 
 ---
 
-# ⚙ Installation
+## Product List
 
-## Clone Repository
+> Add screenshot here
+
+---
+
+## Product Details
+
+> Add screenshot here
+
+---
+
+## Shopping Cart
+
+> Add screenshot here
+
+---
+
+## Checkout
+
+> Add screenshot here
+
+---
+
+## AI Chat
+
+> Add screenshot here
+
+---
+
+## Appointment Booking
+
+> Add screenshot here
+
+---
+
+## Admin Dashboard
+
+> Add screenshot here
+
+---
+
+# 🔒 Security
+
+Implemented security mechanisms include:
+
+- JWT Authentication
+- Password Encryption
+- Spring Security
+- Role-Based Authorization
+- Form Validation
+- API Protection
+
+---
+
+# 🚀 Installation
+
+## Clone repository
 
 ```bash
 git clone https://github.com/qthang200606/weddingfashion_web.git
 ```
 
-Enter project
+---
+
+## Enter project
 
 ```bash
 cd weddingfashion_web
 ```
 
-Run
+---
+
+## Configure Database
+
+Open
+
+```
+src/main/resources/application.properties
+```
+
+Configure
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/weddingfashion
+spring.datasource.username=root
+spring.datasource.password=yourpassword
+
+spring.jpa.hibernate.ddl-auto=update
+```
+
+---
+
+## Build project
+
+```bash
+./gradlew build
+```
+
+Windows
+
+```bash
+gradlew.bat build
+```
+
+---
+
+## Run application
 
 ```bash
 ./gradlew bootRun
@@ -252,7 +335,13 @@ Run
 or
 
 ```bash
-gradlew bootRun
+gradlew.bat bootRun
+```
+
+Application URL
+
+```
+http://localhost:8080
 ```
 
 ---
@@ -273,89 +362,104 @@ docker run -p 8080:8080 weddingfashion
 
 ---
 
-# ⚙ Configuration
+# 📊 Database
 
-Configure the following before running:
+Example tables
 
-- MySQL Database
-- Firebase Credentials
-- Groq API Key
-- SePay API Key
-- JWT Secret
+- users
+- roles
+- products
+- categories
+- carts
+- orders
+- order_details
+- appointments
+- payments
+- inventory
 
 ---
 
-# 📈 Future Improvements
+# 🔄 Workflow
+
+```
+Customer
+
+↓
+
+Browse Products
+
+↓
+
+Add to Cart
+
+↓
+
+Checkout
+
+↓
+
+SePay Payment
+
+↓
+
+Webhook Verification
+
+↓
+
+Order Confirmation
+
+↓
+
+Order Management
+
+↓
+
+Delivery
+```
+
+---
+
+# 🎯 Future Improvements
 
 - Email Notification
-- Push Notification
-- Product Recommendation AI
-- Chatbot Enhancement
-- Analytics Dashboard
+- Recommendation System
+- Product Reviews
+- Wishlist
+- Responsive Mobile UI
 - Multi-language Support
-- Cloud Deployment
-- CI/CD Pipeline
+- Product Rating
+- Analytics Dashboard
 
 ---
 
-# 👨‍💻 My Responsibilities
+# 📚 Learning Outcomes
 
-This project was independently designed and developed, including:
+This project demonstrates practical experience in:
 
-- System Analysis
-- Database Design
-- Backend Development
+- Full Stack Java Web Development
+- Spring Boot
 - REST API Development
-- Authentication & Authorization
+- JWT Authentication
+- Spring Security
+- MySQL Database Design
 - AI Integration
-- Payment Integration
+- Payment Gateway Integration
 - Docker Deployment
-- Testing & Debugging
+- MVC Architecture
+- Git & GitHub
 
 ---
 
-# 📊 Project Highlights
-
-✅ Spring Boot REST API
-
-✅ JWT Authentication
-
-✅ Role-based Security
-
-✅ MySQL Database
-
-✅ Firebase Storage
-
-✅ SePay Payment Integration
-
-✅ AI Chat Assistant
-
-✅ Docker Deployment
-
-✅ Appointment Booking
-
-✅ Inventory Management
-
----
-
-# 📄 License
-
-This project is developed for educational purposes and portfolio demonstration.
-
----
-
-# 👤 Author
+# 👨‍💻 Author
 
 **Ngô Quang Thắng**
 
-📧 Email: your_email@gmail.com
+Computer Science Student
 
-💻 GitHub: https://github.com/qthang200606
+GitHub
+
+https://github.com/qthang200606
 
 ---
 
-<div align="center">
-
-⭐ If you find this project useful, please consider giving it a star!
-
-</div>
+# ⭐ If you find this project useful, please consider giving it a Star!
