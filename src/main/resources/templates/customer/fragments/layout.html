@@ -4,43 +4,60 @@
 </head>
 <body>
 
+<!-- ================= CUSTOMER NAVBAR FRAGMENT ================= -->
 <nav th:fragment="customer-navbar" class="navbar navbar-expand-lg navbar-bridal sticky-top">
     <div class="container">
+        <!-- Logo thương hiệu -->
         <a class="navbar-brand d-flex align-items-center" th:href="@{/customer/home}">
-            <span class="serif-font fw-bold fs-3 text-dark letter-spacing-1">BELLA COUTURE</span>
+            <span class="serif-font fw-bold fs-3 text-dark" style="letter-spacing: 2px;">BELLA COUTURE</span>
         </a>
 
+        <!-- Nút bật menu trên điện thoại -->
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <i class="fa-solid fa-bars text-dark"></i>
         </button>
 
+        <!-- Hệ thống điều hướng giữa -->
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <ul class="navbar-nav gap-2">
+            <ul class="navbar-nav gap-1">
                 <li class="nav-item"><a class="nav-link nav-link-bridal" th:href="@{/customer/home}">Trang Chủ</a></li>
                 <li class="nav-item"><a class="nav-link nav-link-bridal" th:href="@{/customer/categories}">Danh Mục Váy</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-bridal" th:href="@{/customer/collections}">BST Váy Cưới</a></li>
+
                 <li class="nav-item"><a class="nav-link nav-link-bridal" th:href="@{/customer/about}">Giới Thiệu</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-bridal" th:href="@{/customer/contact}">Liên Hệ</a></li>
+
             </ul>
         </div>
 
-        <div class="d-flex align-items-center gap-1">
-            <a th:href="@{/customer/search}" class="nav-icon-btn" title="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></a>
+        <!-- Nhóm Icon chuyên nghiệp bên phải -->
+        <div class="nav-icon-group">
+            <!-- Tìm kiếm -->
+            <a th:href="@{/customer/search}" class="nav-icon-btn" title="Tìm kiếm">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
 
-            <button type="button" class="nav-icon-btn" onclick="toggleBridalChatPopup()" style="background: none; border: none; padding: 8px; color: #1a1a1a;" title="Trò chuyện cùng Bella">
-                <i class="fa-regular fa-comment-dots fs-5"></i>
+            <!-- Tư vấn chat - kèm thông báo -->
+            <button type="button" class="nav-icon-btn" onclick="toggleBridalChatPopup()" title="Trò chuyện cùng Bella">
+                <i class="fa-regular fa-comment-dots"></i>
+                <span class="nav-badge">1</span> <!-- Số thông báo tin nhắn mới -->
             </button>
 
+            <!-- Giỏ hàng - kèm thông báo số lượng sản phẩm -->
             <a th:href="@{/customer/cart}" class="nav-icon-btn" title="Giỏ hàng">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span class="badge rounded-pill cart-badge">2</span>
+                <!-- 🌟 CẬP NHẬT: Đọc trực tiếp từ session.totalCartQuantity -->
+                <span id="cart-badge-count" class="nav-badge"
+                      th:text="${session.totalCartQuantity != null ? session.totalCartQuantity : 0}">0</span>
             </a>
-            <a th:href="@{/login}" class="nav-icon-btn" title="Tài khoản"><i class="fa-regular fa-user"></i></a>
+            <!-- Tài khoản cá nhân -->
+            <a th:href="@{/login}" class="nav-icon-btn" title="Tài khoản">
+                <i class="fa-regular fa-user"></i>
+            </a>
         </div>
     </div>
 </nav>
 
 
+<!-- ================= CUSTOMER FOOTER FRAGMENT ================= -->
 <footer th:fragment="customer-footer" class="bg-dark text-white pt-5 pb-4 mt-5 border-top border-warning border-opacity-10">
     <div class="container text-center text-md-start">
         <div class="row text-center text-md-start">
@@ -63,9 +80,11 @@
         </div>
     </div>
 
+    <!-- Các thư viện hỗ trợ WebSocket kết nối Chat (Giữ nguyên dưới footer để tối ưu hóa) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
+    <!-- File điều khiển Logic Chat tách riêng -->
     <script th:src="@{/js/bridal-chat.js}"></script>
 </footer>
 

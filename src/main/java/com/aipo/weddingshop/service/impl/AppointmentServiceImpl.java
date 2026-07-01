@@ -6,7 +6,10 @@ import com.aipo.weddingshop.repository.AppointmentRepository;
 import com.aipo.weddingshop.service.AppointmentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,5 +66,15 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Transactional
     public Appointment saveAppointment(Appointment appointment) {
         return appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public long countTodayAppointments() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay(); // 2026-06-12T00:00:00
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX); // 2026-06-12T23:59:59.999999
+
+        // Gọi xuống Repository để đếm trong khoảng thời gian này
+        return appointmentRepository.countByAppointmentDateBetween(startOfDay, endOfDay);
     }
 }

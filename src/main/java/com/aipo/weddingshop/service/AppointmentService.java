@@ -25,4 +25,6 @@ public interface AppointmentService {
     Optional<Appointment> getAppointmentById(Long id);
 
     Appointment saveAppointment(Appointment appointment);
+
+    long countTodayAppointments();
 }

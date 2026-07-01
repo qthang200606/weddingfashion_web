@@ -1,0 +1,102 @@
+/* ==========================================================================
+   BRIDAL STUDIO - LUXURY BANNER MANAGEMENT STYLES
+   ========================================================================== */
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: #111111;
+    margin: 0;
+    font-size: 1.7rem;
+}
+
+.breadcrumb-custom {
+    font-size: 0.85rem;
+    color: #8a8a8a;
+    margin-top: 4px;
+}
+
+.custom-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.02);
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+/* Định dạng cấu trúc bảng dữ liệu mặt tiền */
+.table-bridal {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-bridal th {
+    background-color: #fafbfc;
+    color: #555555;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    padding: 14px;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.table-bridal td {
+    padding: 14px;
+    vertical-align: middle;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #eef2f6;
+}
+
+/* Các lớp nút hành động quý phái */
+.btn-gold-action {
+    background: #111111;
+    color: #ffffff;
+    border: 1px solid #111111;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 8px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-gold-action:hover {
+    background: transparent;
+    color: #111111;
+}
+
+.btn-action-edit {
+    background-color: #f8f9fa;
+    color: #495057;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s;
+}
+
+.btn-action-edit:hover {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border-color: #1a1a1a;
+}
+
+.opacity-40 {
+    opacity: 0.4;
+}
+
+/* Định dạng riêng cho Popup mượt mà */
+.modal-content {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    border-bottom: 1px solid #e9ecef;
+    background-color: #fafbfc;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}

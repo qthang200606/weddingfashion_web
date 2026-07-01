@@ -88,4 +88,28 @@ public class CustomerController {
         model.addAttribute("order", order);
         return "customer/order-detail";
     }
+
+    @GetMapping("/about")
+    public String showAboutPage() {
+        // Trả về đúng template tại src/main/resources/templates/customer/about.html
+        return "customer/about";
+    }
+
+    // 7. Search Products
+    @GetMapping("/search")
+    public String searchProducts(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        List<Product> searchResults;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            // Sử dụng productService để tìm kiếm (Hàm này chúng ta sẽ khai báo ở bước sau)
+            searchResults = productService.searchByName(keyword.trim());
+        } else {
+            searchResults = List.of();
+        }
+
+        model.addAttribute("products", searchResults);
+        model.addAttribute("keyword", keyword);
+        return "customer/search";
+    }
+
 }

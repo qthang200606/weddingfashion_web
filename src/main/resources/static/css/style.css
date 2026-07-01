@@ -1,0 +1,490 @@
+:root {
+    --bridal-gold: #c5a880;
+    --bridal-dark: #1a1a1a;
+    --bridal-light: #fdfbf7;
+    --bridal-muted: #8e8c84;
+}
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bridal-light);
+    color: var(--bridal-dark);
+    overflow-x: hidden;
+}
+h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
+
+/* Banner Slider */
+.carousel-bridal .carousel-item { height: 80vh; min-height: 500px; background-color: #eae1d4; }
+.carousel-overlay {
+    background: linear-gradient(90deg, rgba(243,238,232,0.95) 0%, rgba(243,238,232,0.8) 40%, rgba(255,255,255,0) 100%);
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+}
+.hero-title { font-size: 3.5rem; font-weight: 700; line-height: 1.2; color: var(--bridal-dark); margin-bottom: 20px; }
+.hero-subtitle { font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--bridal-gold); font-weight: 600; }
+.btn-bridal {
+    background-color: var(--bridal-dark); color: white; border: 1px solid var(--bridal-dark);
+    padding: 12px 35px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; transition: all 0.3s;
+}
+.btn-bridal:hover { background-color: transparent; color: var(--bridal-dark); }
+
+/* Bộ sưu tập */
+.section-padding { padding: 80px 0; }
+.section-title { text-align: center; margin-bottom: 50px; }
+.section-title h2 { font-size: 2.5rem; font-weight: 700; position: relative; display: inline-block; padding-bottom: 15px; }
+.section-title h2::after { content: ''; position: absolute; bottom: 0; left: 25%; right: 25%; height: 1px; background-color: var(--bridal-gold); }
+.collection-card { position: relative; overflow: hidden; height: 400px; margin-bottom: 30px; }
+.collection-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.collection-card:hover .collection-img { transform: scale(1.05); }
+.collection-content {
+    position: absolute; bottom: 0; left: 0; right: 0; padding: 30px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); color: white;
+}
+
+/* Sản phẩm */
+.product-card-custom {
+    background: white; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    transition: transform 0.3s, box-shadow 0.3s; margin-bottom: 30px; height: 100%; display: flex; flex-direction: column;
+}
+.product-card-custom:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(197, 168, 128, 0.15); }
+.product-img-wrapper { position: relative; overflow: hidden; padding-top: 135%; }
+.product-img-custom { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.product-badge-custom {
+    position: absolute; top: 15px; left: 15px; background-color: rgba(255,255,255,0.9) !important;
+    color: var(--bridal-gold) !important; border: 1px solid var(--bridal-gold); font-weight: 500; font-size: 0.75rem; padding: 6px 12px;
+}
+.product-info-area { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.product-title-custom { font-size: 1.1rem; font-weight: 600; color: var(--bridal-dark); margin-bottom: 8px; }
+.product-price-custom { color: var(--bridal-gold); font-weight: 700; font-size: 1.15rem; }
+
+.sticky-action-btn { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
+.btn-appointment {
+    background-color: var(--bridal-gold); color: white; border-radius: 50px; padding: 12px 25px;
+    box-shadow: 0 4px 15px rgba(197, 168, 128, 0.4); text-decoration: none; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; border: none;
+}
+.btn-appointment:hover { background-color: var(--bridal-dark); color: white; transform: scale(1.05); }
+
+/* Custom bổ sung nâng cấp cho Modal & Tab điều hướng */
+.modal-bridal-header {
+    background: linear-gradient(135deg, var(--bridal-dark) 0%, #2d2d2d 100%);
+    padding: 25px 25px 10px 25px;
+}
+.modal-bridal-body {
+    background-color: var(--bridal-light);
+    padding: 30px;
+}
+.nav-tabs-bridal {
+    border-bottom: none;
+    gap: 15px;
+}
+.nav-tabs-bridal .nav-link {
+    color: rgba(255,255,255,0.6);
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    background: transparent;
+    transition: all 0.3s;
+    position: relative;
+}
+.nav-tabs-bridal .nav-link.active {
+    color: var(--bridal-gold) !important;
+    background: transparent;
+}
+.nav-tabs-bridal .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background-color: var(--bridal-gold);
+}
+.bridal-input {
+    border: 1px solid #e5dfd5; padding: 11px 15px; border-radius: 8px; font-size: 0.95rem; transition: all 0.3s;
+}
+.bridal-input:focus {
+    border-color: var(--bridal-gold); box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.2); background-color: #fff;
+}
+.bridal-label {
+    font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--bridal-dark); margin-bottom: 6px;
+}
+.bridal-label i { color: var(--bridal-gold); margin-right: 4px; }
+.btn-bridal-submit {
+    background: linear-gradient(135deg, var(--bridal-gold) 0%, #b3946b 100%);
+    color: white; border: none; padding: 12px; font-weight: 600; letter-spacing: 1px; border-radius: 8px; transition: all 0.3s;
+}
+
+/* Thẻ danh sách lịch hẹn (My Appointments Card) */
+.app-history-card {
+    background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px;
+    border-left: 4px solid var(--bridal-gold); box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+.badge-pending { background-color: #fef3c7; color: #d97706; }
+.badge-confirmed { background-color: #d1fae5; color: #059669; }
+.badge-cancelled { background-color: #fee2e2; color: #dc2626; }
+
+
+/* --- ĐỒNG BỘ LẠI MENU & ICON (NAVBAR) --- */
+.navbar-bridal {
+    background-color: rgba(253, 251, 247, 0.95) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(197, 168, 128, 0.1);
+    padding: 15px 0;
+    transition: all 0.3s ease;
+}
+
+.nav-link-bridal {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--bridal-dark) !important;
+    letter-spacing: 0.5px;
+    padding: 8px 16px !important;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Hiệu ứng gạch chân chuyển động khi hover menu */
+.nav-link-bridal::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--bridal-gold);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link-bridal:hover::after {
+    width: 70%;
+}
+
+.nav-link-bridal:hover {
+    color: var(--bridal-gold) !important;
+}
+
+/* Khu vực Icon chuyên nghiệp */
+.nav-icon-group {
+    display: flex;
+    align-items: center;
+    gap: 18px; /* Khoảng cách đồng đều giữa các icon */
+}
+
+.nav-icon-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: var(--bridal-dark);
+    background-color: transparent;
+    border: none;
+    font-size: 1.15rem; /* Kích thước icon đồng đều */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+}
+
+.nav-icon-btn:hover {
+    background-color: rgba(197, 168, 128, 0.12); /* Màu nền hồng beige nhẹ khi hover */
+    color: var(--bridal-gold);
+}
+
+/* Chấm thông báo số trên đầu icon siêu xinh */
+.nav-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: linear-gradient(135deg, #ff4d6d 0%, #ff758f 100%); /* Màu hồng dâu tươi tắn rực rỡ */
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bridal-light); /* Viền trắng để nổi bật trên nền icon */
+    box-shadow: 0 2px 5px rgba(255, 77, 109, 0.4);
+}
+
+/* --- KHU VỰC VIDEO HERO BANNER MỚI --- */
+.hero-video-section {
+    padding: 60px 0;
+    background-color: var(--bridal-light);
+}
+
+.hero-video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* Tỷ lệ vàng khung hình 16:9 chuyên nghiệp */
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(197, 168, 128, 0.2);
+}
+
+.hero-video-wrapper video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- HIỆU ỨNG SLIDER BANNER KHUYẾN MÃI Ở GIỮA TRANG --- */
+.promo-carousel {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(197, 168, 128, 0.15);
+}
+
+.promo-carousel .carousel-item {
+    height: 450px; /* Chiều cao chuẩn cho banner giữa trang */
+    background-color: var(--bridal-light);
+    overflow: hidden;
+}
+
+.promo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 7s ease; /* Hiệu ứng zoom nhẹ từ từ (Ken Burns) */
+}
+
+/* Kích hoạt zoom khi slide xuất hiện */
+.promo-carousel .carousel-item.active .promo-img {
+    transform: scale(1.08);
+}
+
+.promo-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0) 100%);
+}
+
+.promo-caption {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    padding: 20px 40px;
+    border-radius: 12px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    animation: fadeInUp 1s ease forwards;
+}
+
+.promo-caption h3 {
+    color: var(--bridal-gold);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.promo-caption p {
+    color: var(--bridal-dark);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Custom lại màu nút chuyển slide */
+.promo-carousel .carousel-control-prev-icon,
+.promo-carousel .carousel-control-next-icon {
+    background-color: rgba(197, 168, 128, 0.8);
+    border-radius: 50%;
+    padding: 20px;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* --- HỆ THỐNG THẺ SẢN PHẨM LUNG LINH PHONG CÁCH JOLIPOLI --- */
+.product-card-custom {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(197, 168, 128, 0.08);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    border: 1px solid rgba(197, 168, 128, 0.15);
+    margin-bottom: 30px;
+}
+
+/* Khung bọc ảnh */
+.product-img-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 140%; /* Tỉ lệ đứng kiêu sa tôn dáng váy dài */
+    overflow: hidden;
+    background-color: #fcfbfa;
+}
+
+/* Ảnh sản phẩm với chuyển động zoom mượt */
+.product-img-custom {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Hiệu ứng tia sáng lướt qua (Shine Effect) đặc trưng luxury */
+.product-img-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -150%; width: 50%; height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    transition: 0.75s;
+}
+
+/* Badge danh mục thiết kế mảnh mai tinh tế */
+.product-badge-custom {
+    position: absolute;
+    top: 15px; left: 15px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+    color: #bc9c6c !important; /* Màu vàng gold quý phái */
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 6px 14px !important;
+    border-radius: 30px;
+    border: 1px solid rgba(197, 168, 128, 0.3);
+    text-transform: uppercase;
+}
+
+/* Vùng thông tin bên dưới */
+.product-info-area {
+    padding: 22px 18px;
+    text-align: center;
+    background: #ffffff;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.4s ease, background-color 0.4s ease;
+}
+
+.product-title-custom {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-price-custom {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #bc9c6c; /* Sắc vàng tươi tắn của trang sức cao cấp */
+    letter-spacing: 0.5px;
+}
+
+/* Nút xem chi tiết ẩn dưới gầm sẽ đẩy lên khi hover */
+.product-action-overlay {
+    position: absolute;
+    bottom: -20px; left: 0; right: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.btn-jolipoli-view {
+    background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+    color: #ffffff !important;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 30px;
+    border: 1px solid #bc9c6c;
+    box-shadow: 0 4px 15px rgba(188, 156, 108, 0.2);
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-jolipoli-view:hover {
+    background: #bc9c6c;
+    color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(188, 156, 108, 0.4);
+}
+
+/* --- TỔNG HỢP HIỆU ỨNG HOVER KHI RÊ CHUỘT VÀO --- */
+.product-card-custom:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(188, 156, 108, 0.18);
+    border-color: rgba(197, 168, 128, 0.4);
+}
+
+/* Ảnh tự động phóng to nhẹ mờ ảo */
+.product-card-custom:hover .product-img-custom {
+    transform: scale(1.06);
+}
+
+/* Ánh sáng chạy dọc thân váy */
+.product-card-custom:hover .product-img-wrapper::after {
+    left: 150%;
+}
+
+/* Đẩy chữ lên để nhường chỗ cho nút xuất hiện */
+.product-card-custom:hover .product-info-area {
+    transform: translateY(-15px);
+}
+
+.product-card-custom:hover .product-title-custom {
+    color: #bc9c6c;
+}
+
+/* Hiện nút bấm lung linh */
+.product-card-custom:hover .product-action-overlay {
+    opacity: 1;
+    visibility: visible;
+    bottom: 5px;
+}
+
+
+        /* CSS XỬ LÝ TRIỆT ĐỂ VIỀN ĐEN - ÉP VIDEO TRÀN TOÀN BỘ KHUNG */
+        .hero-video-wrapper {
+            position: relative;
+            width: 100%;
+            /* Sử dụng aspect-ratio giúp khung tự co giãn chuẩn theo tỷ lệ màn hình rộng của video gốc */
+            aspect-ratio: 16 / 9;
+            max-height: 450px;
+            overflow: hidden;
+            border-radius: 20px; /* Bo góc mịn màng giống file ảnh {25E4601E-C85A-4C07-81A9-078331CEECF5}.jpg */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            background: transparent; /* Loại bỏ hoàn toàn nền đen mặc định của thẻ video */
+        }
+
+        .hero-video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            /* Phóng to nhẹ và lấp đầy các góc khuất, loại bỏ 2 dải đen trên dưới */
+            object-fit: cover !important;
+            object-position: center center;
+        }

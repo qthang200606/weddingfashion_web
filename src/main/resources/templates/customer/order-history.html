@@ -9,129 +9,28 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif !important;
-            background-color: #fdfbf7;
-            color: #1a1a1a;
-        }
-
-        .serif-font-cart {
-            font-family: 'Playfair Display', serif !important;
-        }
-
-        .premium-orders-container {
-            margin-top: 50px;
-            margin-bottom: 80px;
-        }
-
-        /* Thẻ card bọc đơn hàng */
-        .order-card {
-            background: #fff;
-            border: 1px solid rgba(197, 168, 128, 0.2);
-            border-radius: 0;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-        .order-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(197, 168, 128, 0.08);
-        }
-        .order-header {
-            background-color: #faf8f5;
-            padding: 18px 24px;
-            border-bottom: 1px solid #f1eeeb;
-        }
-
-        /* Chấm tròn và chữ trạng thái */
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
-        .status-text { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Bảng màu đồng bộ trạng thái đơn hàng */
-        .text-pending { color: #c5a880; } .bg-pending { background-color: #c5a880; }
-        .text-confirmed { color: #4b6b94; } .bg-confirmed { background-color: #4b6b94; }
-        .text-preparing { color: #6b7280; } .bg-preparing { background-color: #6b7280; }
-        .text-shipping { color: #3182ce; } .bg-shipping { background-color: #3182ce; }
-        .text-delivered { color: #2f855a; } .bg-delivered { background-color: #2f855a; }
-        .text-cancelled { color: #c53030; } .bg-cancelled { background-color: #c53030; }
-
-        /* Nút xem chi tiết */
-        .btn-luxury-outline {
-            background-color: transparent;
-            color: #1a1a1a;
-            border: 1px solid #1a1a1a;
-            font-weight: 600;
-            padding: 10px 22px;
-            border-radius: 0;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.2s;
-            text-decoration: none;
-        }
-        .btn-luxury-outline:hover {
-            background-color: #1a1a1a;
-            color: #fff;
-        }
-
-        /* Bộ lọc phân loại trạng thái */
-        .nav-tabs-luxury { border-bottom: 1px solid #f1eeeb; }
-        .nav-tabs-luxury .nav-link {
-            border: none;
-            color: #777;
-            font-weight: 500;
-            padding: 12px 20px;
-            font-size: 0.85rem;
-            position: relative;
-            transition: color 0.2s;
-        }
-        .nav-tabs-luxury .nav-link:hover { color: #c5a880; }
-        .nav-tabs-luxury .nav-link.active { color: #1a1a1a; background: transparent; font-weight: 700; }
-        .nav-tabs-luxury .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background-color: #c5a880;
-        }
-
-        /* Khối thông báo danh sách trống */
-        .empty-orders-box {
-            text-align: center;
-            padding: 80px 20px;
-            background: #fff;
-            border: 1px dashed #c5a880;
-        }
-    </style>
+    <link th:href="@{/css/layout.css}" rel="stylesheet">
+    <link th:href="@{/css/order-history.css}" rel="stylesheet">
 </head>
 <body>
 
-<!-- Nhúng Menu Header tổng -->
 <div th:replace="~{customer/fragments/layout :: customer-navbar}"></div>
 
 <div class="container premium-orders-container">
     <div class="row justify-content-center">
         <div class="col-lg-10">
 
-            <!-- ==========================================
-                 CỤM TIÊU ĐỀ VÀ THANH CHUYỂN TAB ĐỒNG BỘ 2 CHIỀU
-                 ========================================== -->
             <div class="mb-5">
                 <h1 class="serif-font-cart fw-bold display-6 mb-2">Đơn Hàng Của Bạn</h1>
                 <p class="text-muted small mb-0" style="letter-spacing: 1px;">Theo dõi hành trình chuẩn bị cho ngày hạnh phúc đại hỷ.</p>
 
-                <!-- THANH CHUYỂN TAB ĐIỀU HƯỚNG GIỮA GIỎ VÀ ĐƠN HÀNG -->
                 <div class="d-flex gap-4 border-bottom pb-2 mt-4" style="border-color: rgba(197, 168, 128, 0.2) !important;">
-                    <!-- Tab 1: Giỏ hàng (Trạng thái thường) -->
                     <a th:href="@{/customer/cart}" class="text-decoration-none text-muted pb-2"
                        style="font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px; transition: color 0.2s;"
                        onmouseover="this.style.color='#c5a880'" onmouseout="this.style.color='#6c757d'">
-                        <i class="fa-solid fa-shopping-basket me-1"></i> Tuyệt tác đang chọn
+                        <i class="fa-solid fa-basket-shopping me-1"></i> Tuyệt tác đang chọn
                     </a>
 
-                    <!-- Tab 2: Lịch sử đơn hàng (Trạng thái ACTIVE) -->
                     <a th:href="@{/customer/order-history}" class="text-decoration-none fw-bold pb-2 text-dark position-relative" style="font-size: 0.9rem; letter-spacing: 0.5px;">
                         <i class="fa-solid fa-receipt me-1" style="color: #c5a880;"></i> Lịch trình & Đơn hàng đã đặt
                         <span class="badge rounded-pill ms-1" style="background-color: #c5a880; font-size: 0.7rem; vertical-align: middle;"
@@ -141,9 +40,6 @@
                 </div>
             </div>
 
-            <!-- ==========================================
-                 TABS BỘ LỌC PHÂN LOẠI TRẠNG THÁI ĐƠN HÀNG
-                 ========================================== -->
             <ul class="nav nav-tabs nav-tabs-luxury mb-5 justify-content-center border-0 bg-white p-2 shadow-sm">
                 <li class="nav-item">
                     <a class="nav-link" th:classappend="${currentStatus == 'ALL' || currentStatus == null} ? 'active' : ''" th:href="@{/customer/order-history(status='ALL')}">Tất cả</a>
@@ -162,13 +58,9 @@
                 </li>
             </ul>
 
-            <!-- ==========================================
-                 DANH SÁCH ĐƠN HÀNG THỰC TẾ
-                 ========================================== -->
             <div class="d-flex flex-column gap-4" th:if="${orders != null and !orders.isEmpty()}">
                 <div class="order-card" th:each="order : ${orders}">
 
-                    <!-- Thanh thông tin đầu thẻ -->
                     <div class="order-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <div>
                             <span class="text-muted small fw-semibold text-uppercase" style="letter-spacing: 0.5px;">Mã định danh:</span>
@@ -177,7 +69,6 @@
                             <span class="text-muted small" th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">06/06/2026</span>
                         </div>
 
-                        <!-- Hiển thị Trạng thái Động -->
                         <div class="d-flex align-items-center">
                             <span class="status-dot" th:classappend="${
                                 order.status == 'PENDING' ? 'bg-pending' :
@@ -202,7 +93,6 @@
                         </div>
                     </div>
 
-                    <!-- Phần thân hiển thị thông tin chi tiết -->
                     <div class="p-4 bg-white">
                         <div class="row align-items-center g-3">
                             <div class="col-md-8">
@@ -226,7 +116,6 @@
 
                         <hr class="my-3" style="border-color: #f1eeeb;">
 
-                        <!-- Nút hành động xem tiến độ dòng thời gian -->
                         <div class="d-flex justify-content-end">
                             <a th:href="@{/customer/order-detail/{id}(id=${order.orderId})}" class="btn-luxury-outline">
                                 <i class="fa-solid fa-timeline me-2"></i> Xem lịch trình tiến độ
@@ -236,9 +125,6 @@
                 </div>
             </div>
 
-            <!-- ==========================================
-                 TRƯỜNG HỢP TRỐNG (KHI CHƯA CÓ ĐƠN HÀNG NÀO)
-                 ========================================== -->
             <div th:if="${orders == null or orders.isEmpty()}" class="empty-orders-box">
                 <i class="fa-solid fa-receipt display-1 mb-4" style="color: #eaddce;"></i>
                 <h3 class="serif-font-cart fw-bold mb-2">Chưa tìm thấy lịch trình đơn hàng</h3>
@@ -252,7 +138,6 @@
     </div>
 </div>
 
-<!-- Nhúng Menu Footer tổng -->
 <div th:replace="~{customer/fragments/layout :: customer-footer}"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

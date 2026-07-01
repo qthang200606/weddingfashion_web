@@ -1,0 +1,126 @@
+/* ==========================================================================
+   BRIDAL STUDIO - CORE ADMIN LAYOUT STYLES (Sidebar & Topbar)
+   ========================================================================== */
+:root {
+    --sidebar-width: 260px;
+    --topbar-height: 70px;
+    --primary-gold: #b89772;
+    --dark-charcoal: #111111;
+    --bg-light: #f8f9fa;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-light);
+    margin: 0;
+}
+
+/* --- SIDEBAR STYLE --- */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--dark-charcoal);
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 1030;
+    transition: all 0.3s ease;
+}
+
+.sidebar-brand {
+    height: var(--topbar-height);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    color: #fff;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.sidebar-brand i { color: var(--primary-gold); margin-right: 10px; }
+
+.sidebar-menu {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.menu-item {
+    padding: 2px 15px;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: #a0aec0;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.menu-link i { width: 24px; font-size: 1.1rem; margin-right: 10px; }
+
+.menu-item.active .menu-link, .menu-link:hover {
+    background-color: rgba(184, 151, 114, 0.15);
+    color: var(--primary-gold) !important;
+}
+
+/* --- TOPBAR / HEADER STYLE --- */
+.topbar {
+    height: var(--topbar-height);
+    background: #ffffff;
+    border-bottom: 1px solid #edf2f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    position: fixed;
+    top: 0; right: 0;
+    left: var(--sidebar-width);
+    z-index: 1020;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn {
+    background: none; border: none; font-size: 1.2rem; color: #4a5568; cursor: pointer;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-avatar {
+    width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #edf2f7;
+}
+
+/* --- MAIN WRAPPER CONTENT (Đã sửa lỗi Footer) --- */
+.main-wrapper {
+    margin-left: var(--sidebar-width);
+    padding-top: var(--topbar-height);
+    transition: all 0.3s ease;
+
+    /* Kích hoạt lò xo co giãn chiều dọc */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-area {
+    padding: 40px;
+    /* Chiếm toàn bộ không gian trống còn lại để ép footer xuống */
+    flex: 1;
+}
+
+/* --- ĐỊNH DẠNG SƠ BỘ FOOTER CHUẨN ADMIN --- */
+footer {
+    background-color: #ffffff;
+    border-top: 1px solid #edf2f7;
+    padding: 20px 40px;
+    width: 100%;
+    margin-top: auto; /* Thuộc tính cốt lõi để bám chặt vào đáy màn hình */
+}

@@ -31,8 +31,9 @@ public class CartController {
     }
 
     // 1. HIỂN THỊ TRANG GIỎ HÀNG (cart.html)
+    // 1. HIỂN THỊ TRANG GIỎ HÀNG (cart.html)
     @GetMapping
-    public String viewCart(Model model, Principal principal) {
+    public String viewCart(Model model, Principal principal, jakarta.servlet.http.HttpSession session) { // 🌟 Thêm HttpSession vào tham số
         User user = getLoggedInUser(principal);
         if (user == null) {
             return "redirect:/login";
@@ -48,6 +49,9 @@ public class CartController {
                 .mapToInt(CartItem::getQuantity)
                 .sum();
 
+        // 🌟 DÒNG QUAN TRỌNG: Ném con số thực này vào Session để Navbar ở đâu cũng đọc được!
+        session.setAttribute("totalCartQuantity", totalQuantity);
+
         model.addAttribute("cartItems", cart.getCartItems());
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("totalQuantity", totalQuantity);
@@ -55,21 +59,39 @@ public class CartController {
         return "customer/cart";
     }
 
-    // 2. HÀM XỬ LÝ KHI BẤM "THÊM VÀO GIỎ HÀNG"
+    // 2. HÀM XỬ LÝ KHI BẤM "THÊM VÀO GIỎ HÀNG" (CẬP NHẬT TRẢ VỀ SỐ LƯỢNG THỰC)
     @PostMapping("/add")
-    public String addToCart(@RequestParam("productId") Long productId,
-                            @RequestParam("productSize") String productSize,
-                            @RequestParam("quantity") Integer quantity,
-                            Principal principal) { // 🌟 Dùng Principal thay cho HttpSession
+    @ResponseBody
+    public Object addToCart(@RequestParam("productId") Long productId,
+                            @RequestParam(value = "productSize", required = false, defaultValue = "M") String productSize,
+                            @RequestParam(value = "quantity", required = false, defaultValue = "1") Integer quantity,
+                            @RequestHeader(value = "X-Requested-With", required = false) String requestedWith,
+                            Principal principal) {
+
         User user = getLoggedInUser(principal);
         if (user == null) {
-            return "redirect:/login"; // Sẽ không bị đá về nữa nếu bạn đã login
+            if ("XMLHttpRequest".equals(requestedWith)) {
+                return org.springframework.http.ResponseEntity.status(401).body("Chưa đăng nhập");
+            }
+            return "redirect:/login";
         }
 
+        // 1. Thực hiện thêm vào giỏ hàng
         cartService.addToCart(user, productId, productSize, quantity);
+
+        // 2. Lấy giỏ hàng mới nhất để tính tổng số lượng thực tế
+        Cart cart = cartService.getCartByUser(user);
+        int totalQuantity = cart.getCartItems().stream()
+                .mapToInt(CartItem::getQuantity)
+                .sum();
+
+        // 🌟 BẮN SỐ THỰC VỀ CHO AJAX: Nếu đúng là request từ JavaScript
+        if ("XMLHttpRequest".equals(requestedWith) || requestedWith != null) {
+            return org.springframework.http.ResponseEntity.ok(totalQuantity); // Trả về con số, ví dụ: 3, 4, 5
+        }
+
         return "redirect:/customer/cart";
     }
-
     // 3. CẬP NHẬT TĂNG/GIẢM SỐ LƯỢNG NGAY TẠI GIAO DIỆN GIỎ HÀNG
     @PostMapping("/update")
     public String updateCart(@RequestParam("cartItemId") Long cartItemId,

@@ -1,0 +1,104 @@
+/* ==========================================================================
+   BRIDAL STUDIO - ADVANCED ORDER WORKFLOW STYLES
+   ========================================================================== */
+
+/* --- TIÊU ĐỀ & ĐIỀU HƯỚNG BREADCRUMB --- */
+.page-title {
+    font-family: 'Playfair Display', serif;
+     Sherwood-gold: #b89772;
+    font-weight: 700;
+    color: #111111;
+    margin: 0;
+    font-size: 1.7rem;
+}
+
+.breadcrumb-custom {
+    font-size: 0.85rem;
+    color: #8a8a8a;
+    margin-top: 4px;
+}
+
+/* --- THẺ CHỨA LAYOUT BIỂU MẪU --- */
+.custom-card {
+    background: #ffffff;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.015);
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+/* --- BẢNG THEO DÕI ĐƠN HÀNG (BRIDAL THEME) --- */
+.table-bridal {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-bridal th {
+    background-color: #fafbfc;
+    color: #5a6A85;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px 14px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.table-bridal td {
+    padding: 16px 14px;
+    vertical-align: middle;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.table-bridal tbody tr:hover td {
+    background-color: #fcfbfa;
+}
+
+/* --- ĐỔ MÀU HỆ THỐNG WORKFLOW TRẠNG THÁI NÂNG CAO --- */
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.badge-pending { background-color: #fff8dd; color: #ffc700; border: 1px solid #ffeeba; }
+.badge-paid { background-color: #e8fff3; color: #50cd89; border: 1px solid #c5e1a5; }
+.badge-confirmed { background-color: #e1f0ff; color: #3e97ff; border: 1px solid #b6effb; }
+.badge-preparing { background-color: #f9f9f9; color: #7e8299; border: 1px solid #d3d6d8; }
+.badge-shipping { background-color: #eee5ff; color: #7239ea; border: 1px solid #bae6fd; }
+.badge-delivered { background-color: #e8fff3; color: #50cd89; border: 1px solid #badbcc; }
+.badge-cancelled { background-color: #fff5f8; color: #f1416c; border: 1px solid #f5c2c7; }
+
+/* --- NÚT HÀNH ĐỘNG THEO TIẾN ĐỘ --- */
+.btn-action {
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.82rem;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    border: none;
+}
+
+.btn-action.btn-primary { background-color: #3e97ff; }
+.btn-action.btn-primary:hover { background-color: #187de4; }
+.btn-action.btn-secondary { background-color: #7e8299; }
+.btn-action.btn-secondary:hover { background-color: #606376; }
+.btn-action.btn-info { background-color: #7239ea; }
+.btn-action.btn-info:hover { background-color: #5b26c9; }
+.btn-action.btn-success { background-color: #50cd89; }
+.btn-action.btn-success:hover { background-color: #43b477; }
+
+.opacity-40 {
+    opacity: 0.4;
+}

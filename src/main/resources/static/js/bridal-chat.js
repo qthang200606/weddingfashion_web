@@ -217,7 +217,7 @@ function loadChatHistory(id) {
         });
 }
 
-// 💥 HÀM VẼ BONG BÓNG TIN NHẮN LÊN GIAO DIỆN CHAT (ĐÃ TỐI ƯU CHỐNG TRÙNG TIN)
+// 💥 HÀM VẼ BONG BÓNG TIN NHẮN LÊN GIAO DIỆN CHAT (ĐÃ SỬA ĐỂ BẬT HIỂN THỊ ẢNH)
 function appendMessageToUI(message) {
     const chatMessageArea = document.getElementById('chatMessageArea');
     if (!chatMessageArea || !message.content) return;
@@ -243,7 +243,10 @@ function appendMessageToUI(message) {
     msgBubble.style.maxWidth = '80%';
     msgBubble.style.fontSize = '0.9rem';
     msgBubble.style.wordBreak = 'break-word';
-    msgBubble.innerText = message.content;
+
+    // 🌟 THAY ĐỔI QUAN TRỌNG: Lọc mã độc độc hại trước, sau đó dựng ảnh và xuất HTML an toàn
+    msgBubble.innerHTML =
+        clientParseMarkdownImages(message.content);
 
     if (message.senderType === 'CUSTOMER') {
         rowDiv.style.justifyContent = 'flex-end';
@@ -259,3 +262,47 @@ function appendMessageToUI(message) {
     chatMessageArea.appendChild(rowDiv);
     chatMessageArea.scrollTop = chatMessageArea.scrollHeight;
 }
+
+/**
+ * 🎨 HÀM TIỆN ÍCH 1: BÓC TÁCH MÃ MARKDOWN ẢNH KỂ CẢ KHI CÓ DẤU XUỐNG DÒNG VÀ DẤU NGOẶC ĐƠN TRONG TÊN FILE
+ */
+function clientParseMarkdownImages(text) {
+    if (!text) return '';
+
+    return text.replace(
+        /!\[(.*?)\]\((.*)\)/g,
+        function (_, alt, url) {
+
+            const cleanUrl = encodeURI(url.trim());
+
+            return `
+                <div style="margin-top:6px;">
+                    <img
+                        src="${cleanUrl}"
+                        alt="${alt}"
+                        style="
+                            max-width:100%;
+                            border-radius:6px;
+                            border:1px solid #e1d3c1;
+                            box-shadow:0 2px 6px rgba(0,0,0,0.1);
+                        "
+                    />
+                </div>
+            `;
+        }
+    );
+}
+
+/**
+ * 🔒 HÀM TIỆN ÍCH 2: BẢO MẬT CHỐNG XSS CHO KHÁCH HÀNG
+ */
+function clientEscapeHtml(text) {
+    if (!text) return '';
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+

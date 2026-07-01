@@ -114,4 +114,19 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrdersByUserIdAndStatus(Long userId, String status) {
         return orderRepository.findByUser_UserIdAndStatusOrderByOrderDateDesc(userId, status);
     }
+
+    @Override
+    public long countAllOrders() {
+        // Sử dụng hàm count() mặc định của JpaRepository để đếm tổng số dòng trong bảng orders
+        return orderRepository.count();
+    }
+
+    @Override
+    public double calculateTotalRevenue() {
+        // Tính tổng tiền từ các đơn hàng có trạng thái thành công "DELIVERED"
+        Double revenue = orderRepository.sumTotalAmountByStatus("DELIVERED");
+
+        // Trả về số tiền, nếu null (chưa có đơn thành công nào) thì trả về 0.0 để tránh lỗi vỡ giao diện
+        return revenue != null ? revenue : 0.0;
+    }
 }

@@ -1,0 +1,105 @@
+/* ==========================================================================
+   BRIDAL STUDIO - PREMIUM ADMIN DASHBOARD STYLES
+   ========================================================================== */
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #f8f9fa;
+    color: #2d3748;
+}
+
+.serif-font-title {
+    font-family: 'Playfair Display', serif !important;
+}
+
+/* --- KHU VỰC THỐNG KÊ (STAT CARDS) --- */
+.stat-card {
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(184, 151, 114, 0.08);
+}
+
+.stat-info h6 {
+    font-size: 0.85rem;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.stat-info h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+}
+
+/* Icons với dải màu nền đặc quyền */
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.icon-gold { background-color: #fefaf4; color: #b89772; }
+.icon-rose { background-color: #fff5f5; color: #e53e3e; }
+.icon-blue { background-color: #ebf8ff; color: #3182ce; }
+.icon-purple { background-color: #faf5ff; color: #805ad5; }
+
+/* --- KHỐI TRUY CẬP NHANH --- */
+.custom-card {
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.card-header-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a202c;
+    border-bottom: 1px solid #f1f3f5;
+    padding-bottom: 15px;
+}
+
+.quick-action-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+    border: 1px solid #eedecb;
+    padding: 16px 20px;
+    border-radius: 8px;
+    color: #2d3748;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.quick-action-btn:hover {
+    background-color: #111111;
+    color: #ffffff !important;
+    border-color: #111111;
+}
+
+.quick-action-btn:hover i {
+    color: #ffffff !important;
+}

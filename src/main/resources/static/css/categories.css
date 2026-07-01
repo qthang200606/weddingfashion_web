@@ -1,0 +1,156 @@
+/* ==========================================================================
+   BELLA COUTURE - EDITORIAL CATEGORIES PAGE DESIGN
+   ========================================================================== */
+
+/* --- HERO HEADER THEO PHONG CÁCH TẠP CHÍ VOGUE --- */
+.category-hero-header {
+    background-color: #ffffff;
+    padding: 80px 0 50px 0;
+    border-bottom: 1px solid rgba(197, 168, 128, 0.1);
+}
+.brand-sub-title {
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    color: var(--bridal-gold);
+    font-weight: 500;
+}
+.header-line {
+    width: 40px;
+    height: 1px;
+    background-color: var(--bridal-gold);
+}
+.header-lead-text {
+    max-width: 650px;
+    font-size: 0.95rem;
+    color: #666666;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+/* --- THE COUTURE CARD ARCHITECTURE --- */
+.couture-cat-card {
+    background-color: #ffffff;
+    border-radius: 0px; /* Thẻ vuông vức tạo cảm giác high-fashion cao cấp hơn bo góc tròn */
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Khung kính chứa ảnh tỷ lệ vàng 3:4 */
+.cat-image-frame {
+    position: relative;
+    width: 100%;
+    padding-top: 133.33%;
+    overflow: hidden;
+    background-color: #f7f5f0;
+}
+
+.cat-img-fluid {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(15%); /* Hạ nhẹ độ bão hòa màu để ảnh có chiều sâu điện ảnh */
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+}
+
+/* Lớp phủ chuyển màu dịu nhẹ từ trong suốt sang tối ở đáy ảnh */
+.cat-gradient-mask {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(26,26,26,0.2) 100%);
+    transition: all 0.5s ease;
+}
+
+/* --- KHU VỰC CHỮ PHONG CÁCH TẠP CHÍ THỜI TRANG --- */
+.cat-editorial-info {
+    padding: 24px 10px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.cat-editorial-title {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--bridal-dark);
+    margin-bottom: 12px;
+    transition: color 0.4s ease;
+}
+
+.cat-editorial-divider {
+    width: 25px;
+    height: 1px;
+    background-color: #e5dfd5;
+    margin-bottom: 15px;
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.4s;
+}
+
+.cat-editorial-desc {
+    font-size: 0.88rem;
+    color: #666666;
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+/* Liên kết chuyển hướng tinh tế */
+.cat-action-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--bridal-dark);
+    font-weight: 600;
+}
+.cat-action-link span {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    transition: color 0.3s;
+}
+.arrow-icon {
+    font-size: 0.85rem;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s;
+}
+
+/* --- TRẠNG THÁI HOVER PHÁT TRIỂN CHIỀU SÂU --- */
+.couture-cat-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Ảnh phóng to tinh tế và lấy lại màu sắc nguyên bản đầy sức sống */
+.couture-cat-card:hover .cat-img-fluid {
+    transform: scale(1.05);
+    filter: grayscale(0%);
+}
+
+.couture-cat-card:hover .cat-editorial-title {
+    color: var(--bridal-gold);
+}
+
+/* Thanh gạch ngang tự động kéo dài ra khi rê chuột vào */
+.couture-cat-card:hover .cat-editorial-divider {
+    width: 60px;
+    background-color: var(--bridal-gold);
+}
+
+/* Nút chữ tự đổi màu và mũi tên trượt nhẹ sang phải kiêu sa */
+.couture-cat-card:hover .cat-action-link span {
+    color: var(--bridal-gold);
+}
+.couture-cat-card:hover .arrow-icon {
+    transform: translateX(6px);
+    color: var(--bridal-gold);
+}
+
+/* Khối trống */
+.empty-state-box {
+    border: 1px dashed rgba(197, 168, 128, 0.3);
+    background-color: #faf8f5;
+}

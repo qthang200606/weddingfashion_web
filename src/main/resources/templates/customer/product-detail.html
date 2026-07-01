@@ -8,173 +8,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: #fdfbf7;
-        }
-
-        .premium-product-wrapper {
-            font-family: 'Plus Jakarta Sans', sans-serif !important;
-            color: #1a1a1a !important;
-            margin-top: 50px;
-            margin-bottom: 80px;
-        }
-
-        .premium-product-wrapper .serif-font-detail {
-            font-family: 'Playfair Display', serif !important;
-        }
-
-        .premium-product-wrapper .detail-img-box {
-            position: relative;
-            background: #ffffff;
-            padding: 12px;
-            border: 1px solid rgba(197, 168, 128, 0.2);
-            box-shadow: 0 15px 40px rgba(197, 168, 128, 0.08);
-        }
-
-        .premium-product-wrapper .main-product-img {
-            width: 100%;
-            height: auto;
-            max-height: 720px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .premium-product-wrapper .product-meta-box {
-            position: sticky;
-            top: 120px;
-            padding-left: 20px;
-        }
-
-        .premium-product-wrapper .product-tag-premium {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #c5a880;
-            font-weight: 700;
-        }
-
-        .premium-product-wrapper .price-badge-premium {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #c5a880;
-            border-bottom: 1px dashed rgba(197, 168, 128, 0.3);
-            padding-bottom: 20px;
-            margin-top: 8px;
-        }
-
-        /* KHU VỰC CHỌN SIZE & CHIỀU CAO CAO CẤP */
-        .size-variant-wrapper {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-        .size-item {
-            position: relative;
-        }
-        .size-item input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            visibility: hidden;
-        }
-        .size-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #e1dbd5;
-            padding: 10px 5px;
-            height: 75px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            background: #fff;
-            text-align: center;
-        }
-        .size-title {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-        .size-desc {
-            font-size: 0.65rem;
-            color: #777;
-            margin-top: 2px;
-            line-height: 1.2;
-        }
-        .size-item input[type="radio"]:checked + .size-label {
-            border-color: #1a1a1a;
-            background-color: #1a1a1a;
-            color: #fff;
-        }
-        .size-item input[type="radio"]:checked + .size-label .size-desc {
-            color: #c5a880;
-        }
-
-        /* Bộ chọn số lượng */
-        .premium-product-wrapper .quantity-selector-premium {
-            display: inline-flex;
-            border: 1px solid #1a1a1a;
-            background: #fff;
-        }
-
-        .premium-product-wrapper .quantity-btn-premium {
-            background: none;
-            border: none;
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #1a1a1a;
-            transition: background 0.2s;
-        }
-        .premium-product-wrapper .quantity-btn-premium:hover { background-color: #f7f5f0; }
-
-        .premium-product-wrapper .quantity-input-premium {
-            width: 50px;
-            border: none;
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        .premium-product-wrapper .quantity-input-premium:focus { outline: none; }
-
-        /* Nút bấm */
-        .premium-product-wrapper .btn-action-premium {
-            border-radius: 0;
-            padding: 14px 28px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .premium-product-wrapper .btn-action-dark { background-color: #1a1a1a; color: #fff; border: 1px solid #1a1a1a; }
-        .premium-product-wrapper .btn-action-dark:hover { background-color: transparent; color: #1a1a1a; }
-
-        .premium-product-wrapper .btn-action-gold { background-color: #c5a880; color: #fff; border: 1px solid #c5a880; }
-        .premium-product-wrapper .btn-action-gold:hover { background-color: #1a1a1a; border-color: #1a1a1a; }
-
-        .premium-product-wrapper .spec-table-premium th,
-        .premium-product-wrapper .spec-table-premium td {
-            padding: 12px 0;
-            font-size: 0.9rem;
-            border-bottom: 1px solid #eaddce;
-        }
-        .premium-product-wrapper .spec-table-premium th { font-weight: 500; color: #666; width: 35%; }
-        .premium-product-wrapper .spec-table-premium td { color: #1a1a1a; font-weight: 600; }
-
-        /* Custom nhẹ giao diện Modal Bảng Size */
-        .modal-content-bridal {
-            border-radius: 0;
-            border: 2px solid #c5a880;
-            background-color: #fdfbf7;
-        }
-        .modal-bridal-header {
-            border-bottom: 1px solid rgba(197, 168, 128, 0.3);
-        }
-    </style>
+    <!-- Nhúng file CSS cục bộ và file CSS chi tiết vừa tách -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/product-detail.css}" rel="stylesheet">
 </head>
 <body>
 
@@ -193,6 +29,7 @@
         </nav>
 
         <div class="row g-5">
+            <!-- Khu vực hiển thị ảnh sản phẩm -->
             <div class="col-lg-6">
                 <div class="detail-img-box">
                     <img th:src="${product.imageUrl != null ? product.imageUrl : 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=600'}"
@@ -200,9 +37,10 @@
                 </div>
             </div>
 
+            <!-- Khu vực thông tin chi tiết & Form tương tác -->
             <div class="col-lg-6">
                 <div class="product-meta-box">
-                    <span class="product-tag-premium d-inline-block">Tuyệt Tác Mùa Cưới 2026</span>
+                    <span class="product-tag-premium">Tuyệt Tác Mùa Cưới 2026</span>
                     <h1 class="serif-font-detail fw-bold display-6 mt-1 mb-3" th:text="${product.productName}">Váy Cưới Luxury Hoàng Gia</h1>
 
                     <p class="price-badge-premium" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></p>
@@ -212,18 +50,19 @@
                         <p class="text-muted lh-lg" th:text="${product.description != null ? product.description : 'Mẫu thiết kế độc quyền sở hữu phom dáng hoàng gia kiêu sa, đính kết thủ công tỉ mỉ tôn trọn vẹn nét đẹp thanh lịch của nàng dâu trong ngày đại hỷ.'}"></p>
                     </div>
 
-                    <!-- THỰC THI THÊM VÀO GIỎ HÀNG QUA FORM -->
+                    <!-- FORM THÊM VÀO GIỎ HÀNG -->
                     <form th:action="@{/customer/cart/add}" method="POST" class="mt-4">
-                        <!-- Gửi ID sản phẩm ẩn lên Controller -->
                         <input type="hidden" name="productId" th:value="${product.productId}">
 
-                        <!-- CHỌN SIZE KẾT HỢP CHIỀU CAO & CÂN NẶNG -->
+                        <!-- BỘ CHỌN KÍCH CỠ BIÊN ĐỘ (TỰ ĐỘNG THAY ĐỔI THEO DANH MỤC VÁY / VEST) -->
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="text-uppercase fs-7 fw-bold text-muted" style="letter-spacing: 1px;">Kích cỡ khuyên dùng:</span>
-                                <!-- Nút kích hoạt mở Bảng thông số số đo chi tiết (Modal) -->
+
+                                <!-- Nút mở bảng size tương ứng -->
                                 <button type="button" class="btn btn-link text-decoration-underline p-0 small" style="color: #c5a880;" data-bs-toggle="modal" data-bs-target="#sizeChartModal">
-                                    <i class="fa-solid fa-ruler-combined me-1"></i> Bảng thông số đo size
+                                    <i class="fa-solid fa-ruler-combined me-1"></i>
+                                    <span th:text="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')} ? 'Bảng thông số đo Vest' : 'Bảng thông số đo Váy'">Bảng thông số đo size</span>
                                 </button>
                             </div>
 
@@ -232,34 +71,38 @@
                                     <input type="radio" id="sizeS" name="productSize" value="S" checked>
                                     <label for="sizeS" class="size-label">
                                         <span class="size-title">S</span>
-                                        <span class="size-desc">1m50 - 1m58<br>40 - 47 kg</span>
+                                        <span class="size-desc" th:if="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">Nữ: 42-48kg<br>Nam: 50-58kg</span>
+                                        <span class="size-desc" th:unless="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">1m50 - 1m58<br>40 - 47 kg</span>
                                     </label>
                                 </div>
                                 <div class="size-item">
                                     <input type="radio" id="sizeM" name="productSize" value="M">
                                     <label for="sizeM" class="size-label">
                                         <span class="size-title">M</span>
-                                        <span class="size-desc">1m55 - 1m62<br>48 - 54 kg</span>
+                                        <span class="size-desc" th:if="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">Nữ: 49-54kg<br>Nam: 59-66kg</span>
+                                        <span class="size-desc" th:unless="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">1m55 - 1m62<br>48 - 54 kg</span>
                                     </label>
                                 </div>
                                 <div class="size-item">
                                     <input type="radio" id="sizeL" name="productSize" value="L">
                                     <label for="sizeL" class="size-label">
                                         <span class="size-title">L</span>
-                                        <span class="size-desc">1m60 - 1m68<br>55 - 60 kg</span>
+                                        <span class="size-desc" th:if="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">Nữ: 55-60kg<br>Nam: 67-75kg</span>
+                                        <span class="size-desc" th:unless="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">1m60 - 1m68<br>55 - 60 kg</span>
                                     </label>
                                 </div>
                                 <div class="size-item">
                                     <input type="radio" id="sizeXL" name="productSize" value="XL">
                                     <label for="sizeXL" class="size-label">
                                         <span class="size-title">XL</span>
-                                        <span class="size-desc">1m65 - 1m75<br>61 - 68 kg</span>
+                                        <span class="size-desc" th:if="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">Nữ: 61-66kg<br>Nam: 76-85kg</span>
+                                        <span class="size-desc" th:unless="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">1m65 - 1m75<br>61 - 68 kg</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- CHỌN SỐ LƯỢNG SẢN PHẨM -->
+                        <!-- BỘ ĐIỀU CHỈNH SỐ LƯỢNG -->
                         <div class="d-flex align-items-center gap-3 mb-4">
                             <span class="text-uppercase fs-7 fw-bold text-muted" style="letter-spacing: 1px;">Số lượng:</span>
                             <div class="quantity-selector-premium">
@@ -280,6 +123,7 @@
                         </div>
                     </form>
 
+                    <!-- THÔNG SỐ THIẾT KẾ CƠ BẢN -->
                     <div class="border-top pt-4">
                         <h4 class="serif-font-detail fw-bold mb-3" style="color: #c5a880;">Thông Số Thiết Kế</h4>
                         <table class="table table-borderless spec-table-premium m-0">
@@ -310,62 +154,123 @@
     </div>
 </div>
 
-<!-- 🌟 THÀNH PHẦN MỚI: MODAL BẢNG THÔNG SỐ SỐ ĐO CHI TIẾT (AN TOÀN TUYỆT ĐỐI) -->
+<!-- 🌟 MODAL BẢNG SỐ ĐO THÔNG MINH (NỀN ĐEN - CHỮ TRẮNG CHO TIÊU ĐỀ) -->
 <div class="modal fade" id="sizeChartModal" tabindex="-1" aria-labelledby="sizeChartModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content modal-content-bridal">
+
+            <!-- Đầu bảng giữ nguyên nền đen chữ trắng sang trọng theo đúng ảnh {FF11015C-AFDA-429E-8AFB-073C467CADAC}.png -->
             <div class="modal-header modal-bridal-header">
-                <h5 class="modal-title serif-font-detail fw-bold" id="sizeChartModalLabel" style="color: #1a1a1a;">BẢNG QUY ĐỔI KÍCH CỠ VÁY CƯỚI BIÊN ĐỘ</h5>
-                <button type="button" class="btn-close" data-bs-shadow="none" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title serif-font-detail" id="sizeChartModalLabel"
+                    th:text="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')} ? 'BẢNG QUY ĐỔI KÍCH CỠ VEST CAO CẤP' : 'BẢNG QUY ĐỔI KÍCH CỠ VÁY CƯỚI BIÊN ĐỘ'">
+                    BẢNG QUY ĐỔI KÍCH CỠ
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
-                <p class="text-muted small mb-3">* Lưu ý: Đồ cưới tại Bella Couture hỗ trợ nới - bóp eo theo số đo thực tế của cô dâu miễn phí trước ngày bàn giao.</p>
-                <div class="table-responsive">
-                    <table class="table table-bordered text-center align-middle m-0" style="font-size: 0.9rem;">
-                        <thead class="table-dark" style="background-color: #1a1a1a;">
-                        <tr>
-                            <th>Size</th>
-                            <th>Vòng Ngực (cm)</th>
-                            <th>Vòng Eo (cm)</th>
-                            <th>Vòng Mông (cm)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td class="fw-bold">S</td>
-                            <td>80 - 84</td>
-                            <td>60 - 64</td>
-                            <td>86 - 90</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">M</td>
-                            <td>85 - 89</td>
-                            <td>65 - 69</td>
-                            <td>91 - 95</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">L</td>
-                            <td>90 - 94</td>
-                            <td>70 - 74</td>
-                            <td>96 - 100</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">XL</td>
-                            <td>95 - 100</td>
-                            <td>75 - 80</td>
-                            <td>101 - 106</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <!-- 1. HIỂN THỊ BẢNG SIZE DÀNH RIÊNG CHO VEST -->
+                <div th:if="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">
+                    <p class="text-muted small mb-3">* Lưu ý: Các mẫu Vest tại Bella Couture thiết kế theo chuẩn Âu phục cao cấp, hỗ trợ căn chỉnh chiều dài tay và ống quần theo yêu cầu cá nhân.</p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center align-middle m-0" style="font-size: 0.9rem;">
+                            <thead class="table-dark" style="background-color: #1a1a1a;">
+                            <tr>
+                                <th>Size</th>
+                                <th>Chiều rộng Vai (cm)</th>
+                                <th>Vòng Ngực Áo (cm)</th>
+                                <th>Vòng Eo Quần/Váy (cm)</th>
+                                <th>Chiều dài Tay (cm)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="fw-bold">S</td>
+                                <td>37 - 39</td>
+                                <td>84 - 88</td>
+                                <td>64 - 68</td>
+                                <td>56</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">M</td>
+                                <td>40 - 42</td>
+                                <td>89 - 93</td>
+                                <td>69 - 73</td>
+                                <td>57</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">L</td>
+                                <td>43 - 45</td>
+                                <td>94 - 98</td>
+                                <td>74 - 78</td>
+                                <td>58</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">XL</td>
+                                <td>46 - 48</td>
+                                <td>99 - 104</td>
+                                <td>79 - 84</td>
+                                <td>59</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <!-- 2. HIỂN THỊ BẢNG SIZE DÀNH CHO VÁY (MẶC ĐỊNH CHO CÁC SẢN PHẨM KHÁC) -->
+                <div th:unless="${product.category != null && #strings.contains(#strings.toLowerCase(product.category.categoryName), 'vest')}">
+                    <p class="text-muted small mb-3">* Lưu ý: Đồ cưới tại Bella Couture hỗ trợ nới - bóp eo theo số đo thực tế của cô dâu miễn phí trước ngày bàn giao.</p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center align-middle m-0" style="font-size: 0.9rem;">
+                            <thead class="table-dark" style="background-color: #1a1a1a;">
+                            <tr>
+                                <th>Size</th>
+                                <th>Vòng Ngực (cm)</th>
+                                <th>Vòng Eo (cm)</th>
+                                <th>Vòng Mông (cm)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="fw-bold">S</td>
+                                <td>80 - 84</td>
+                                <td>60 - 64</td>
+                                <td>86 - 90</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">M</td>
+                                <td>85 - 89</td>
+                                <td>65 - 69</td>
+                                <td>91 - 95</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">L</td>
+                                <td>90 - 94</td>
+                                <td>70 - 74</td>
+                                <td>96 - 100</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">XL</td>
+                                <td>95 - 100</td>
+                                <td>75 - 80</td>
+                                <td>101 - 106</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-sm btn-dark px-4 rounded-0" data-bs-dismiss="modal">Đóng cửa sổ</button>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-sm btn-action-dark px-4" data-bs-dismiss="modal" style="font-size: 0.8rem; font-weight: 500; letter-spacing: 1px;">
+                    Đóng cửa sổ
+                </button>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Nhúng Menu Footer -->
 <div th:replace="~{customer/fragments/layout :: customer-footer}"></div>
 
 <script>
@@ -377,7 +282,6 @@
         input.value = current;
     }
 </script>
-<!-- ĐẢM BẢO NHÚNG BUNDLE ĐỂ MODAL HOẠT ĐỘNG MƯỢT MÀ -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

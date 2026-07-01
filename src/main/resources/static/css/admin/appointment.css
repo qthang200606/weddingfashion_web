@@ -1,0 +1,69 @@
+/* ==========================================================================
+   BRIDAL STUDIO - APPOINTMENT MANAGEMENT STYLES
+   ========================================================================== */
+
+/* --- KHUNG THẺ CHỨA --- */
+.card-custom {
+    background: #ffffff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    padding: 30px;
+}
+
+/* --- TABS ĐIỀU HƯỚNG --- */
+.nav-tabs-admin {
+    border-bottom: 2px solid #eff2f5;
+    gap: 10px;
+}
+
+.nav-tabs-admin .nav-link {
+    border: none;
+    color: #7e8299;
+    font-weight: 600;
+    padding: 14px 24px;
+    background: none;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.nav-tabs-admin .nav-link:hover {
+    color: #b89772;
+}
+
+.nav-tabs-admin .nav-link.active {
+    color: #111111 !important;
+    border-bottom: 3px solid #b89772;
+}
+
+/* --- ĐỊNH DẠNG BADGES TRẠNG THÁI --- */
+.badge-pending {
+    background-color: #fff8dd;
+    color: #ffc700;
+    font-weight: 600;
+}
+
+.badge-confirmed {
+    background-color: #e8fff3;
+    color: #50cd89;
+    font-weight: 600;
+}
+
+.badge-cancelled {
+    background-color: #fff5f8;
+    color: #f1416c;
+    font-weight: 600;
+}
+
+/* --- BẢNG DỮ LIỆU --- */
+.table th {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #4a5568;
+    padding: 14px 10px;
+}
+
+.table td {
+    padding: 16px 10px;
+}

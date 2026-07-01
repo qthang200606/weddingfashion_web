@@ -4,88 +4,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Bridal Studio</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style th:replace="~{admin/category/list :: shared-styles}"></style>
+
+    <link th:href="@{/css/admin/style.css}" rel="stylesheet">
+    <link th:href="@{/css/admin/dashboard.css}" rel="stylesheet">
+
+    <!-- 🌟 THÊM THƯ VIỆN ĐỒ THỊ CHART.JS CHUYÊN NGHIỆP -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* CSS bổ trợ cho khu vực biểu đồ tinh tế */
+        .chart-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1ece6;
+            margin-bottom: 24px;
+        }
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+        .select-filter-gold {
+            border-color: #c5a880;
+            color: #495057;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .select-filter-gold:focus {
+            border-color: #c5a880;
+            box-shadow: 0 0 0 0.25rem rgba(197, 168, 128, 0.25);
+        }
+    </style>
 </head>
 <body>
 
 <div th:replace="~{admin/fragments/sidebar :: sidebar}"></div>
-
 <nav th:replace="~{admin/fragments/header :: header}"></nav>
 
 <div class="main-wrapper" id="mainWrapper">
     <div class="content-area">
 
-        <div class="page-header">
-            <h2 class="page-title">Dashboard Tổng Quan</h2>
-            <div class="breadcrumb-custom">Tổng quan hệ thống / Hoạt động kinh doanh</div>
+        <div class="page-header mb-4">
+            <h2 class="serif-font-title fw-bold" style="font-family: 'Playfair Display', serif;">Dashboard Tổng Quan</h2>
+            <div class="text-muted small">Tổng quan hệ thống / Hoạt động kinh doanh</div>
         </div>
 
+        <!-- 4 Khối thống kê thẻ số liệu -->
         <div class="row g-4 mb-4">
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stat-card">
                     <div class="stat-info">
                         <h6>Tổng sản phẩm</h6>
-                        <h3 th:text="${totalProducts != null ? totalProducts : '120'}">120</h3>
+                        <h3 th:text="${totalProducts != null ? totalProducts : '0'}">0</h3>
                     </div>
                     <div class="stat-icon icon-gold"><i class="fa-solid fa-shirt"></i></div>
                 </div>
             </div>
+
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stat-card">
                     <div class="stat-info">
                         <h6>Đơn hàng</h6>
-                        <h3 th:text="${totalOrders != null ? totalOrders : '50'}">50</h3>
+                        <h3 th:text="${totalOrders != null ? totalOrders : '0'}">0</h3>
                     </div>
                     <div class="stat-icon icon-rose"><i class="fa-solid fa-bag-shopping"></i></div>
                 </div>
             </div>
+
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stat-card">
                     <div class="stat-info">
                         <h6>Doanh thu</h6>
-                        <h3 th:text="${totalRevenue != null ? totalRevenue : '120M'}">120M</h3>
+                        <h3 th:text="${totalRevenue != null ? #numbers.formatDecimal(totalRevenue, 0, 'COMMA', 0, 'POINT') + ' đ' : '0 đ'}">0 đ</h3>
                     </div>
                     <div class="stat-icon icon-blue"><i class="fa-solid fa-wallet"></i></div>
                 </div>
             </div>
+
             <div class="col-12 col-sm-6 col-xl-3">
                 <div class="stat-card">
                     <div class="stat-info">
                         <h6>Lịch hẹn hôm nay</h6>
-                        <h3 th:text="${totalAppointments != null ? totalAppointments : '15'}">15</h3>
+                        <h3 th:text="${totalAppointments != null ? totalAppointments : '0'}">0</h3>
                     </div>
                     <div class="stat-icon icon-purple"><i class="fa-solid fa-calendar-days"></i></div>
                 </div>
             </div>
         </div>
 
+        <!-- 🌟 VÙNG BIỂU ĐỒ DOANH THU THEO BỘ LỌC ĐỘNG (ĐÃ CẬP NHẬT COMBOBOX) -->
+        <div class="chart-card">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+                <div>
+                    <h5 class="fw-bold text-dark m-0" style="font-family: 'Playfair Display', serif;"><i class="fa-solid fa-chart-line text-warning me-2"></i>Phân tích diễn biến doanh thu</h5>
+                    <div class="text-muted small mt-1">Dữ liệu doanh thu thực tế được đồng bộ tự động từ database</div>
+                </div>
+
+                <!-- Hệ thống Combobox điều hướng thông minh theo yêu cầu -->
+                <div class="d-flex align-items-center gap-2">
+                    <select id="reportTypeSelect" class="form-select form-select-sm select-filter-gold" style="width: 160px;">
+                        <option value="week" selected>Tuần này</option>
+                        <option value="year_current">Năm nay</option>
+                        <option value="select_year">Chọn năm khác...</option>
+                    </select>
+
+                    <!-- Ô chọn năm (Mặc định ẩn d-none, chỉ hiện ra khi chọn 'Chọn năm khác...') -->
+                    <select id="yearPicker" class="form-select form-select-sm select-filter-gold d-none" style="width: 120px;">
+                        <option value="2026" selected>Năm 2026</option>
+                        <option value="2025">Năm 2025</option>
+                        <option value="2024">Năm 2024</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Vùng Canvas vẽ đồ thị -->
+            <div class="chart-container">
+                <canvas id="bellaRevenueChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Truy cập nhanh tác vụ -->
         <div class="custom-card mt-4">
             <h5 class="card-header-title mb-4"><i class="fa-solid fa-bolt text-warning me-2"></i>Truy cập nhanh tác vụ</h5>
             <div class="row g-3">
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-sm-6 col-md-3">
                     <a th:href="@{/admin/products}" class="quick-action-btn">
                         <span><i class="fa-solid fa-square-plus text-primary me-2"></i> Quản lý sản phẩm</span>
                         <i class="fa-solid fa-arrow-right-long opacity-50"></i>
                     </a>
                 </div>
-                <div class="col-12 col-md-3">
-                    <a href="#" class="quick-action-btn">
-                        <span><i class="fa-solid fa-cart-check text-success Holiday me-2"></i> Quản lý đơn hàng</span>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <a th:href="@{/admin/orders}" class="quick-action-btn">
+                        <span><i class="fa-solid fa-cart-check text-success me-2"></i> Quản lý đơn hàng</span>
                         <i class="fa-solid fa-arrow-right-long opacity-50"></i>
                     </a>
                 </div>
-                <div class="col-12 col-md-3">
-                    <a href="#" class="quick-action-btn">
-                        <span><i class="fa-solid fa-calendar-days text-warning me-2"></i> Lịch hẹn khách thử váy</span>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <a th:href="@{/admin/appointments}" class="quick-action-btn">
+                        <span><i class="fa-solid fa-calendar-days text-warning me-2"></i> Lịch hẹn thử váy</span>
                         <i class="fa-solid fa-arrow-right-long opacity-50"></i>
                     </a>
                 </div>
-                <div class="col-12 col-md-3">
-                    <a href="#" class="quick-action-btn">
-                        <span><i class="fa-solid fa-images text-info me-2"></i> Cấu hình banner quảng cáo</span>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <a th:href="@{/admin/banners}" class="quick-action-btn">
+                        <span><i class="fa-solid fa-images text-info me-2"></i> Cấu hình Banner</span>
                         <i class="fa-solid fa-arrow-right-long opacity-50"></i>
                     </a>
                 </div>
@@ -98,6 +166,137 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script th:replace="~{admin/category/list :: shared-scripts}"></script>
+
+<!-- SYSTEM NAVIGATOR SCRIPT -->
+<script>
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+        const sidebar = document.getElementById('sidebar');
+        const topbar = document.getElementById('topbar');
+        const wrapper = document.getElementById('mainWrapper');
+
+        if(sidebar.style.left === '-260px') {
+            sidebar.style.left = '0';
+            topbar.style.left = '260px';
+            wrapper.style.marginLeft = '260px';
+        } else {
+            sidebar.style.left = '-260px';
+            topbar.style.left = '0';
+            wrapper.style.marginLeft = '0';
+        }
+    });
+</script>
+
+<!-- 🌟 SCRIPT ĐIỀU KHIỂN BIỂU ĐỒ DOANH THU ĐỘNG -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+     const ctx = document.getElementById('bellaRevenueChart').getContext('2d');
+     let revenueChart = null;
+
+     const reportTypeSelect = document.getElementById('reportTypeSelect');
+     const yearPicker = document.getElementById('yearPicker');
+
+     // 🌟 HÀM FETCH GỌI DỮ LIỆU THỰC TỪ BACKEND THEO BỘ LỌC ĐỘNG
+     function loadRealtimeChartData() {
+         const type = reportTypeSelect.value;
+         let url = `/admin/api/analytics/revenue?type=${type}`;
+
+         // Nếu admin chọn xem năm tùy chỉnh, đính kèm thêm tham số năm lên API
+         if (type === 'select_year') {
+             url += `&year=${yearPicker.value}`;
+         }
+
+         fetch(url)
+             .then(res => {
+                 if (!res.ok) throw new Error("Lỗi tải dữ liệu");
+                 return res.json();
+             })
+             .then(realData => {
+                 renderRevenueChart(realData.labels, realData.data);
+             })
+             .catch(err => {
+                 console.error("Không thể đồng bộ dữ liệu đồ thị:", err);
+             });
+     }
+
+     // Hàm vẽ và cập nhật cấu trúc Chart.js
+     function renderRevenueChart(labels, data) {
+         if (revenueChart) {
+             revenueChart.destroy(); // Phá hủy thực thể cũ để tránh lỗi chồng chéo đồ thị
+         }
+
+         revenueChart = new Chart(ctx, {
+             type: 'line',
+             data: {
+                 labels: labels,
+                 datasets: [{
+                     label: 'Doanh thu thực tế (VNĐ)',
+                     data: data,
+                     borderColor: '#c5a880',
+                     backgroundColor: 'rgba(197, 168, 128, 0.08)',
+                     borderWidth: 3,
+                     pointBackgroundColor: '#fff',
+                     pointBorderColor: '#c5a880',
+                     pointBorderWidth: 2,
+                     pointRadius: 5,
+                     pointHoverRadius: 7,
+                     tension: 0.35,
+                     fill: true
+                 }]
+             },
+             options: {
+                 responsive: true,
+                 maintainAspectRatio: false,
+                 plugins: {
+                     legend: { display: false },
+                     tooltip: {
+                         padding: 12,
+                         backgroundColor: '#1a1a1a',
+                         titleFont: { size: 13, family: "'Plus Jakarta Sans', sans-serif" },
+                         bodyFont: { size: 14, family: "'Plus Jakarta Sans', sans-serif" },
+                         callbacks: {
+                             label: function (context) {
+                                 return ' ' + context.raw.toLocaleString('vi-VN') + ' VNĐ';
+                             }
+                         }
+                     }
+                 },
+                 scales: {
+                     y: {
+                         grid: { borderDash: [5, 5], color: '#f1ece6' },
+                         ticks: {
+                             font: { family: "'Plus Jakarta Sans', sans-serif", size: 11 },
+                             callback: function (value) {
+                                 // Tự động rút gọn thông minh: Nếu tiền triệu hiện Tr, tiền lẻ hiện nguyên số
+                                 if (value >= 1000000) return (value / 1000000) + ' Tr';
+                                 return value.toLocaleString('vi-VN') + ' đ';
+                             }
+                         }
+                     },
+                     x: {
+                         grid: { display: false },
+                         ticks: { font: { family: "'Plus Jakarta Sans', sans-serif", size: 11 } }
+                     }
+                 }
+             }
+         });
+     }
+
+     // LẮNG NGHE SỰ KIỆN THAY ĐỔI TRÊN COMBOBOX CHÍNH
+     reportTypeSelect.addEventListener('change', function() {
+         if (this.value === 'select_year') {
+             yearPicker.classList.remove('d-none'); // Hiện combobox chọn năm
+         } else {
+             yearPicker.classList.add('d-none');    // Ẩn combobox chọn năm đi
+         }
+         loadRealtimeChartData();
+     });
+
+     // LẮNG NGHE SỰ KIỆN KHI ADMIN ĐỔI NĂM KHÁC TRÊN COMBOBOX PHỤ
+     yearPicker.addEventListener('change', loadRealtimeChartData);
+
+     // 🌟 KHỞI CHẠY MẶC ĐỊNH LẦN ĐẦU KHI MỞ TRANG: Load dữ liệu theo tuần này
+     loadRealtimeChartData();
+ });
+</script>
 </body>
 </html>

@@ -9,238 +9,149 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --bridal-gold: #c5a880;
-            --bridal-dark: #1a1a1a;
-            --bridal-light: #fdfbf7;
-            --bridal-muted: #8e8c84;
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bridal-light);
-            color: var(--bridal-dark);
-            overflow-x: hidden;
-        }
-        h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
-
-        /* Banner Slider */
-        .carousel-bridal .carousel-item { height: 80vh; min-height: 500px; background-color: #eae1d4; }
-        .carousel-overlay {
-            background: linear-gradient(90deg, rgba(243,238,232,0.95) 0%, rgba(243,238,232,0.8) 40%, rgba(255,255,255,0) 100%);
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-        }
-        .hero-title { font-size: 3.5rem; font-weight: 700; line-height: 1.2; color: var(--bridal-dark); margin-bottom: 20px; }
-        .hero-subtitle { font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--bridal-gold); font-weight: 600; }
-        .btn-bridal {
-            background-color: var(--bridal-dark); color: white; border: 1px solid var(--bridal-dark);
-            padding: 12px 35px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; transition: all 0.3s;
-        }
-        .btn-bridal:hover { background-color: transparent; color: var(--bridal-dark); }
-
-        /* Bộ sưu tập */
-        .section-padding { padding: 80px 0; }
-        .section-title { text-align: center; margin-bottom: 50px; }
-        .section-title h2 { font-size: 2.5rem; font-weight: 700; position: relative; display: inline-block; padding-bottom: 15px; }
-        .section-title h2::after { content: ''; position: absolute; bottom: 0; left: 25%; right: 25%; height: 1px; background-color: var(--bridal-gold); }
-        .collection-card { position: relative; overflow: hidden; height: 400px; margin-bottom: 30px; }
-        .collection-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-        .collection-card:hover .collection-img { transform: scale(1.05); }
-        .collection-content {
-            position: absolute; bottom: 0; left: 0; right: 0; padding: 30px;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%); color: white;
-        }
-
-        /* Sản phẩm */
-        .product-card-custom {
-            background: white; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-            transition: transform 0.3s, box-shadow 0.3s; margin-bottom: 30px; height: 100%; display: flex; flex-direction: column;
-        }
-        .product-card-custom:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(197, 168, 128, 0.15); }
-        .product-img-wrapper { position: relative; overflow: hidden; padding-top: 135%; }
-        .product-img-custom { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-        .product-badge-custom {
-            position: absolute; top: 15px; left: 15px; background-color: rgba(255,255,255,0.9) !important;
-            color: var(--bridal-gold) !important; border: 1px solid var(--bridal-gold); font-weight: 500; font-size: 0.75rem; padding: 6px 12px;
-        }
-        .product-info-area { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .product-title-custom { font-size: 1.1rem; font-weight: 600; color: var(--bridal-dark); margin-bottom: 8px; }
-        .product-price-custom { color: var(--bridal-gold); font-weight: 700; font-size: 1.15rem; }
-
-        .sticky-action-btn { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
-        .btn-appointment {
-            background-color: var(--bridal-gold); color: white; border-radius: 50px; padding: 12px 25px;
-            box-shadow: 0 4px 15px rgba(197, 168, 128, 0.4); text-decoration: none; font-weight: 600;
-            display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; border: none;
-        }
-        .btn-appointment:hover { background-color: var(--bridal-dark); color: white; transform: scale(1.05); }
-
-        /* Custom bổ sung nâng cấp cho Modal & Tab điều hướng */
-        .modal-bridal-header {
-            background: linear-gradient(135deg, var(--bridal-dark) 0%, #2d2d2d 100%);
-            padding: 25px 25px 10px 25px;
-        }
-        .modal-bridal-body {
-            background-color: var(--bridal-light);
-            padding: 30px;
-        }
-        .nav-tabs-bridal {
-            border-bottom: none;
-            gap: 15px;
-        }
-        .nav-tabs-bridal .nav-link {
-            color: rgba(255,255,255,0.6);
-            border: none;
-            padding: 8px 16px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 1px;
-            background: transparent;
-            transition: all 0.3s;
-            position: relative;
-        }
-        .nav-tabs-bridal .nav-link.active {
-            color: var(--bridal-gold) !important;
-            background: transparent;
-        }
-        .nav-tabs-bridal .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 15%;
-            right: 15%;
-            height: 2px;
-            background-color: var(--bridal-gold);
-        }
-        .bridal-input {
-            border: 1px solid #e5dfd5; padding: 11px 15px; border-radius: 8px; font-size: 0.95rem; transition: all 0.3s;
-        }
-        .bridal-input:focus {
-            border-color: var(--bridal-gold); box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.2); background-color: #fff;
-        }
-        .bridal-label {
-            font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--bridal-dark); margin-bottom: 6px;
-        }
-        .bridal-label i { color: var(--bridal-gold); margin-right: 4px; }
-        .btn-bridal-submit {
-            background: linear-gradient(135deg, var(--bridal-gold) 0%, #b3946b 100%);
-            color: white; border: none; padding: 12px; font-weight: 600; letter-spacing: 1px; border-radius: 8px; transition: all 0.3s;
-        }
-
-        /* Thẻ danh sách lịch hẹn (My Appointments Card) */
-        .app-history-card {
-            background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px;
-            border-left: 4px solid var(--bridal-gold); box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-        .badge-pending { background-color: #fef3c7; color: #d97706; }
-        .badge-confirmed { background-color: #d1fae5; color: #059669; }
-        .badge-cancelled { background-color: #fee2e2; color: #dc2626; }
-    </style>
+    <!-- Thư mục CSS tĩnh chứa cấu trúc giao diện mới -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 
+<!-- Gắn thanh Menu mới với hệ thống Icon tươi tắn, có badge thông báo -->
 <div th:replace="~{customer/fragments/layout :: customer-navbar}"></div>
 
-<!-- CAROUSEL BANNER & SECTIONS SẢN PHẨM GIỮ NGUYÊN NHƯ CŨ -->
-<div id="heroBannerCarousel" class="carousel slide carousel-bridal" data-bs-ride="carousel">
-    <div class="carousel-indicators" th:if="${activeBanners != null && !#lists.isEmpty(activeBanners)}">
-        <button type="button" data-bs-target="#heroBannerCarousel" th:each="banner, iterStat : ${activeBanners}" th:data-bs-slide-to="${iterStat.index}" th:classappend="${iterStat.first} ? 'active'"></button>
-    </div>
-    <div class="carousel-inner">
-        <div th:if="${activeBanners != null && !#lists.isEmpty(activeBanners)}" th:each="banner, iterStat : ${activeBanners}" th:classappend="${iterStat.first} ? 'active'" class="carousel-item">
-            <div class="carousel-overlay"></div>
-            <div class="container h-100 position-relative" style="z-index: 2;">
-                <div class="row h-100 align-items-center">
-                    <div class="col-lg-6">
-                        <span class="hero-subtitle" th:text="${banner.title}">BST MỚI</span>
-                        <h1 class="hero-title" th:text="${banner.content}">Tuyệt Tác Váy Cưới</h1>
-                        <a th:href="@{/customer/categories}" class="btn btn-bridal">Khám phá ngay</a>
-                    </div>
-                    <div class="col-lg-6 d-none d-lg-block h-100 position-relative">
-                        <img th:src="${banner.imageUrl}" class="position-absolute bottom-0 start-50 translate-middle-x" style="max-height: 95%; object-fit: contain; width: 85%;">
-                    </div>
-                </div>
+<!-- HERO BANNER: VIDEO ĐÔI UYÊN ƯƠNG & VÁY CƯỚI NGHỆ THUẬT -->
+<section class="hero-video-section d-flex align-items-center" style="min-height: 75vh;">
+    <div class="container">
+        <div class="row align-items-center g-4 g-lg-5">
+            <!-- Bên trái: Thông điệp thương hiệu tinh tế -->
+            <div class="col-lg-5 text-center text-lg-start">
+                <span class="hero-subtitle d-block mb-2" style="letter-spacing: 3px;">Bella Couture</span>
+                <h1 class="hero-title serif-font" style="font-size: 3.2rem; font-weight: 700; color: #1a1a1a;">Khởi Đầu Giấc Mơ Nàng Dâu</h1>
+                <p class="fs-5 text-muted mb-4" style="font-weight: 300; line-height: 1.6;">Chào mừng bạn đến với thiên đường váy cưới thiết kế cao cấp, nơi biến khoảnh khắc thiêng liêng thành kiệt tác trường tồn.</p>
+                <a th:href="@{/customer/categories}" class="btn btn-bridal">Xem bộ sưu tập</a>
             </div>
-        </div>
-        <div th:if="${activeBanners == null || #lists.isEmpty(activeBanners)}" class="carousel-item active">
-            <div class="carousel-overlay"></div>
-            <div class="container h-100 position-relative" style="z-index: 2;">
-                <div class="row h-100 align-items-center">
-                    <div class="col-lg-6">
-                        <span class="hero-subtitle">Bella Couture</span>
-                        <h1 class="hero-title">Khởi Đầu Giấc Mơ Nàng Dâu</h1>
-                        <p class="fs-5 text-muted mb-4">Chào mừng bạn đến với thiên đường váy cưới thiết kế cao cấp.</p>
-                        <a th:href="@{/customer/categories}" class="btn btn-bridal">Xem bộ sưu tập</a>
-                    </div>
-                    <div class="col-lg-6 d-none d-lg-block h-100 position-relative">
-                        <img src="https://images.unsplash.com/photo-1594552072238-b8a33785b261?q=80&w=600" class="position-absolute bottom-0 start-50 translate-middle-x" style="max-height: 90%; object-fit: contain;">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
+            <!-- Bên phải: Khung phát Video được bo góc mềm mại, đổ bóng luxury -->
+            <div class="col-lg-7">
+                <div class="hero-video-wrapper">
+                    <!-- Thuộc tính autoplay và muted giúp video tự động chạy mượt mà không bị trình duyệt chặn -->
+                    <video autoplay muted loop playsinline poster="https://jolipoli.com.vn/wp-content/uploads/2020/08/Final-ShowReel-Jolipoli-2020-COMPRESS-90MB.mp4">
+                        <source src="https://jolipoli.com.vn/wp-content/uploads/2020/08/Final-ShowReel-Jolipoli-2020-COMPRESS-90MB.mp4" type="video/mp4">
+                        Trình duyệt của bạn không hỗ trợ phát video này.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BANNER KHUYẾN MÃI / BỘ ẢNH CƯỚI ĐỘNG TỪ ADMIN -->
 <section class="container section-padding">
     <div class="section-title">
-        <span class="text-uppercase tracking-wider text-muted small d-block mb-2">- Thiên Đường Váy Cưới -</span>
-        <h2>Các Nhóm Thiết Kế Nổi Bật</h2>
+        <span class="text-uppercase tracking-wider text-muted small d-block mb-2">- Ưu Đãi & Sự Kiện -</span>
+        <h2>Bộ Ảnh Cưới & Khuyến Mãi</h2>
     </div>
-    <div class="row">
-        <div class="col-md-4" th:each="cat : ${categories}">
-            <div class="collection-card">
-                <img src="https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=600" class="collection-img" th:alt="${cat.categoryName}">
-                <div class="collection-content">
-                    <h3 class="fs-4" th:text="${cat.categoryName}">Tên danh mục</h3>
-                    <p class="small opacity-75" th:text="${cat.description}">Mô tả thiết kế...</p>
+
+    <!-- Cấu trúc Carousel với hiệu ứng fade (mờ dần) -->
+    <div id="promoBannerCarousel" class="carousel slide carousel-fade promo-carousel" data-bs-ride="carousel" data-bs-interval="4500">
+
+        <!-- Nút chấm tròn chuyển slide -->
+        <div class="carousel-indicators" th:if="${activeBanners != null && !#lists.isEmpty(activeBanners)}">
+            <button type="button"
+                    data-bs-target="#promoBannerCarousel"
+                    th:each="banner, iterStat : ${activeBanners}"
+                    th:data-bs-slide-to="${iterStat.index}"
+                    th:classappend="${iterStat.first} ? 'active'"
+                    th:aria-current="${iterStat.first} ? 'true'"
+                    th:aria-label="'Slide ' + ${iterStat.count}">
+            </button>
+        </div>
+
+        <div class="carousel-inner">
+            <!-- Vòng lặp lấy data từ Admin giống y hệt lúc đầu -->
+            <div th:if="${activeBanners != null && !#lists.isEmpty(activeBanners)}" th:each="banner, iterStat : ${activeBanners}" th:classappend="${iterStat.first} ? 'active'" class="carousel-item">
+                <img th:src="${banner.imageUrl}" class="promo-img" alt="Khuyến mãi Bella Couture">
+                <div class="promo-overlay"></div>
+                <div class="promo-caption">
+                    <h3 class="serif-font" th:text="${banner.title}">Tiêu đề khuyến mãi</h3>
+                    <p th:text="${banner.content}">Nội dung chi tiết chương trình ưu đãi...</p>
+                </div>
+            </div>
+
+            <!-- Giao diện dự phòng (Fallback) nếu Admin chưa tải banner nào lên -->
+            <div th:if="${activeBanners == null || #lists.isEmpty(activeBanners)}" class="carousel-item active">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1200" class="promo-img" alt="Mùa Cưới Yêu Thương">
+                <div class="promo-overlay"></div>
+                <div class="promo-caption">
+                    <h3 class="serif-font">Mùa Cưới Yêu Thương</h3>
+                    <p>Giảm ngay 20% cho gói chụp ảnh Pre-Wedding và combo váy cưới cao cấp khi đặt lịch trong tháng này.</p>
                 </div>
             </div>
         </div>
+
+        <!-- Mũi tên điều hướng trái/phải -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#promoBannerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Trước</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#promoBannerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Sau</span>
+        </button>
     </div>
 </section>
-
+<!-- SẢN PHẨM NỔI BẬT -->
 <section class="container pb-5">
-    <div class="section-title">
-        <span class="text-uppercase tracking-wider text-muted small d-block mb-2">- Kiệt Tác Nghệ Thuật -</span>
-        <h2>Váy Cưới Nổi Bật</h2>
+    <div class="section-title text-center mb-5">
+        <span class="text-uppercase tracking-wider text-muted small d-block mb-2" style="letter-spacing: 3px;">- Kiệt Tác Nghệ Thuật -</span>
+        <h2 class="serif-font" style="font-size: 2.5rem; font-weight: 700;">Váy Cưới Nổi Bật</h2>
+        <div class="mx-auto mt-2" style="width: 60px; height: 1px; background-color: #bc9c6c;"></div>
     </div>
-    <div class="row">
+
+    <div class="row g-4">
         <div class="col-xl-3 col-lg-4 col-md-6" th:each="p : ${products}">
             <div class="product-card-custom">
+
                 <div class="product-img-wrapper">
-                    <img th:src="${p.imageUrl != null ? p.imageUrl : 'https://images.unsplash.com/photo-1594552072238-b8a33785b261?q=80&w=400'}" class="product-img-custom" th:alt="${p.productName}">
-                    <span class="badge product-badge-custom" th:text="${p.category != null ? p.category.categoryName : 'Váy Cưới'}">Category</span>
+                    <img th:src="${p.imageUrl != null ? p.imageUrl : 'https://images.unsplash.com/photo-1594552072238-b8a33785b261?q=80&w=400'}"
+                         class="product-img-custom"
+                         th:alt="${p.productName}">
+                    <span class="badge product-badge-custom"
+                          th:text="${p.category != null ? p.category.categoryName : 'Váy Cưới'}">Category</span>
                 </div>
+
                 <div class="product-info-area">
                     <h5 class="product-title-custom" th:text="${p.productName}">Tên váy cưới</h5>
-                    <p class="product-price-custom m-0" th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></p>
+                    <p class="product-price-custom m-0" th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">0 VNĐ</p>
+
+                    <div class="product-action-overlay">
+                        <a th:href="@{/customer/products/{id}(id=${p.productId})}" class="btn btn-jolipoli-view">
+                            Chi tiết kiệt tác
+                        </a>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 </section>
 
-<!-- BUTTON FIXED GÓC MÀN HÌNH -->
+<!-- NÚT ĐẶT LỊCH FIXED -->
 <div class="sticky-action-btn">
     <button type="button" class="btn-appointment" data-bs-toggle="modal" data-bs-target="#appointmentHubModal" id="btnOpenModalHub">
         <i class="fa-regular fa-calendar-check"></i> ĐẶT LỊCH & QUẢN LÝ LỊCH HẸN
     </button>
 </div>
 
-<!-- ================= MODAL LỒNG 2 TABS SIÊU CẤP ================= -->
+<!-- MODAL HUB ĐẶT LỊCH & QUẢN LÝ -->
 <div class="modal fade" id="appointmentHubModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 620px;">
         <div class="modal-content" style="border: none; border-radius: 16px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.2);">
 
-            <!-- Header Modal chứa Tabs chuyển đổi nhanh -->
             <div class="modal-header modal-bridal-header d-flex flex-column align-items-center">
                 <div class="w-100 d-flex justify-content-between align-items-center mb-2">
                     <h4 class="text-white serif-font m-0" style="letter-spacing: 1px;">Bella Couture</h4>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <!-- Thanh chuyển Tab chuyên nghiệp -->
                 <ul class="nav nav-tabs nav-tabs-bridal w-100 justify-content-center mt-2" id="appointmentTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="new-booking-tab" data-bs-toggle="tab" data-bs-target="#new-booking" type="button" role="tab" aria-controls="new-booking" aria-selected="true">
@@ -255,17 +166,14 @@
                 </ul>
             </div>
 
-            <!-- Nội dung thay đổi theo Tab -->
             <div class="modal-body modal-bridal-body">
                 <div class="tab-content" id="appointmentTabsContent">
 
-                    <!-- TAB 1: FORM ĐẶT LỊCH HẸN MỚI -->
                     <div class="tab-pane fade show active" id="new-booking" role="tabpanel" aria-labelledby="new-booking-tab">
                         <div id="modalAlert" class="alert d-none text-center small fw-medium py-2 mb-3" role="alert"></div>
                         <form id="ajaxAppointmentForm">
                             <div class="mb-3">
                                 <label class="bridal-label"><i class="fa-regular fa-user"></i> Họ và Tên quý khách</label>
-                                <!-- ĐÃ SỬA: Xóa bỏ readonly, đổi border từ dashed (đứt nét) sang nét liền cho tự nhiên khi nhập liệu -->
                                 <input type="text" class="form-control bridal-input"
                                        name="fullName"
                                        th:value="${user != null ? user.fullName : ''}"
@@ -275,7 +183,6 @@
 
                             <div class="mb-3">
                                 <label class="bridal-label"><i class="fa-solid fa-phone"></i> Số điện thoại liên hệ</label>
-                                <!-- ĐÃ SỬA: Xóa bỏ readonly, thêm thuộc tính required để bắt buộc phải nhập số điện thoại -->
                                 <input type="tel" class="form-control bridal-input"
                                        name="phone"
                                        th:value="${user != null ? user.phone : ''}"
@@ -310,10 +217,8 @@
                         </form>
                     </div>
 
-                    <!-- TAB 2: QUẢN LÝ LỊCH HẸN CÁ NHÂN (MY APPOINTMENT) -->
                     <div class="tab-pane fade" id="my-appointments" role="tabpanel" aria-labelledby="my-appointments-tab">
                         <div id="appointmentListContainer">
-                            <!-- Danh sách lịch hẹn sẽ tự động render bằng AJAX vào đây -->
                             <div class="text-center py-4 text-muted">
                                 <div class="spinner-border spinner-border-sm var(--bridal-gold) mb-2" role="status"></div>
                                 <p class="small m-0">Đang tải lịch trình của nàng...</p>
@@ -328,99 +233,8 @@
 </div>
 
 <div th:replace="~{customer/fragments/layout :: customer-footer}"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- ================= JAVASCRIPT XỬ LÝ AJAX TỰ ĐỘNG ĐỒNG BỘ 2 CHIỀU ================= -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const dateInput = document.getElementById('modalAppointmentDate');
-        if(dateInput) dateInput.min = new Date().toISOString().split('T')[0];
-
-        // Hàm lấy danh sách lịch hẹn của tài khoản đang đăng nhập
-        function loadMyAppointments() {
-            const container = document.getElementById('appointmentListContainer');
-
-            fetch('/appointments/api/my-list')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('appCount').innerText = data.length;
-                if(data.length === 0) {
-                    container.innerHTML = '<div class="text-center py-5 text-muted small"><i class="fa-regular fa-calendar-times fs-2 mb-2 d-block text-black-50"></i>Nàng chưa có lịch hẹn thử váy nào.</div>';
-                    return;
-                }
-
-                let html = '';
-                data.forEach(app => {
-                    let badgeClass = 'badge-pending';
-                    let statusText = 'Chờ duyệt';
-                    if(app.status === 'CONFIRMED') { badgeClass = 'badge-confirmed'; statusText = 'Đã xác nhận'; }
-                    else if(app.status === 'CANCELLED') { badgeClass = 'badge-cancelled'; statusText = 'Đã hủy'; }
-
-                    // Định dạng hiển thị ngày giờ từ ISO
-                    let dateObj = new Date(app.appointmentDate);
-                    let formattedTime = dateObj.toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'}) + ' - ' + dateObj.toLocaleDateString('vi-VN', {day: '2-digit', month: '2-digit', year: 'numeric'});
-
-                    html += `
-                        <div class="app-history-card">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="fw-bold text-dark fs-6"><i class="fa-regular fa-clock text-muted me-1"></i> ${formattedTime}</span>
-                                <span class="badge ${badgeClass} px-2 py-1 rounded small">${statusText}</span>
-                            </div>
-                            <p class="m-0 text-muted small"><i class="fa-regular fa-user me-1"></i> Khách hàng: <span class="text-dark fw-medium">${app.fullName}</span></p>
-                            ${app.note ? `<p class="m-0 text-muted small mt-1"><i class="fa-regular fa-comment-dots me-1"></i> Ghi chú: <span class="text-secondary">${app.note}</span></p>` : ''}
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-            })
-            .catch(() => {
-                container.innerHTML = '<div class="text-center py-3 text-danger small">Không thể lấy dữ liệu lịch hẹn!</div>';
-            });
-        }
-
-        // Tự động tải danh sách lịch khi click mở Modal hoặc bấm chuyển sang Tab Lịch Hẹn
-        document.getElementById('btnOpenModalHub').addEventListener('click', loadMyAppointments);
-        document.getElementById('my-appointments-tab').addEventListener('click', loadMyAppointments);
-
-        // Gửi Form Đặt Lịch Mới bằng AJAX
-        const form = document.getElementById('ajaxAppointmentForm');
-        const alertBox = document.getElementById('modalAlert');
-        const btnSubmit = document.getElementById('btnSubmitModal');
-
-        if(form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                btnSubmit.disabled = true;
-                btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Đang gửi...';
-
-                fetch('/appointments/api/book', { method: 'POST', body: new FormData(form) })
-                .then(res => {
-                    if (res.redirected) { window.location.href = res.url; return; }
-                    return res.json();
-                })
-                .then(data => {
-                    alertBox.classList.remove('d-none', 'alert-danger', 'alert-success');
-                    if (data && data.status === 'success') {
-                        alertBox.classList.add('alert-success');
-                        alertBox.innerHTML = `<i class="fa-regular fa-circle-check me-1"></i> ${data.message}`;
-                        form.reset();
-                        loadMyAppointments(); // Làm mới lại số lượng và danh sách tab bên cạnh ngay lập tức
-                    } else {
-                        alertBox.classList.add('alert-danger');
-                        alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation me-1"></i> ${data.message}`;
-                    }
-                })
-                .catch(() => {
-                    alertBox.classList.add('alert-danger');
-                    alertBox.innerHTML = 'Lỗi kết nối hệ thống!';
-                })
-                .finally(() => {
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = '<i class="fa-regular fa-paper-plane me-1"></i> Xác nhận gửi lịch hẹn';
-                });
-            });
-        }
-    });
-</script>
+<script th:src="@{/js/appointment.js}"></script>
 </body>
 </html>

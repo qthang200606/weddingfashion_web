@@ -1,0 +1,180 @@
+/* ==========================================================================
+   BELLA COUTURE - LUXURY SHOPPING CART STYLES
+   ========================================================================== */
+
+body {
+    background-color: #fdfbf7;
+    color: #1a1a1a;
+}
+
+.premium-cart-container {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    margin-top: 50px;
+    margin-bottom: 80px;
+}
+
+.serif-font-cart {
+    font-family: 'Playfair Display', serif !important;
+}
+
+/* --- KHUNG BẢNG GIỎ HÀNG --- */
+.cart-table-wrapper {
+    background: #ffffff;
+    padding: 25px;
+    border: 1px solid rgba(197, 168, 128, 0.2);
+    box-shadow: 0 15px 40px rgba(197, 168, 128, 0.05);
+}
+
+.cart-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: #777;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 15px;
+}
+
+.cart-table td {
+    padding: 20px 0;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1eeeb;
+}
+
+/* Thẻ hiển thị Size cô dâu */
+.badge-size-bridal {
+    background-color: #f7f5f0;
+    color: #1a1a1a;
+    border: 1px solid #c5a880;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+/* --- BỘ TĂNG GIẢM SỐ LƯỢNG --- */
+.cart-qty-selector {
+    display: inline-flex;
+    border: 1px solid #e1dbd5;
+    background: #fff;
+}
+
+.cart-qty-btn {
+    background: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.2s ease;
+}
+
+.cart-qty-btn:hover {
+    background-color: #f7f5f0;
+}
+
+.cart-qty-input {
+    width: 35px;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.cart-qty-input:focus {
+    outline: none;
+}
+
+/* --- KHỐI HÓA ĐƠN TÓM TẮT (STICKY DESKTOP) --- */
+@media (min-width: 992px) {
+    .cart-summary-box {
+        position: sticky;
+        top: 120px;
+    }
+}
+
+.cart-summary-box {
+    background: #ffffff;
+    padding: 30px;
+    border: 1px solid rgba(197, 168, 128, 0.2);
+}
+
+/* --- HỆ THỐNG NÚT BẤM CAO CẤP --- */
+.btn-cart-premium {
+    border-radius: 0;
+    padding: 14px 20px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cart-gold {
+    background-color: #c5a880;
+    color: #fff;
+    border: 1px solid #c5a880;
+}
+
+.btn-cart-gold:hover {
+    background-color: #1a1a1a;
+    border-color: #1a1a1a;
+    color: #fff;
+}
+
+.btn-cart-outline {
+    background-color: transparent;
+    color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+}
+
+.btn-cart-outline:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+/* --- TRẠNG THÁI GIỎ HÀNG TRỐNG --- */
+.empty-cart-box {
+    text-align: center;
+    padding: 60px 40px;
+    background: #fff;
+    border: 1px dashed rgba(197, 168, 128, 0.4);
+    box-shadow: 0 10px 30px rgba(197, 168, 128, 0.03);
+}
+
+/* --- PHONG CÁCH MODAL THÔNG TIN ĐẶT LỊCH --- */
+.premium-modal {
+    border-radius: 0;
+    border: 1px solid #c5a880;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.premium-modal .form-control,
+.premium-modal .form-select {
+    border-radius: 0;
+    border: 1px solid #e1dbd5;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    background-color: #faf8f5;
+}
+
+.premium-modal .form-control:focus,
+.premium-modal .form-select:focus {
+    border-color: #c5a880;
+    box-shadow: none;
+    background-color: #ffffff;
+}
+
+.premium-modal .input-group-text {
+    border-radius: 0;
+    background-color: #faf8f5;
+    border: 1px solid #e1dbd5;
+    color: #c5a880;
+}

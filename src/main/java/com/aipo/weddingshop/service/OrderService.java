@@ -17,4 +17,9 @@ public interface OrderService {
 
     // 4. BỔ SUNG: Lọc đơn hàng của khách hàng theo trạng thái cập nhật từ Admin (ALL, PENDING, CONFIRMED...)
     List<Order> getOrdersByUserIdAndStatus(Long userId, String status);
+
+    long countAllOrders();
+
+    // Hàm tính tổng doanh thu từ các đơn hàng thành công (DELIVERED)
+    double calculateTotalRevenue();
 }

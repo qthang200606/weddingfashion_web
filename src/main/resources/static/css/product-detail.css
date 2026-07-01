@@ -1,0 +1,225 @@
+/* ==========================================================================
+   BELLA COUTURE - PRODUCT DETAIL SPECIFIC STYLES
+   ========================================================================== */
+
+.premium-product-wrapper {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    color: #1a1a1a !important;
+    margin-top: 50px;
+    margin-bottom: 80px;
+}
+
+.premium-product-wrapper .serif-font-detail {
+    font-family: 'Playfair Display', serif !important;
+}
+
+/* Khung bọc ảnh đại diện sản phẩm */
+.premium-product-wrapper .detail-img-box {
+    position: relative;
+    background: #ffffff;
+    padding: 12px;
+    border: 1px solid rgba(197, 168, 128, 0.2);
+    box-shadow: 0 15px 40px rgba(197, 168, 128, 0.08);
+}
+
+.premium-product-wrapper .main-product-img {
+    width: 100%;
+    height: auto;
+    max-height: 720px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* Giữ khối thông tin cố định khi cuộn màn hình (Desktop) */
+@media (min-width: 992px) {
+    .premium-product-wrapper .product-meta-box {
+        position: sticky;
+        top: 120px;
+        padding-left: 20px;
+    }
+}
+
+.premium-product-wrapper .product-tag-premium {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--bridal-gold, #c5a880);
+    font-weight: 700;
+}
+
+.premium-product-wrapper .price-badge-premium {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--bridal-gold, #c5a880);
+    border-bottom: 1px dashed rgba(197, 168, 128, 0.3);
+    padding-bottom: 20px;
+    margin-top: 8px;
+}
+
+/* --- BỘ CHỌN KÍCH CỠ BIÊN ĐỘ THÔNG MINH --- */
+.size-variant-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.size-item {
+    position: relative;
+}
+
+.size-item input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.size-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e1dbd5;
+    padding: 10px 5px;
+    height: 75px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: #fff;
+    text-align: center;
+}
+
+.size-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.size-desc {
+    font-size: 0.65rem;
+    color: #777;
+    margin-top: 2px;
+    line-height: 1.2;
+}
+
+/* Khi ô kích cỡ được chọn */
+.size-item input[type="radio"]:checked + .size-label {
+    border-color: #1a1a1a;
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.size-item input[type="radio"]:checked + .size-label .size-desc {
+    color: var(--bridal-gold, #c5a880);
+}
+
+/* --- BỘ ĐIỀU CHỈNH SỐ LƯỢNG --- */
+.premium-product-wrapper .quantity-selector-premium {
+    display: inline-flex;
+    border: 1px solid #1a1a1a;
+    background: #fff;
+}
+
+.premium-product-wrapper .quantity-btn-premium {
+    background: none;
+    border: none;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1a1a1a;
+    transition: background 0.2s;
+}
+
+.premium-product-wrapper .quantity-btn-premium:hover {
+    background-color: #f7f5f0;
+}
+
+.premium-product-wrapper .quantity-input-premium {
+    width: 50px;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.premium-product-wrapper .quantity-input-premium:focus {
+    outline: none;
+}
+
+/* --- NÚT BẤM TÁC VỤ --- */
+.premium-product-wrapper .btn-action-premium {
+    border-radius: 0;
+    padding: 14px 28px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.btn-action-dark {
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 1px solid #1a1a1a;
+}
+
+.btn-action-dark:hover {
+    background-color: transparent;
+    color: #1a1a1a;
+}
+
+.btn-action-gold {
+    background-color: var(--bridal-gold, #c5a880);
+    color: #fff;
+    border: 1px solid var(--bridal-gold, #c5a880);
+}
+
+.btn-action-gold:hover {
+    background-color: #1a1a1a;
+    border-color: #1a1a1a;
+}
+
+/* --- BẢNG THÔNG SỐ THIẾT KẾ --- */
+.premium-product-wrapper .spec-table-premium th,
+.premium-product-wrapper .spec-table-premium td {
+    padding: 12px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #eaddce;
+}
+
+.premium-product-wrapper .spec-table-premium th {
+    font-weight: 500;
+    color: #666;
+    width: 35%;
+}
+
+.premium-product-wrapper .spec-table-premium td {
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+/* --- MODAL THÔNG SỐ ĐO SZE --- */
+/* Giao diện cấu trúc Modal Bảng Size - Đã đổi từ đen sang tone kem luxury */
+/* GIỮ NỀN ĐEN - ÉP CHỮ MÀU TRẮNG SANG CHẢNH */
+.modal-bridal-header {
+    background-color: #1a1a1a !important; /* Giữ nguyên nền đen huyền bí */
+    border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+    padding: 18px 24px;
+}
+
+/* Đảm bảo chữ TIÊU ĐỀ phải màu trắng */
+.modal-bridal-header .modal-title {
+    color: #ffffff !important;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* Biến nút dấu X góc phải thành màu trắng cho dễ bấm */
+.modal-bridal-header .btn-close {
+    filter: invert(1) grayscale(1) brightness(2); /* Ép icon X đen thành trắng */
+    opacity: 0.8;
+}
+.modal-bridal-header .btn-close:hover {
+    opacity: 1;
+}

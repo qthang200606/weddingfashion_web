@@ -1,0 +1,74 @@
+/* ==========================================================================
+   BRIDAL STUDIO - PRODUCT MANAGEMENT STYLES
+   ========================================================================== */
+
+/* Tối ưu ảnh hiển thị váy cưới dạng chân dung đứng quý phái */
+.product-image-container {
+    position: relative;
+    width: 70px;
+    height: 95px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #eef2f6;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+}
+
+.product-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-image-container:hover {
+    transform: scale(1.06);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Định vị lại màu sắc chữ hiển thị giá */
+.price-text {
+    font-weight: 700;
+    color: #111111;
+    font-size: 0.95rem;
+}
+
+.price-currency {
+    font-size: 0.8rem;
+    color: #8a8a8a;
+    font-weight: 500;
+    margin-left: 2px;
+}
+
+/* Đồng bộ màu badge trạng thái kho */
+.badge-stock {
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.stock-high { background-color: #e6f6f2; color: #00a878; }
+.stock-low { background-color: #fff7ed; color: #ea580c; }
+.stock-empty { background-color: #fef2f2; color: #ef4444; }
+
+/* Tinh chỉnh nút hành động */
+.btn-action-edit {
+    background-color: #f8f9fa;
+    color: #495057;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+.btn-action-edit:hover {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border-color: #1a1a1a;
+}
+
+.modal-content {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}

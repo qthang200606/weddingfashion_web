@@ -8,7 +8,8 @@ public interface ProductService {
     Product findById(Long id);
 
     Product save(Product product);
-
+    long countAllProducts();
     void delete(Long id);
     List<Product> findByCategoryId(Long categoryId);
+    List<Product> searchByName(String keyword);
 }

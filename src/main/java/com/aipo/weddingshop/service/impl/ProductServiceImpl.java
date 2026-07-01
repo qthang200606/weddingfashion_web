@@ -44,4 +44,14 @@ public class ProductServiceImpl
         // Và trong ProductRepository đã khai báo hàm findByCategory_CategoryId hoặc findByCategory_Id
         return productRepository.findByCategory_CategoryId(categoryId);
     }
+    @Override
+    public long countAllProducts() {
+        return productRepository.count(); // Hàm count() này có sẵn trong JpaRepository
+    }
+    public List<Product> searchByName(String keyword) {
+        return productRepository.findByProductNameContainingIgnoreCase(keyword);
+    }
+
+
+
 }

@@ -1,0 +1,156 @@
+/* ==========================================================================
+   BELLA COUTURE - ORDER PROGRESS DETAIL SPECIFIC STYLES
+   ========================================================================== */
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #fcfbfa;
+}
+
+/* Khung card bọc nội dung cao cấp */
+.luxury-card {
+    background: #fff;
+    border: 1px solid #f2eee9;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+
+/* --- HỆ THỐNG TIMELINE TIẾN ĐỘ THỜI GIAN THỰC --- */
+.timeline-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 25px;
+    left: 4%;
+    right: 4%;
+    height: 3px;
+    background-color: #e2e8f0;
+    z-index: 1;
+}
+
+.timeline-progress {
+    position: absolute;
+    top: 25px;
+    left: 4%;
+    height: 3px;
+    background-color: #b89772;
+    z-index: 2;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-step {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 18%;
+}
+
+.step-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 3px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #a0aec0;
+    transition: all 0.3s ease;
+}
+
+.step-text {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Trạng thái bước tiến độ đã kích hoạt */
+.timeline-step.active .step-icon {
+    border-color: #b89772;
+    background-color: #b89772;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(184,151,114,0.3);
+}
+
+.timeline-step.active .step-text {
+    color: #111;
+    font-weight: 700;
+}
+
+/* --- KHỐI ĐÁNH GIÁ NGÔI SAO TRẢI NGHIỆM --- */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 2rem;
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+/* Hiệu ứng chọn sao và hover ngược chuỗi */
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #d4af37;
+}
+
+/* Tùy biến khung văn bản form đánh giá */
+.luxury-card .form-control {
+    border-radius: 0;
+    border: 1px solid #e2e8f0;
+    background-color: #faf9f6;
+}
+
+.luxury-card .form-control:focus {
+    border-color: #b89772;
+    box-shadow: none;
+    background-color: #fff;
+}
+
+/* --- NÚT BẤM TÁC VỤ SANG TRỌNG --- */
+.btn-luxury {
+    background-color: #111;
+    color: #fff;
+    border: 1px solid #111;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.25s ease;
+}
+
+.btn-luxury:hover {
+    background-color: #b89772;
+    border-color: #b89772;
+    color: #fff;
+}
+
+/* Đảm bảo đường viền phân tách mượt trên desktop */
+@media (min-width: 768px) {
+    .border-end {
+        border-right: 1px solid #f2eee9 !important;
+    }
+}

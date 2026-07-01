@@ -1,0 +1,134 @@
+/* ==========================================================================
+   BELLA COUTURE - CUSTOMER ORDER HISTORY SPECIFIC STYLES
+   ========================================================================== */
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    background-color: #fdfbf7;
+    color: #1a1a1a;
+}
+
+.serif-font-cart {
+    font-family: 'Playfair Display', serif !important;
+}
+
+.premium-orders-container {
+    margin-top: 50px;
+    margin-bottom: 80px;
+}
+
+/* --- THẺ CARD BỌC ĐƠN HÀNG HAUTE COUTURE --- */
+.order-card {
+    background: #fff;
+    border: 1px solid rgba(197, 168, 128, 0.2);
+    border-radius: 0;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden;
+}
+
+.order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(197, 168, 128, 0.08);
+}
+
+.order-header {
+    background-color: #faf8f5;
+    padding: 18px 24px;
+    border-bottom: 1px solid #f1eeeb;
+}
+
+/* Chấm tròn & chữ trạng thái tiến độ */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.status-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Hệ bảng màu trạng thái xử lý trang phục */
+.text-pending { color: #c5a880; }     .bg-pending { background-color: #c5a880; }
+.text-confirmed { color: #4b6b94; }   .bg-confirmed { background-color: #4b6b94; }
+.text-preparing { color: #6b7280; }   .bg-preparing { background-color: #6b7280; }
+.text-shipping { color: #3182ce; }    .bg-shipping { background-color: #3182ce; }
+.text-delivered { color: #2f855a; }   .bg-delivered { background-color: #2f855a; }
+.text-cancelled { color: #c53030; }   .bg-cancelled { background-color: #c53030; }
+
+/* Nút tác vụ xem chi tiết lịch trình */
+.btn-luxury-outline {
+    background-color: transparent;
+    color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 0;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-luxury-outline:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+/* Đảm bảo đường gạch phân cách hiển thị tốt trên màn hình trung bình */
+@media (min-width: 768px) {
+    .border-start-md {
+        border-left: 1px solid #f1eeeb !important;
+        padding-left: 1.5rem !important;
+    }
+}
+
+/* --- BỘ LỌC PHÂN LOẠI TRẠNG THÁI (TAB BAR) --- */
+.nav-tabs-luxury {
+    border-bottom: 1px solid #f1eeeb;
+}
+
+.nav-tabs-luxury .nav-link {
+    border: none;
+    color: #777;
+    font-weight: 500;
+    padding: 12px 20px;
+    font-size: 0.85rem;
+    position: relative;
+    transition: color 0.2s ease;
+    background: transparent;
+}
+
+.nav-tabs-luxury .nav-link:hover {
+    color: #c5a880;
+}
+
+.nav-tabs-luxury .nav-link.active {
+    color: #1a1a1a;
+    background: transparent;
+    font-weight: 700;
+}
+
+.nav-tabs-luxury .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #c5a880;
+}
+
+/* --- TRẠNG THÁI LỊCH TRÌNH TRỐNG --- */
+.empty-orders-box {
+    text-align: center;
+    padding: 80px 20px;
+    background: #fff;
+    border: 1px dashed #c5a880;
+}
