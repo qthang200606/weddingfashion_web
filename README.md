@@ -2,119 +2,86 @@
 
 # 👰 Wedding Fashion Web
 
-### AI-Powered Wedding Dress E-commerce Platform
+### Wedding Dress E-Commerce & Appointment Booking System
 
-A full-stack web application built with **Spring Boot**, providing an online wedding fashion shopping experience with **AI consultation**, **appointment booking**, **online payment**, and **admin management**.
-
-<p align="center">
+A full-stack web application developed using **Spring Boot MVC** for managing wedding fashion products, online shopping, appointment booking, AI consultation, and secure online payment.
 
 ![Java](https://img.shields.io/badge/Java-17-red)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F)
-![Spring Security](https://img.shields.io/badge/Spring_Security-6.x-green)
+![Spring Boot](https://img.shields.io/badge/SpringBoot-3.x-6DB33F)
+![Spring Security](https://img.shields.io/badge/SpringSecurity-6.x-green)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1-success)
 ![MySQL](https://img.shields.io/badge/MySQL-8-blue)
 ![Gradle](https://img.shields.io/badge/Gradle-8-02303A)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)
-![REST API](https://img.shields.io/badge/REST-API-orange)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
-</p>
 
 </div>
 
 ---
 
-# 📖 Introduction
+# 📖 Project Overview
 
-Wedding Fashion Web is a full-stack e-commerce application designed for wedding fashion businesses.
+Wedding Fashion Web is a web-based e-commerce application that helps customers search, purchase, and book appointments for wedding dresses and accessories.
 
-The system enables customers to browse wedding dresses, place orders, book fitting appointments, communicate with an AI assistant, and complete secure online payments.
+The system also provides an administration dashboard for managing products, categories, orders, appointments, customers, and inventory.
 
-The project also provides a comprehensive administration dashboard for managing products, customers, appointments, inventory, and orders.
+Besides shopping features, the application integrates an AI assistant to provide personalized wedding fashion consultation and supports online payment through SePay.
 
 ---
 
-# ✨ Main Features
+# ✨ Features
 
 ## 👤 Customer
 
-- User Registration
-- User Login
-- JWT Authentication
-- Browse Products
-- Product Categories
-- Search Products
-- Shopping Cart
+- Register new account
+- Secure login/logout
+- Browse wedding products
+- View product details
+- Search products by keyword
+- Filter products by category
+- Shopping cart
 - Checkout
-- Online Payment (SePay)
-- Order History
-- Appointment Booking
-- AI Fashion Consultant
-- User Profile Management
+- Online payment via SePay
+- Book fitting appointments
+- View order history
+- AI-powered consultation
 
 ---
 
 ## 👨‍💼 Administrator
 
-- Dashboard
-- Product Management
-- Category Management
-- Customer Management
-- Order Management
-- Appointment Management
-- Inventory Management
-- Revenue Statistics
-- Low Stock Monitoring
+- Dashboard overview
+- Product management
+- Category management
+- Order management
+- Appointment management
+- Revenue statistics
 
 ---
 
-# 🤖 AI Features
+# 🤖 AI Assistant
 
-The application integrates **Groq API** to provide an intelligent shopping assistant.
+The project integrates **Groq AI** to improve customer experience.
 
-Capabilities include:
+Functions include:
 
 - Wedding dress consultation
-- Product recommendation
-- Natural language conversation
+- Product recommendations
 - Customer support
 - Fashion suggestions
-- FAQ assistance
+- Frequently asked questions
 
 ---
 
 # 💳 Online Payment
 
-Integrated with **SePay Webhook API**
+The application integrates **SePay Webhook** for payment processing.
 
 Supported features:
 
-- Secure online payment
+- Online payment
 - Automatic payment confirmation
-- Order status synchronization
-- Transaction verification
-- Payment notification
-
----
-
-# 🏗 System Architecture
-
-```
-                    +----------------------+
-                    |      Customer        |
-                    +----------+-----------+
-                               |
-                               |
-                        HTML / CSS / JS
-                               |
-                               |
-                    Spring Boot REST API
-                               |
-       +-----------+-----------+-------------+
-       |           |                         |
-       |           |                         |
-    MySQL       Groq API                 SePay API
-(Database)      (AI Chat)              (Payment)
-```
+- Payment verification
+- Automatic order status update
 
 ---
 
@@ -128,7 +95,6 @@ Supported features:
 - Spring Security
 - Spring Data JPA
 - Hibernate
-- RESTful API
 
 ---
 
@@ -138,19 +104,13 @@ Supported features:
 - CSS3
 - JavaScript
 - Bootstrap
+- Thymeleaf
 
 ---
 
 ## Database
 
 - MySQL
-
----
-
-## Authentication
-
-- JWT
-- Spring Security
 
 ---
 
@@ -162,7 +122,7 @@ Supported features:
 
 ## Payment
 
-- SePay Webhook API
+- SePay Webhook
 
 ---
 
@@ -180,7 +140,7 @@ Supported features:
 
 # 📂 Project Structure
 
-```
+```text
 WeddingFashionWeb
 │
 ├── src
@@ -192,9 +152,8 @@ WeddingFashionWeb
 │   │   ├── repository
 │   │   ├── entity
 │   │   ├── dto
-│   │   ├── security
 │   │   ├── config
-│   │   ├── exception
+│   │   ├── security
 │   │   └── util
 │   │
 │   └── resources
@@ -211,72 +170,9 @@ WeddingFashionWeb
 
 ---
 
-# 📸 Screenshots
+# 🚀 Getting Started
 
-## Home Page
-
-> Add screenshot here
-
----
-
-## Product List
-
-> Add screenshot here
-
----
-
-## Product Details
-
-> Add screenshot here
-
----
-
-## Shopping Cart
-
-> Add screenshot here
-
----
-
-## Checkout
-
-> Add screenshot here
-
----
-
-## AI Chat
-
-> Add screenshot here
-
----
-
-## Appointment Booking
-
-> Add screenshot here
-
----
-
-## Admin Dashboard
-
-> Add screenshot here
-
----
-
-# 🔒 Security
-
-Implemented security mechanisms include:
-
-- JWT Authentication
-- Password Encryption
-- Spring Security
-- Role-Based Authorization
-- Form Validation
-- API Protection
-
----
-
-# 🚀 Installation
-
-## Clone repository
+## Clone the repository
 
 ```bash
 git clone https://github.com/qthang200606/weddingfashion_web.git
@@ -284,7 +180,7 @@ git clone https://github.com/qthang200606/weddingfashion_web.git
 
 ---
 
-## Enter project
+## Open the project
 
 ```bash
 cd weddingfashion_web
@@ -292,15 +188,15 @@ cd weddingfashion_web
 
 ---
 
-## Configure Database
+## Configure MySQL
 
-Open
+Edit
 
-```
+```properties
 src/main/resources/application.properties
 ```
 
-Configure
+Example:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/weddingfashion
@@ -312,7 +208,9 @@ spring.jpa.hibernate.ddl-auto=update
 
 ---
 
-## Build project
+## Build the project
+
+Linux / macOS
 
 ```bash
 ./gradlew build
@@ -326,19 +224,21 @@ gradlew.bat build
 
 ---
 
-## Run application
+## Run the application
+
+Linux / macOS
 
 ```bash
 ./gradlew bootRun
 ```
 
-or
+Windows
 
 ```bash
 gradlew.bat bootRun
 ```
 
-Application URL
+Open your browser:
 
 ```
 http://localhost:8080
@@ -346,107 +246,46 @@ http://localhost:8080
 
 ---
 
-# 🐳 Docker
+# 📊 Main Modules
 
-Build Docker Image
-
-```bash
-docker build -t weddingfashion .
-```
-
-Run Container
-
-```bash
-docker run -p 8080:8080 weddingfashion
-```
-
----
-
-# 📊 Database
-
-Example tables
-
-- users
-- roles
-- products
-- categories
-- carts
-- orders
-- order_details
-- appointments
-- payments
-- inventory
+- User Authentication
+- Product Management
+- Category Management
+- Shopping Cart
+- Order Processing
+- Appointment Booking
+- AI Consultation
+- Inventory Management
+- Revenue Statistics
+- Online Payment
 
 ---
 
-# 🔄 Workflow
-
-```
-Customer
-
-↓
-
-Browse Products
-
-↓
-
-Add to Cart
-
-↓
-
-Checkout
-
-↓
-
-SePay Payment
-
-↓
-
-Webhook Verification
-
-↓
-
-Order Confirmation
-
-↓
-
-Order Management
-
-↓
-
-Delivery
-```
-
----
 
 # 🎯 Future Improvements
 
-- Email Notification
-- Recommendation System
-- Product Reviews
+- Email notification
+- Product review system
 - Wishlist
-- Responsive Mobile UI
-- Multi-language Support
-- Product Rating
-- Analytics Dashboard
+- Responsive mobile interface
+- Recommendation engine
+- Multi-language support
 
 ---
 
 # 📚 Learning Outcomes
 
-This project demonstrates practical experience in:
+Through this project, I gained practical experience in:
 
-- Full Stack Java Web Development
-- Spring Boot
-- REST API Development
-- JWT Authentication
+- Spring Boot MVC Architecture
 - Spring Security
+- Hibernate & Spring Data JPA
 - MySQL Database Design
-- AI Integration
-- Payment Gateway Integration
+- Thymeleaf Template Engine
 - Docker Deployment
-- MVC Architecture
-- Git & GitHub
+- AI Integration with Groq API
+- SePay Payment Integration
+- Git & GitHub Version Control
 
 ---
 
@@ -456,10 +295,14 @@ This project demonstrates practical experience in:
 
 Computer Science Student
 
-GitHub
+📧 Email: thang93dhp@gmail.com
 
-https://github.com/qthang200606
+🌐 GitHub: https://github.com/qthang200606
 
 ---
 
-# ⭐ If you find this project useful, please consider giving it a Star!
+# ⭐ Support
+
+If you find this project useful, please consider giving it a ⭐ on GitHub.
+
+Thank you for visiting this repository!
